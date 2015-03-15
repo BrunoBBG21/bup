@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import br.com.bup.domain.Leilao;
+import br.com.bup.domain.Midia;
 
 public class ConectTest extends TestCase {
 	private SessionFactory sessionFactory;
@@ -34,15 +35,13 @@ public class ConectTest extends TestCase {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
-		Leilao leilao = new Leilao();
-		leilao.setId(1L);
-		leilao.setDescricao("descricao 1");
-		session.save(leilao);
+		Midia midia = new Midia();
+		midia.setTipo("tipo 1");
+		session.save(midia);
 		
-		leilao = new Leilao();
-		leilao.setId(2L);
-		leilao.setDescricao("descricao 2");
-		session.save(leilao);
+		midia = new Midia();
+		midia.setTipo("tipo 2");
+		session.save(midia);
 		
 		session.getTransaction().commit();
 		session.close();
@@ -50,7 +49,7 @@ public class ConectTest extends TestCase {
 		//busncando
 		session = sessionFactory.openSession();
 //        session.beginTransaction();
-        List<Leilao> result = session.createQuery( "from Leilao" ).list();
+        List<Leilao> result = session.createQuery( "from Midia" ).list();
 		assertEquals(result.size(), 2);
 //        session.getTransaction().commit();
         session.close();
