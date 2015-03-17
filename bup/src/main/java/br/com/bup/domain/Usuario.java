@@ -1,5 +1,6 @@
 package br.com.bup.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,26 +24,26 @@ public abstract class Usuario {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@Column(nullable=true)
+	@Column(unique=true,nullable=false)
 	@NotNull
 	private String email;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	@NotNull
 	private String password;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	@NotNull
 	private String nome;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	@NotNull
 	private String endereco;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	@NotNull
 	private String cep;
 	
 	private String telefone;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	@NotNull
-	private Double saldo; //talvez seja uma boa mudar para bigdecimal...
+	private BigDecimal saldo; //talvez seja uma boa mudar para bigdecimal...
 	
 	@OneToMany(mappedBy = "usuario")
 	private List<ContaBancariaUsuario> contasBancarias = new ArrayList<ContaBancariaUsuario>();
@@ -91,10 +92,10 @@ public abstract class Usuario {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public Double getSaldo() {
+	public BigDecimal getSaldo() {
 		return saldo;
 	}
-	public void setSaldo(Double saldo) {
+	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
 	public List<ContaBancariaUsuario> getContasBancarias() {

@@ -3,18 +3,23 @@ package br.com.bup.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"nome","descricao"}))
 public class PublicoAlvo {
 	@Id
 	@GeneratedValue
 	private Long id;
+	@Column(nullable=false)
+	@NotNull
 	private String nome;
 	private String descricao;
 	

@@ -10,35 +10,37 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"incioTempoLocacao","fimTempoLocacao","largura","altura","local","midia_id"}))
 public class EspacoPropaganda {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	@NotNull
 	private String local;
 	private String descricao;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	@NotNull
 	private Double largura;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	@NotNull
 	private Double altura;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date incioTempoLocacao;
-	@Column(nullable=true)
+	@Column(nullable=false)
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fimTempoLocacao;
@@ -50,9 +52,13 @@ public class EspacoPropaganda {
 	private Integer pesoMaximo;
 
 	@ManyToOne
+	@JoinColumn(name="midia_id",nullable=false)
+	@NotNull
 	private Midia midia;
 	
 	@ManyToOne
+	@JoinColumn(name="pertence_id",nullable=false)
+	@NotNull
 	private Anunciante pertence;
 	
 	@ManyToOne

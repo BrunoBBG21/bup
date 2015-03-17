@@ -9,6 +9,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *	Classe que representa os Anunciantes de espa�o e de propaganda. 
@@ -16,7 +17,8 @@ import javax.persistence.Table;
 @Entity
 @Table
 public class Anunciante extends Usuario {
-	@Column(unique=true)
+	@Column(unique=true,nullable=false)
+	@NotNull
 	private String cpf;
 	
 	@ManyToOne

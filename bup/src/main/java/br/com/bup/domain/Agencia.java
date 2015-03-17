@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 /**
  *	Classe que representa as agencias de propaganda. 
@@ -15,7 +16,8 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table
 public class Agencia extends Usuario {
-	@Column(unique=true)
+	@Column(unique=true,nullable=false)
+	@NotNull
 	private String cnpj;
 	
 	@OneToMany(mappedBy = "agencia")
