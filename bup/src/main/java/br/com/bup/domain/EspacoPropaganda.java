@@ -1,8 +1,10 @@
 package br.com.bup.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,6 +14,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -19,13 +24,29 @@ public class EspacoPropaganda {
 	@Id
 	@GeneratedValue
 	private Long id;
+	@Column(nullable=true)
+	@NotNull
 	private String local;
 	private String descricao;
+	@Column(nullable=true)
+	@NotNull
 	private Double largura;
+	@Column(nullable=true)
+	@NotNull
 	private Double altura;
-	private Long tempoLocacao;
+	@Column(nullable=true)
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date incioTempoLocacao;
+	@Column(nullable=true)
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fimTempoLocacao;
+	
 	private Long pageViews;
+	
 	private Integer quantidade;
+	
 	private Integer pesoMaximo;
 
 	@ManyToOne
@@ -80,12 +101,6 @@ public class EspacoPropaganda {
 	}
 	public void setAltura(Double altura) {
 		this.altura = altura;
-	}
-	public Long getTempoLocacao() {
-		return tempoLocacao;
-	}
-	public void setTempoLocacao(Long tempoLocacao) {
-		this.tempoLocacao = tempoLocacao;
 	}
 	public Long getPageViews() {
 		return pageViews;
@@ -147,5 +162,29 @@ public class EspacoPropaganda {
 	}
 	public void setPublicosAlvos(List<PublicoAlvo> publicosAlvos) {
 		this.publicosAlvos = publicosAlvos;
+	}
+	/**
+	 * @return the fimTempoLocacao
+	 */
+	public Date getFimTempoLocacao() {
+		return fimTempoLocacao;
+	}
+	/**
+	 * @param fimTempoLocacao the fimTempoLocacao to set
+	 */
+	public void setFimTempoLocacao(Date fimTempoLocacao) {
+		this.fimTempoLocacao = fimTempoLocacao;
+	}
+	/**
+	 * @return the incioTempoLocacao
+	 */
+	public Date getIncioTempoLocacao() {
+		return incioTempoLocacao;
+	}
+	/**
+	 * @param incioTempoLocacao the incioTempoLocacao to set
+	 */
+	public void setIncioTempoLocacao(Date incioTempoLocacao) {
+		this.incioTempoLocacao = incioTempoLocacao;
 	}
 }

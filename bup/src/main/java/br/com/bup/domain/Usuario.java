@@ -3,6 +3,7 @@ package br.com.bup.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,6 +11,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *	Classe base para todos os usuarios no projeto. 
@@ -21,12 +23,25 @@ public abstract class Usuario {
 	@Id
 	@GeneratedValue
 	private Long id;
+	@Column(nullable=true)
+	@NotNull
 	private String email;
+	@Column(nullable=true)
+	@NotNull
 	private String password;
+	@Column(nullable=true)
+	@NotNull
 	private String nome;
+	@Column(nullable=true)
+	@NotNull
 	private String endereco;
+	@Column(nullable=true)
+	@NotNull
 	private String cep;
+	
 	private String telefone;
+	@Column(nullable=true)
+	@NotNull
 	private Double saldo; //talvez seja uma boa mudar para bigdecimal...
 	
 	@OneToMany(mappedBy = "usuario")

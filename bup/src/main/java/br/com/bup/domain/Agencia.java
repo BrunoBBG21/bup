@@ -3,9 +3,11 @@ package br.com.bup.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *	Classe que representa as agencias de propaganda. 
@@ -13,6 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table
 public class Agencia extends Usuario {
+	@Column(unique=true)
 	private String cnpj;
 	
 	@OneToMany(mappedBy = "agencia")

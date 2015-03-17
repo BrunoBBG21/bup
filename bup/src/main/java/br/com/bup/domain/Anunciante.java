@@ -3,6 +3,7 @@ package br.com.bup.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -10,11 +11,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- *	Classe que representa os Anunciantes de espaço e de propaganda. 
+ *	Classe que representa os Anunciantes de espaï¿½o e de propaganda. 
  */
 @Entity
 @Table
 public class Anunciante extends Usuario {
+	@Column(unique=true)
 	private String cpf;
 	
 	@ManyToOne
