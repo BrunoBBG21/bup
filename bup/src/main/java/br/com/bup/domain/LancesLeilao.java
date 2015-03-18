@@ -16,11 +16,12 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"valor","data","usuario_id","leilao_id"}))
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"valor","data","anunciante_id","leilao_id"}))
 public class LancesLeilao {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@Column(nullable=false)
 	@NotNull
 	private BigDecimal valor; //talvez seja uma boa mudar para bigdecimal...
@@ -29,12 +30,16 @@ public class LancesLeilao {
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date data;
+	
 	private Boolean vencedor = Boolean.FALSE;
 	
 	@ManyToOne
-	@JoinColumn(name="usuario_id",nullable=false)
+	private Agencia agencia;
+	
+	@ManyToOne
+	@JoinColumn(name="anunciante_id",nullable=false)
 	@NotNull
-	private Usuario usuario;
+	private Anunciante anunciante;
 	
 	@ManyToOne
 	@JoinColumn(name="leilao_id",nullable=false)
@@ -73,16 +78,16 @@ public class LancesLeilao {
 	public void setLeilao(Leilao leilao) {
 		this.leilao = leilao;
 	}
-	/**
-	 * @return the usuario
-	 */
-	public Usuario getUsuario() {
-		return usuario;
+	public Agencia getAgencia() {
+		return agencia;
 	}
-	/**
-	 * @param usuario the usuario to set
-	 */
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
+	}
+	public Anunciante getAnunciante() {
+		return anunciante;
+	}
+	public void setAnunciante(Anunciante anunciante) {
+		this.anunciante = anunciante;
 	}
 }
