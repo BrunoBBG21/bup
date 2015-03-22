@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	version="2.0">
+	<persistence-unit name="bup" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+		<!-- entidade mapeada -->
+		<class>br.com.bup.domain.Agencia</class>
+		<class>br.com.bup.domain.Anunciante</class>
+		<class>br.com.bup.domain.ContaBancariaUsuario</class>
+		<class>br.com.bup.domain.EspacoPropaganda</class>
+		<class>br.com.bup.domain.HistoricoAluguelEspaco</class>
+		<class>br.com.bup.domain.LancesLeilao</class>
+		<class>br.com.bup.domain.Leilao</class>
+		<class>br.com.bup.domain.Midia</class>
+		<class>br.com.bup.domain.ModalidadePagamento</class>
+		<class>br.com.bup.domain.PublicoAlvo</class>
+		<class>br.com.bup.domain.Usuario</class>
+
+		<properties>
+			<!-- <property name="hibernate.ejb.cfgfile" value="hibernate.cfg.xml"></property> -->
+
+			<!-- dados da conexao -->
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+
+			<!-- propriedades do hibernate -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+
+			<!-- teste Drop and re-create the database schema on startup: 
+			- validate: validate the schema, makes no changes to the database. 
+			- update: update the schema. 
+			- create: creates the schema, destroying previous data. 
+			- create-drop: drop the schema at the end of the session. -->
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+
+		</properties>
+	</persistence-unit>
+</persistence>

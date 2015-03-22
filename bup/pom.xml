@@ -59,8 +59,14 @@
 			<version>4.10</version>
 		</dependency>
 
-		<!-- H2 in-memory database <dependency> <groupId>com.h2database</groupId> 
-			<artifactId>h2</artifactId> <version>1.2.145</version> </dependency> -->
+		<!-- H2 in-memory database -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.2.145</version>
+			<scope>test</scope>
+		</dependency>
+		
 		<!-- MySQL database driver -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -105,7 +111,7 @@
 	</dependencies>
 
 	<properties>
-		<maven.test.skip>true</maven.test.skip>
+		<maven.test.skip>false</maven.test.skip>
 	</properties>
 
 	<build>
