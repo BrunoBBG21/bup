@@ -32,4 +32,9 @@
 		<url-pattern>*.jsf</url-pattern>
 		<!-- <url-pattern>/faces/*</url-pattern> -->
 	</servlet-mapping>
+
+	<!-- Listener do Jboss Weld -->
+	<listener>
+		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
+	</listener>
 </web-app>
