@@ -21,7 +21,7 @@ public class TransactionInterceptor {
 
 	@AroundCall
 	public void intercept(SimpleInterceptorStack stack) throws Exception {
-		LOGGER.debug("intercept");
+		LOGGER.debug("Abrindo uma transaçao...");
 		
 		entityManager.getTransaction().begin();
 		

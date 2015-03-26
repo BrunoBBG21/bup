@@ -1,13 +1,13 @@
 package br.com.bup.web;
 
-import javax.annotation.Resource;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Strings;
+
+import br.com.bup.annotation.Public;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Usuario;
 import br.com.caelum.vraptor.Controller;
@@ -21,20 +21,24 @@ public class LoginController {
     private Result result;
 	
 	@Inject
-	private HttpServletRequest request; 
-
-	@Inject
 	private UsuarioDAO dao;
 	
 	@Inject
 	private UsuarioSession usuarioSession;
 	
+	@Public
 	public void login(String email, String senha) {
-		Usuario usuario = dao.buscarPorEmailSenha(email, senha);
-		
-		if (usuario != null) {
-//			request.getSession().setAttribute("Usuario", usuario);
-			usuarioSession.setUsuario(usuario);
+		if (!Strings.isNullOrEmpty(email) && !Strings.isNullOrEmpty(senha)) {
+			LOGGER.debug("Usuario '"+email+"' tentando logar...");
+			Usuario usuario = dao.buscarPorEmailSenha(email, senha);
+			
+			if (usuario != null) {
+				usuarioSession.logar(usuario);
+				LOGGER.debug("Usuario '" + usuario.getId() + "' logado.");
+				
+			} else {
+				result.include("msgErro", "Login ou/e Senha incorretos.");
+			}
 		}
 	}
 }

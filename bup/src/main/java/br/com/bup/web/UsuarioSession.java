@@ -8,13 +8,22 @@ import br.com.bup.domain.Usuario;
 
 @SessionScoped
 public class UsuarioSession implements Serializable {
-	private Usuario usuario;
+	private static final long serialVersionUID = 5135507409377401886L;
+	private Usuario usuarioLogado;
 
-	public Usuario getUsuario() {
-		return usuario;
+	public void logar(Usuario usuario) {
+		this.usuarioLogado = usuario;
+	}
+	
+	public void deslogar() {
+		this.usuarioLogado = null;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public Boolean isLogado() {
+		return usuarioLogado != null;
+	}
+
+	public Usuario getUsuarioLogado() {
+		return usuarioLogado;
 	}
 }
