@@ -1,5 +1,6 @@
 package br.com.bup.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -17,6 +20,11 @@ import javax.validation.constraints.NotNull;
 /**
  *	Classe base para todos os usuarios no projeto. 
  */
+@NamedQueries(value={
+   @NamedQuery(
+      name = "Usuario.buscarPorEmailSenha",
+      query="from Usuario u where u.email = :email AND u.password = :password")
+}) 
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)

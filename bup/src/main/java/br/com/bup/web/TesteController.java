@@ -1,4 +1,4 @@
-package br.com.bup;
+package br.com.bup.web;
 
 import javax.inject.Inject;
 
@@ -14,6 +14,9 @@ public class TesteController {
 	
 	@Inject
     private Result result;
+	
+	@Inject
+	private UsuarioSession usuarioSession;
 
 	/**
 	 * @deprecated CDI eyes only

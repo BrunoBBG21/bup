@@ -1,4 +1,4 @@
-package br.com.bup;
+package br.com.bup.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -6,17 +6,11 @@ import javax.persistence.Persistence;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
-public abstract class AbstractTest {
-	protected static EntityManagerFactory entityManagerFactory;
+public abstract class AbstractDAOTest {
+	protected static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bupTest");
 	protected EntityManager entityManager;
 
-	@BeforeClass
-	public static void beforeClass() throws Exception {
-		entityManagerFactory = Persistence.createEntityManagerFactory("bupTest");
-	}
-	
 	@Before
 	public void before() throws Exception {
 		entityManager = entityManagerFactory.createEntityManager();
@@ -25,9 +19,13 @@ public abstract class AbstractTest {
 
 	@After
 	public void after() throws Exception {
-		if ( entityManager != null ) {
-			entityManager.getTransaction().rollback();
-			entityManager.close();
+		if (entityManager != null) {
+			if (entityManager.getTransaction().isActive()) {
+				entityManager.getTransaction().rollback();
+			}
+			if (entityManager.isOpen()) {
+				entityManager.close();
+			}
 		}
 	}
 }
