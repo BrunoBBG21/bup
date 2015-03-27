@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.bup.annotation.Public;
-import br.com.bup.web.LoginController;
+import br.com.bup.controller.LoginController;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Accepts;
 import br.com.caelum.vraptor.AroundCall;
