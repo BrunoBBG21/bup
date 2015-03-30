@@ -17,6 +17,7 @@ public class Midia {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@Column(unique=true,nullable=false)
 	@NotNull
 	private String tipo;

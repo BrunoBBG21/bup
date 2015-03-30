@@ -1,5 +1,6 @@
 package br.com.bup.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,9 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table
-public class Agencia extends Usuario {
+public class Agencia extends Usuario implements Serializable {
+	private static final long serialVersionUID = -2729862041324410476L;
+
 	@Column(unique=true,nullable=false)
 	@NotNull
 	private String cnpj;

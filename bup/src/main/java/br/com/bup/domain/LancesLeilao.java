@@ -24,7 +24,7 @@ public class LancesLeilao {
 	
 	@Column(nullable=false)
 	@NotNull
-	private BigDecimal valor; //talvez seja uma boa mudar para bigdecimal...
+	private BigDecimal valor;
 	
 	@Column(nullable=false)
 	@NotNull

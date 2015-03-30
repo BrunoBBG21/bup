@@ -18,9 +18,11 @@ public class PublicoAlvo {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@Column(nullable=false)
 	@NotNull
 	private String nome;
+	
 	private String descricao;
 	
 	@ManyToMany

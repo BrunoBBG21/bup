@@ -1,5 +1,6 @@
 package br.com.bup.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,30 +28,38 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Usuario {
+public abstract class Usuario implements Serializable {
+	private static final long serialVersionUID = -8066548068818800938L;
+	
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@Column(unique=true,nullable=false)
 	@NotNull
 	private String email;
+	
 	@Column(nullable=false)
 	@NotNull
 	private String password;
+	
 	@Column(nullable=false)
 	@NotNull
 	private String nome;
+	
 	@Column(nullable=false)
 	@NotNull
 	private String endereco;
+	
 	@Column(nullable=false)
 	@NotNull
 	private String cep;
 	
 	private String telefone;
+	
 	@Column(nullable=false)
 	@NotNull
-	private BigDecimal saldo; //talvez seja uma boa mudar para bigdecimal...
+	private BigDecimal saldo = BigDecimal.valueOf(0);
 	
 	@OneToMany(mappedBy = "usuario")
 	private List<ContaBancariaUsuario> contasBancarias = new ArrayList<ContaBancariaUsuario>();

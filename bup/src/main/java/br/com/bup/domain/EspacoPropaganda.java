@@ -26,20 +26,26 @@ public class EspacoPropaganda {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@Column(nullable=false)
 	@NotNull
 	private String local;
+	
 	private String descricao;
+	
 	@Column(nullable=false)
 	@NotNull
 	private Double largura;
+	
 	@Column(nullable=false)
 	@NotNull
 	private Double altura;
+	
 	@Column(nullable=false)
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date incioTempoLocacao;
+	
 	@Column(nullable=false)
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)

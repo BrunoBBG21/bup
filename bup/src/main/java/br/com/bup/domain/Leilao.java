@@ -30,11 +30,14 @@ public class Leilao {
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date dataInicio;
+	
 	@Column(nullable=false)
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date dataFim;
+	
 	private BigDecimal reserva;
+	
 	private Boolean ativo;
 	
 	@ManyToOne

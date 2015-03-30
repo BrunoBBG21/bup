@@ -21,12 +21,15 @@ public class ModalidadePagamento {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@Column(nullable=false)
 	@NotNull
 	private String tipo;
+	
 	@Column(nullable=false)
 	@NotNull
 	private Integer maxParcela;
+	
 	@Column(nullable=false)
 	@NotNull
 	private BigDecimal valorMinParcela;

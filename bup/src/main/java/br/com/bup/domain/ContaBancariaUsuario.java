@@ -19,15 +19,19 @@ public class ContaBancariaUsuario {
 	@Id
 	@GeneratedValue
 	private Long id;
+	
 	@Column(nullable=false)
 	@NotNull
 	private String agencia;
+	
 	@Column(nullable=false)
 	@NotNull
 	private String conta;
+	
 	@Column(nullable=false)
 	@NotNull
 	private String banco;
+	
 	@Column(nullable=false)
 	@NotNull
 	private Boolean ativa;
