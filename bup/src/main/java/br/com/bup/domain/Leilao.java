@@ -38,6 +38,8 @@ public class Leilao {
 	
 	private BigDecimal reserva;
 	
+	private BigDecimal inscricao;
+	
 	private Boolean ativo;
 	
 	@ManyToOne
@@ -111,5 +113,11 @@ public class Leilao {
 	}
 	public void setInscritos(List<Anunciante> inscritos) {
 		this.inscritos = inscritos;
+	}
+	public BigDecimal getInscricao() {
+		return inscricao;
+	}
+	public void setInscricao(BigDecimal inscricao) {
+		this.inscricao = inscricao;
 	}
 }
