@@ -49,4 +49,11 @@ public abstract class BaseDAO<T> {
 	public List<T> buscarTodos() {
 		return manager.createQuery("from " + classT.getName()).getResultList();
 	}
+	
+	/**
+	 * EntityManager.flush().
+	 */
+	public void flush() {
+		manager.flush();
+	}
 }

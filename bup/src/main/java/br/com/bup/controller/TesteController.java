@@ -2,6 +2,7 @@ package br.com.bup.controller;
 
 import javax.inject.Inject;
 
+import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.MidiaDAO;
 import br.com.bup.domain.Midia;
 import br.com.bup.web.UsuarioSession;
@@ -39,6 +40,7 @@ public class TesteController {
 		return midia;
 	}
 	
+	@OpenTransaction
 	public void adiciona(Midia midia) {
 		System.out.println(midia);
 		

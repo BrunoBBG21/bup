@@ -1,4 +1,4 @@
-package br.com.bup.dao;
+package br.com.bup.controller;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractDAOTest {
-	private final static Logger LOGGER = LoggerFactory.getLogger(AbstractDAOTest.class);
+public abstract class AbstractControllerTest {
+	private final static Logger LOGGER = LoggerFactory.getLogger(AbstractControllerTest.class);
 	protected static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("bupTest");
 	protected EntityManager entityManager;
 

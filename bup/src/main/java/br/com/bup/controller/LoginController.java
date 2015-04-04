@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 
+import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.annotation.Public;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Usuario;
@@ -27,7 +28,8 @@ public class LoginController {
 	@Inject
 	private UsuarioSession usuarioSession;
 	
-	@Public
+	@Public 
+	@OpenTransaction
 	public void login(String email, String senha) {
 		if (!Strings.isNullOrEmpty(email) && !Strings.isNullOrEmpty(senha)) {
 			LOGGER.debug("Usuario '"+email+"' tentando logar...");

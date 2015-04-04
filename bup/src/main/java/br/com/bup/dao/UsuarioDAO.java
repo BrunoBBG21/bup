@@ -39,4 +39,16 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 		
 		return (Usuario) value;
 	}
+	
+	/**
+	 * Verifica se existe um Usuario com o email passado.
+	 * @param email String
+	 * @return Boolean
+	 */
+	public boolean existeComEmail(String email) {
+		Query query = manager.createNamedQuery("Usuario.existeComEmail");
+		query.setParameter("email", email);
+		
+		return (Boolean) query.getSingleResult();
+	}
 }

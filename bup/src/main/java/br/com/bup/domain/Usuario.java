@@ -22,8 +22,13 @@ import javax.validation.constraints.NotNull;
  */
 @NamedQueries(value={
    @NamedQuery(
-      name = "Usuario.buscarPorEmailSenha",
-      query="from Usuario u where u.email = :email AND u.password = :password")
+		      name = "Usuario.buscarPorEmailSenha",
+		      query="from Usuario u where u.email = :email AND u.password = :password"),
+   @NamedQuery(
+		      name = "Usuario.existeComEmail",
+		      query="select case when (count(u) > 0) then true else false end "
+		      		+ "from Usuario u "
+		      		+ "where u.email = :email")
 }) 
 @Entity
 @Table
