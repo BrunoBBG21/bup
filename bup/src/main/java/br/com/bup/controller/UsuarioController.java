@@ -2,7 +2,6 @@ package br.com.bup.controller;
 
 import javax.inject.Inject;
 
-import org.jboss.weld.exceptions.IllegalArgumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +112,7 @@ public class UsuarioController {
 		validator.validate(usuario);
 
 		if (usuario.getEmail() != null && usuarioDAO.existeComEmail(usuario.getEmail())) { //TODO: passar essa validaçao para uma anotation...
-			throw new IllegalArgumentException("Email já usado.");
+			validator.add(new SimpleMessage("email", "Email já cadastrado."));
 		}
 	}
 }
