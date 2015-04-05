@@ -53,7 +53,7 @@ public class UsuarioController {
 	@OpenTransaction
 	public void criar(TipoUsuario tipoUsuario, String email, String password, String nome, 
 			String endereco, String cep, String telefone, String cpfCnpj) {
-		LOGGER.debug("criarUsuario com email: " + email);
+		LOGGER.debug("criar usuario com email: " + email);
 		
 		//criando o tipo certo...
         Usuario usuario = montarUsuario(tipoUsuario, email, password, nome, endereco, cep, telefone, cpfCnpj);
@@ -66,6 +66,7 @@ public class UsuarioController {
 		//salva
 		usuarioDAO.salvar(usuario);
 		
+		usuarioSession.logar(usuario);
 		result.include("success", "Usuario incluido com sucesso.");
 	}
 	

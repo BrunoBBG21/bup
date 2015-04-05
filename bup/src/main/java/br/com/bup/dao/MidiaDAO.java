@@ -10,7 +10,7 @@ import br.com.bup.domain.Midia;
 public class MidiaDAO extends BaseDAO<Midia> {
 	
 	/**
-	 * Construtor usado pelo CDI...
+	 * @deprecated CDI eyes only
 	 */
 	protected MidiaDAO() {
 		super(null, Midia.class);

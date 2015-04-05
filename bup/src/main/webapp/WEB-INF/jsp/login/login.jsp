@@ -60,7 +60,7 @@
         </div><!-- /.social-auth-links -->
 
         <a href="#">I forgot my password</a><br>
-        <a href="register.html" class="text-center">Register a new membership</a>
+        <a href='<c:url value="/usuario/formulario" />' class="text-center">Register a new membership</a>
 
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->

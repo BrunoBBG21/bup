@@ -1,5 +1,6 @@
 package br.com.bup.dao;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -7,10 +8,11 @@ import javax.persistence.Query;
 
 import br.com.bup.domain.Usuario;
 
+@RequestScoped
 public class UsuarioDAO extends BaseDAO<Usuario> {
 
 	/**
-	 * Construtor usado pelo CDI...
+	 * @deprecated CDI eyes only
 	 */
 	protected UsuarioDAO() {
 		super(null, Usuario.class);

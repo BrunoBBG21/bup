@@ -1,7 +1,6 @@
 package br.com.bup.domain;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -15,13 +14,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"incioTempoLocacao","fimTempoLocacao","largura","altura","local","midia_id"}))
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"url","posicaoTela","largura","altura","midia_id"}))
 public class EspacoPropaganda {
 	@Id
 	@GeneratedValue
@@ -29,7 +26,11 @@ public class EspacoPropaganda {
 	
 	@Column(nullable=false)
 	@NotNull
-	private String local;
+	private String url;
+	
+	@Column(nullable=false)
+	@NotNull
+	private String posicaoTela;
 	
 	private String descricao;
 	
@@ -43,17 +44,9 @@ public class EspacoPropaganda {
 	
 	@Column(nullable=false)
 	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date incioTempoLocacao;
-	
-	@Column(nullable=false)
-	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fimTempoLocacao;
+	private Integer periodo;
 	
 	private Long pageViews;
-	
-	private Integer quantidade;
 	
 	private Integer pesoMaximo;
 
@@ -90,12 +83,6 @@ public class EspacoPropaganda {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getLocal() {
-		return local;
-	}
-	public void setLocal(String local) {
-		this.local = local;
-	}
 	public String getDescricao() {
 		return descricao;
 	}
@@ -119,12 +106,6 @@ public class EspacoPropaganda {
 	}
 	public void setPageViews(Long pageViews) {
 		this.pageViews = pageViews;
-	}
-	public Integer getQuantidade() {
-		return quantidade;
-	}
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
 	}
 	public Integer getPesoMaximo() {
 		return pesoMaximo;
@@ -175,28 +156,22 @@ public class EspacoPropaganda {
 	public void setPublicosAlvos(List<PublicoAlvo> publicosAlvos) {
 		this.publicosAlvos = publicosAlvos;
 	}
-	/**
-	 * @return the fimTempoLocacao
-	 */
-	public Date getFimTempoLocacao() {
-		return fimTempoLocacao;
+	public Integer getPeriodo() {
+		return periodo;
 	}
-	/**
-	 * @param fimTempoLocacao the fimTempoLocacao to set
-	 */
-	public void setFimTempoLocacao(Date fimTempoLocacao) {
-		this.fimTempoLocacao = fimTempoLocacao;
+	public void setPeriodo(Integer periodo) {
+		this.periodo = periodo;
 	}
-	/**
-	 * @return the incioTempoLocacao
-	 */
-	public Date getIncioTempoLocacao() {
-		return incioTempoLocacao;
+	public String getUrl() {
+		return url;
 	}
-	/**
-	 * @param incioTempoLocacao the incioTempoLocacao to set
-	 */
-	public void setIncioTempoLocacao(Date incioTempoLocacao) {
-		this.incioTempoLocacao = incioTempoLocacao;
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public String getPosicaoTela() {
+		return posicaoTela;
+	}
+	public void setPosicaoTela(String posicaoTela) {
+		this.posicaoTela = posicaoTela;
 	}
 }

@@ -8,12 +8,6 @@ public abstract class BaseDAO<T> {
 	protected EntityManager manager;
 	private final Class<T> classT;// = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	
-//	/**
-//	 * Construtor usado pelo CDI...
-//	 */
-//	protected BaseDAO() {
-//	}
-	
 	/**
 	 * Construtor usado nos testes unitarios.
 	 * @param manager EntityManager
