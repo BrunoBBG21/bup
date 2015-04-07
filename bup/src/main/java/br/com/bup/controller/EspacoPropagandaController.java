@@ -20,8 +20,8 @@ import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class EspacoController {
-	private final static Logger LOGGER = LoggerFactory.getLogger(UsuarioController.class);
+public class EspacoPropagandaController {
+	private final static Logger LOGGER = LoggerFactory.getLogger(EspacoPropagandaController.class);
 	
     private final Result result;
 	private final Validator validator;
@@ -32,12 +32,12 @@ public class EspacoController {
 	/**
      * @deprecated CDI eyes only
      */
-	protected EspacoController() {
+	protected EspacoPropagandaController() {
 		this(null, null, null, null, null);
 	}
 	
 	@Inject
-	public EspacoController(Result result, Validator validator, MidiaDAO midiaDAO,
+	public EspacoPropagandaController(Result result, Validator validator, MidiaDAO midiaDAO,
 			EspacoPropagandaDAO espacoPropagandaDAO, UsuarioSession usuarioSession) {
 		this.result = result;
 		this.validator = validator;
