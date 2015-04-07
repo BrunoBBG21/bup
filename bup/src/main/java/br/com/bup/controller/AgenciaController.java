@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.AgenciaDAO;
 import br.com.bup.dao.AnuncianteDAO;
-import br.com.bup.dao.LancesLeilaoDAO;
+import br.com.bup.dao.LanceLeilaoDAO;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
@@ -34,7 +34,7 @@ public class AgenciaController {
 
 	private final AgenciaDAO agenciaDAO;
 
-	private final LancesLeilaoDAO lancesLeilaoDAO;
+	private final LanceLeilaoDAO lancesLeilaoDAO;
 	
 	private final AnuncianteDAO anuncianteDAO;
 
@@ -47,7 +47,7 @@ public class AgenciaController {
 
 	@Inject
 	public AgenciaController(Result result, Validator validator,
-			AgenciaDAO agenciaDAO,LancesLeilaoDAO lancesLeilaoDAO,AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession,UsuarioDAO usuarioDAO) {
+			AgenciaDAO agenciaDAO,LanceLeilaoDAO lancesLeilaoDAO,AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession,UsuarioDAO usuarioDAO) {
 		this.result = result;
 		this.validator = validator;
 		this.agenciaDAO = agenciaDAO;

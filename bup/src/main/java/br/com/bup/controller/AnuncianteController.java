@@ -13,14 +13,14 @@ import br.com.bup.dao.AgenciaDAO;
 import br.com.bup.dao.AnuncianteDAO;
 import br.com.bup.dao.EspacoPropagandaDAO;
 import br.com.bup.dao.HistoricoAluguelEspacoDAO;
-import br.com.bup.dao.LancesLeilaoDAO;
+import br.com.bup.dao.LanceLeilaoDAO;
 import br.com.bup.dao.LeilaoDAO;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.HistoricoAluguelEspaco;
-import br.com.bup.domain.LancesLeilao;
+import br.com.bup.domain.LanceLeilao;
 import br.com.bup.domain.Leilao;
 import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
@@ -40,7 +40,7 @@ public class AnuncianteController {
 
 	private final AgenciaDAO agenciaDAO;
 
-	private final LancesLeilaoDAO lancesLeilaoDAO;
+	private final LanceLeilaoDAO lancesLeilaoDAO;
 
 	private final AnuncianteDAO anuncianteDAO;
 
@@ -61,7 +61,7 @@ public class AnuncianteController {
 	public AnuncianteController(Result result, Validator validator,
 			HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO,
 			AgenciaDAO agenciaDAO, EspacoPropagandaDAO espacoPropagandaDAO,
-			LeilaoDAO leilaoDAO, LancesLeilaoDAO lancesLeilaoDAO,
+			LeilaoDAO leilaoDAO, LanceLeilaoDAO lancesLeilaoDAO,
 			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession,
 			UsuarioDAO usuarioDAO) {
 		this.result = result;
@@ -90,7 +90,7 @@ public class AnuncianteController {
 
 	@OpenTransaction
 	public void criar(@NotNull String cpf, @NotNull Usuario usuario,
-			Agencia gerenciado, List<LancesLeilao> lances,
+			Agencia gerenciado, List<LanceLeilao> lances,
 			List<Leilao> leiloesInscrito,
 			List<EspacoPropaganda> espacosPossuidos,
 			List<EspacoPropaganda> espacosAlugados,

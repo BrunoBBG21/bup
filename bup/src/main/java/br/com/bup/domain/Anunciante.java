@@ -28,7 +28,7 @@ public class Anunciante extends Usuario implements Serializable {
 	private Agencia gerenciado;
 	
 	@OneToMany(mappedBy = "anunciante")
-	private List<LancesLeilao> lances = new ArrayList<LancesLeilao>();
+	private List<LanceLeilao> lances = new ArrayList<LanceLeilao>();
 	
 	@ManyToMany
 	private List<Leilao> leiloesInscrito = new ArrayList<Leilao>();
@@ -81,10 +81,10 @@ public class Anunciante extends Usuario implements Serializable {
 			List<HistoricoAluguelEspaco> historicosAlugueis) {
 		this.historicosAlugueis = historicosAlugueis;
 	}
-	public List<LancesLeilao> getLances() {
+	public List<LanceLeilao> getLances() {
 		return lances;
 	}
-	public void setLances(List<LancesLeilao> lances) {
+	public void setLances(List<LanceLeilao> lances) {
 		this.lances = lances;
 	}
 }

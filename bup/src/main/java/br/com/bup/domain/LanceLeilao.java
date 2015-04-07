@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"valor","data","anunciante_id","leilao_id"}))
-public class LancesLeilao {
+public class LanceLeilao {
 	@Id
 	@GeneratedValue
 	private Long id;
