@@ -67,7 +67,7 @@ public abstract class Usuario implements Serializable {
 	private BigDecimal saldo = BigDecimal.valueOf(0);
 	
 	@OneToMany(mappedBy = "usuario")
-	private List<ContaBancariaUsuario> contasBancarias = new ArrayList<ContaBancariaUsuario>();
+	private List<ContaBancaria> contasBancarias = new ArrayList<ContaBancaria>();
 	
 	//get-set-gerados-------------------------------------------------------
 	
@@ -119,10 +119,10 @@ public abstract class Usuario implements Serializable {
 	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
-	public List<ContaBancariaUsuario> getContasBancarias() {
+	public List<ContaBancaria> getContasBancarias() {
 		return contasBancarias;
 	}
-	public void setContasBancarias(List<ContaBancariaUsuario> contasBancarias) {
+	public void setContasBancarias(List<ContaBancaria> contasBancarias) {
 		this.contasBancarias = contasBancarias;
 	}
 }
