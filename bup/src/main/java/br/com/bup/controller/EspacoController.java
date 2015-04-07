@@ -21,7 +21,7 @@ import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
 public class EspacoController {
-private final static Logger LOGGER = LoggerFactory.getLogger(UsuarioController.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(UsuarioController.class);
 	
     private final Result result;
 	private final Validator validator;

@@ -5,9 +5,14 @@
 	version="2.5">
 	<display-name>bup</display-name>
 
-	<welcome-file-list>
-		<welcome-file>index.jsf</welcome-file>
-	</welcome-file-list>
+	<context-param>
+		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
+		<param-value>messages</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
+		<param-value>pt_BR</param-value>
+	</context-param>
 
 	<!-- Listener do Jboss Weld -->
 	<listener>

@@ -38,11 +38,17 @@ public class LoginController {
 			if (usuario != null) {
 				usuarioSession.logar(usuario);
 				LOGGER.debug("Usuario '" + usuario.getId() + "' logado.");
-				result.redirectTo(TesteController.class).uhul();
+				result.redirectTo(IndexController.class).index();
 			} else {
 				result.include("msgErro", "Login ou/e Senha incorretos.");
-				result.redirectTo(LoginController.class).login(null, null);
 			}
+		} else if (usuarioSession.isLogado()) {
+			result.redirectTo(IndexController.class).index();
 		}
+	}
+	
+	public void logout() {
+		usuarioSession.deslogar();
+		result.redirectTo(IndexController.class).index();
 	}
 }
