@@ -5,7 +5,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import br.com.bup.domain.TransacaoBancaria;
-import br.com.bup.domain.Usuario;
 
 @RequestScoped
 public class TransacaoBancariaDAO extends BaseDAO<TransacaoBancaria> {

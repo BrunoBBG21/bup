@@ -5,8 +5,6 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Strings;
-
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.annotation.Public;
 import br.com.bup.dao.UsuarioDAO;
@@ -14,6 +12,8 @@ import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
+
+import com.google.common.base.Strings;
 
 @Controller
 public class LoginController {

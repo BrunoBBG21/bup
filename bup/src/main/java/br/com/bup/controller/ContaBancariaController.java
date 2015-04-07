@@ -6,21 +6,14 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Strings;
-
 import br.com.bup.annotation.OpenTransaction;
-import br.com.bup.annotation.Public;
 import br.com.bup.dao.ContaBancariaDAO;
-import br.com.bup.dao.MidiaDAO;
 import br.com.bup.dao.UsuarioDAO;
-import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.ContaBancaria;
-import br.com.bup.domain.Midia;
 import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
