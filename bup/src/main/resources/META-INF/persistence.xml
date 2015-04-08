@@ -7,14 +7,15 @@
 		<!-- entidade mapeada -->
 		<class>br.com.bup.domain.Agencia</class>
 		<class>br.com.bup.domain.Anunciante</class>
-		<class>br.com.bup.domain.ContaBancariaUsuario</class>
+		<class>br.com.bup.domain.ContaBancaria</class>
 		<class>br.com.bup.domain.EspacoPropaganda</class>
 		<class>br.com.bup.domain.HistoricoAluguelEspaco</class>
-		<class>br.com.bup.domain.LancesLeilao</class>
+		<class>br.com.bup.domain.LanceLeilao</class>
 		<class>br.com.bup.domain.Leilao</class>
 		<class>br.com.bup.domain.Midia</class>
 		<class>br.com.bup.domain.ModalidadePagamento</class>
 		<class>br.com.bup.domain.PublicoAlvo</class>
+		<class>br.com.bup.domain.TransacaoBancaria</class>
 		<class>br.com.bup.domain.Usuario</class>
 
 		<properties>
