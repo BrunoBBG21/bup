@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,21 +16,29 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table
 public class TransacaoBancaria implements Serializable{
+	private static final long serialVersionUID = 5081334063974639104L;
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	@Column(nullable=false)
-	@NotNull	
+	
+	@NotNull
+	@ManyToOne(optional=false)
 	private ContaBancaria conta;
-	@Column(nullable=false)
+	
+	@NotNull
+	@ManyToOne(optional=false)
 	private Usuario usuario;
+	
 	@Column(nullable=false)
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data;
+	
 	@Column(nullable=false)
 	@NotNull
 	private BigDecimal saldo = BigDecimal.valueOf(0);
+	
 	/**
 	 * @return the id
 	 */

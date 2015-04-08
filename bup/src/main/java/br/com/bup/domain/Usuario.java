@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries(value={
    @NamedQuery(
 		      name = "Usuario.buscarPorEmailSenha",
-		      query="from Usuario u where u.email = :email AND u.password = :password"),
+		      query="select u from Usuario u where u.email = :email AND u.password = :password"),
    @NamedQuery(
 		      name = "Usuario.existeComEmail",
 		      query="select case when (count(u) > 0) then true else false end "
@@ -68,6 +68,9 @@ public abstract class Usuario implements Serializable {
 	
 	@OneToMany(mappedBy = "usuario")
 	private List<ContaBancaria> contasBancarias = new ArrayList<ContaBancaria>();
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<TransacaoBancaria> transacoes = new ArrayList<TransacaoBancaria>();
 	
 	//get-set-gerados-------------------------------------------------------
 	
