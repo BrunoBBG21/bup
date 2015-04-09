@@ -2,11 +2,14 @@ package br.com.bup.controller;
 
 import javax.inject.Inject;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.bup.annotation.EmailDisponivel;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.annotation.Public;
+import br.com.bup.annotation.Telefone;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
@@ -15,7 +18,7 @@ import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.SimpleMessage;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -47,20 +50,21 @@ public class UsuarioController {
 	@Public
 	public void formulario() {
 		//pagina com o formulario...
+		result.include("tipos", TipoUsuario.values());
 	}
 	
 	@Public
 	@OpenTransaction
-	public void criar(TipoUsuario tipoUsuario, String email, String password, String nome, 
-			String endereco, String cep, String telefone, String cpfCnpj) {
+	public void criar(TipoUsuario tipoUsuario, @NotEmpty @EmailDisponivel String email, String password, String nome, 
+			String endereco, String cep, @Telefone String telefone, String cpfCnpj) {
 		LOGGER.debug("criar usuario com email: " + email);
+		validator.onErrorRedirectTo(this).formulario();
 		
 		//criando o tipo certo...
         Usuario usuario = montarUsuario(tipoUsuario, email, password, nome, endereco, cep, telefone, cpfCnpj);
 
 		//validacoes...
 		validarInclusaoUsuario(usuario);
-		// em caso de erros irá redirecionar para a página de formulário
         validator.onErrorRedirectTo(this).formulario();
 		
 		//salva
@@ -68,6 +72,7 @@ public class UsuarioController {
 		
 		usuarioSession.logar(usuario);
 		result.include("success", "Usuario incluido com sucesso.");
+		result.redirectTo(IndexController.class).index();
 	}
 	
 	private Usuario montarUsuario(TipoUsuario tipoUsuario, String email,
@@ -106,14 +111,10 @@ public class UsuarioController {
 	 */
 	private void validarInclusaoUsuario(Usuario usuario) {
 		if (usuario == null) {
-			validator.add(new SimpleMessage("Erro", "Usuario nulo."));
+			validator.add(new I18nMessage("tipoUsuario", "usuario.formulario.tipo.invalido"));
 			return;
 		}
 		
 		validator.validate(usuario);
-
-		if (usuario.getEmail() != null && usuarioDAO.existeComEmail(usuario.getEmail())) { //TODO: passar essa validaçao para uma anotation...
-			validator.add(new SimpleMessage("email", "Email já cadastrado."));
-		}
 	}
 }

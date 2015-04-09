@@ -29,25 +29,40 @@
 				<div class="box-tools pull-right">
 					<button class="btn btn-box-tool" data-widget="collapse"
 						data-toggle="tooltip" title="Collapse">
-						<i class="fa fa-minus"></i>
+						<i class="fa fa-minus">aaaa</i>
 					</button>
 					<button class="btn btn-box-tool" data-widget="remove"
 						data-toggle="tooltip" title="Remove">
-						<i class="fa fa-times"></i>
+						<i class="fa fa-times">bbbb</i>
 					</button>
 				</div>
 			</div>
-			<div class="box-body">Start creating your amazing application!
+			<div class="box-body">
+				${usuarioSession.usuarioLogado.nome} - ${usuarioSession.usuarioLogado.email}
+				<br/>
+				
+				${success}
+				<br/>
+				<c:forEach var="error" items="${errors}">
+				    ${error.category} - ${error.message}<br />
+				</c:forEach>
+				<br/>
+				
+				<a href="<c:url value='/login/login'/>">/login/login</a>
+				<br/>
+				<a href="<c:url value='/login/logout'/>">/login/logout</a>
+				<br/>
+				<a href="<c:url value='/usuario/formulario'/>">/usuario/formulario</a>
+				<br/>
+				<a href="<c:url value='/espacoPropaganda/formulario'/>">/espacoPropaganda/formulario</a>
+				<br/>
+				<a href="<c:url value='/midia/formulario'/>">/midia/formulario</a>
+				<br/>
 			</div>
-			<!-- /.box-body -->
+			
 			<div class="box-footer">Footer</div>
-			<!-- /.box-footer-->
 		</div>
-		<!-- /.box -->
-
 	</section>
-	<!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
 
 <c:import url="../includes/footer.jsp"></c:import>
