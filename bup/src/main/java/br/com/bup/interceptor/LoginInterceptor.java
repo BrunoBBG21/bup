@@ -16,7 +16,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.controller.ControllerMethod;
 import br.com.caelum.vraptor.interceptor.SimpleInterceptorStack;
 
-@Intercepts(before = { TransactionInterceptor.class })
+@Intercepts(before = { TransactionInterceptor.class, AcessoUsuarioInterceptor.class })
 @RequestScoped
 public class LoginInterceptor {
 	private final static Logger LOGGER = LoggerFactory.getLogger(LoginInterceptor.class);

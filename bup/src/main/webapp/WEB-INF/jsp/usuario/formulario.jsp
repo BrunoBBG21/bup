@@ -92,62 +92,148 @@
 			</div>
 			<div class="box-body">
 				<div class="box-body">
-                  <!-- Date dd/mm/yyyy -->
-                  <div class="form-group">
-                    <label>Date masks:</label>
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                      </div>
-                      <input type="text" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask/>
-                    </div><!-- /.input group -->
-                  </div><!-- /.form group -->
+					
+					<c:forEach var="error" items="${errors}">
+					    ${error.category} - ${error.message}<br />
+					</c:forEach>
+					
+					<form action="<c:url value='/usuario/criar'/>" method="post">
+						<fmt:message key="usuario.formulario.label.tipoUsuario"/>:
+						<select name="tipoUsuario" >
+							<option value="">
+								<fmt:message key="combo.selecione"/>
+							</option>
+							
+							<c:forEach var="tipo" items="${tipos}">
+								<option 
+									value="${tipo.name()}" 
+									<c:if test="${tipoUsuario eq tipo.name()}">selected="selected"</c:if>>
+									${tipo.descricao}
+								</option>
+							</c:forEach>
+						</select>
+						<span class="error">${errors.from('tipoUsuario').join(' - ')}</span> 
+						<br/>
+						
+						<fmt:message key="usuario.formulario.label.email"/>:
+						<input type="text" name="email" value="${email}"/>
+						<span class="error">${errors.from('email').join(' - ')}</span> 
+						<br/>
+						
+						<fmt:message key="usuario.formulario.label.password"/>:
+						<input type="password" name="password" value="${password}"/>
+						<span class="error">${errors.from('password').join(' - ')}</span> 
+						<br/>
+						
+						<fmt:message key="usuario.formulario.label.nome"/>:
+						<input type="text" name="nome" value="${nome}"/>
+						<span class="error">${errors.from('nome').join(' - ')}</span> 
+						<br/>
+						
+						<fmt:message key="usuario.formulario.label.endereco"/>:
+						<input type="text" name="endereco" value="${endereco}"/>
+						<span class="error">${errors.from('endereco').join(' - ')}</span> 
+						<br/> 
+						
+						<fmt:message key="usuario.formulario.label.cep"/>:
+						<input type="text" name="cep" value="${cep}"/>
+						<span class="error">${errors.from('cep').join(' - ')}</span> 
+						<br/> 
+						
+						<fmt:message key="usuario.formulario.label.telefone"/>:
+						<input type="text" name="telefone" value="${telefone}"/>
+						<span class="error">${errors.from('telefone').join(' - ')}</span> 
+						<br/>
+						
+						<fmt:message key="usuario.formulario.label.cpfCnpj"/>:
+						<input type="text" name="cpfCnpj" value="${cpfCnpj}"/>
+						<span class="error">${errors.from('cpf').join(' - ')}</span>
+						<span class="error">${errors.from('cnpj').join(' - ')}</span> 
+						<br/>
+						
+						<input type="submit" value='<fmt:message key="btn.salvar"/>' />
+					</form>
+					
+				
+				
+				
+				
+				
+				
+					<!-- Date dd/mm/yyyy -->
+					<div class="form-group">
+						<label>Date masks:</label>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<input type="text" class="form-control"
+								data-inputmask="'alias': 'dd/mm/yyyy'" data-mask />
+						</div>
+						<!-- /.input group -->
+					</div>
+					<!-- /.form group -->
 
-                  <!-- Date mm/dd/yyyy -->
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                      </div>
-                      <input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask/>
-                    </div><!-- /.input group -->
-                  </div><!-- /.form group -->
+					<!-- Date mm/dd/yyyy -->
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<input type="text" class="form-control"
+								data-inputmask="'alias': 'mm/dd/yyyy'" data-mask />
+						</div>
+						<!-- /.input group -->
+					</div>
+					<!-- /.form group -->
 
-                  <!-- phone mask -->
-                  <div class="form-group">
-                    <label>US phone mask:</label>
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-phone"></i>
-                      </div>
-                      <input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask/>
-                    </div><!-- /.input group -->
-                  </div><!-- /.form group -->
+					<!-- phone mask -->
+					<div class="form-group">
+						<label>US phone mask:</label>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-phone"></i>
+							</div>
+							<input type="text" class="form-control"
+								data-inputmask='"mask": "(999) 999-9999"' data-mask />
+						</div>
+						<!-- /.input group -->
+					</div>
+					<!-- /.form group -->
 
-                  <!-- phone mask -->
-                  <div class="form-group">
-                    <label>Intl US phone mask:</label>
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-phone"></i>
-                      </div>
-                      <input type="text" class="form-control" data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']" data-mask/>
-                    </div><!-- /.input group -->
-                  </div><!-- /.form group -->
+					<!-- phone mask -->
+					<div class="form-group">
+						<label>Intl US phone mask:</label>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-phone"></i>
+							</div>
+							<input type="text" class="form-control"
+								data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']"
+								data-mask />
+						</div>
+						<!-- /.input group -->
+					</div>
+					<!-- /.form group -->
 
-                  <!-- IP mask -->
-                  <div class="form-group">
-                    <label>IP mask:</label>
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-laptop"></i>
-                      </div>
-                      <input type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask/>
-                    </div><!-- /.input group -->
-                  </div><!-- /.form group -->
+					<!-- IP mask -->
+					<div class="form-group">
+						<label>IP mask:</label>
+						<div class="input-group">
+							<div class="input-group-addon">
+								<i class="fa fa-laptop"></i>
+							</div>
+							<input type="text" class="form-control"
+								data-inputmask="'alias': 'ip'" data-mask />
+						</div>
+						<!-- /.input group -->
+					</div>
+					<!-- /.form group -->
 
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
 		</div>
 	</section>
 </div>

@@ -43,6 +43,11 @@
 				
 				${success}
 				<br/>
+				
+				<c:forEach var="info" items="${vmessages.info}">
+				    ${info.category} - ${info.message}<br />
+				</c:forEach>
+				<br/>
 				<c:forEach var="error" items="${errors}">
 				    ${error.category} - ${error.message}<br />
 				</c:forEach>

@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.bup.annotation.ApenasAnunciante;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.EspacoPropagandaDAO;
 import br.com.bup.dao.MidiaDAO;
@@ -47,6 +48,7 @@ public class EspacoPropagandaController {
 	}
 	
 	@OpenTransaction
+	@ApenasAnunciante
 	public void formulario() {
 		//simples formulario... futuramente receendo id para editar... ou nao...
 		result.include("formatosEspaco", FormatoEspacoPropaganda.values());
@@ -54,6 +56,7 @@ public class EspacoPropagandaController {
 	}
 	
 	@OpenTransaction
+	@ApenasAnunciante
 	public void criar(@NotNull EspacoPropaganda espacoPropaganda) {
 		validator.onErrorRedirectTo(this).formulario(); //caso seja null...
 		LOGGER.debug("criando espaco: " + espacoPropaganda);
