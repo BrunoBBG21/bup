@@ -25,6 +25,52 @@
 <link href="/bup/tema/dist/css/skins/_all-skins.min.css"
 	rel="stylesheet" type="text/css" />
 
+ <!-- daterange picker -->
+ <link href="/bup/tema/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+ <!-- iCheck for checkboxes and radio inputs -->
+ <link href="/bup/tema/plugins/iCheck/all.css" rel="stylesheet" type="text/css" />
+ <!-- Bootstrap Color Picker -->
+ <link href="/bup/tema/plugins/colorpicker/bootstrap-colorpicker.min.css" rel="stylesheet"/>
+ <!-- Bootstrap time Picker -->
+ <link href="/bup/tema/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet"/>
+ <!-- Theme style -->
+ <link href="/bup/tema/plugins/iCheck/all.css" rel="stylesheet" type="text/css" />
+
+
+<!-- ./wrapper -->
+<!-- jQuery 2.1.3 -->
+<script src="/bup/tema/plugins/jQuery/jQuery-2.1.3.min.js"></script>
+<!-- Bootstrap 3.3.2 JS -->
+<script src="/bup/tema/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- FastClick -->
+<script src='/bup/tema/plugins/fastclick/fastclick.min.js'></script>
+<!-- AdminLTE App -->
+<script src="/bup/tema/dist/js/app.min.js" type="text/javascript"></script>
+
+
+
+
+
+    <!-- InputMask -->
+    <script src="/bup/tema/plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
+    <script src="/bup/tema/plugins/input-mask/jquery.inputmask.date.extensions.js" type="text/javascript"></script>
+    <script src="/bup/tema/plugins/input-mask/jquery.inputmask.extensions.js" type="text/javascript"></script>
+    <!-- date-range-picker -->
+    <script src="/bup/tema/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+    <!-- bootstrap color picker -->
+    <script src="/bup/tema/plugins/colorpicker/bootstrap-colorpicker.min.js" type="text/javascript"></script>
+    <!-- bootstrap time picker -->
+    <script src="/bup/tema/plugins/timepicker/bootstrap-timepicker.min.js" type="text/javascript"></script>
+    <!-- SlimScroll 1.3.0 -->
+    <script src="/bup/tema/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <!-- iCheck 1.0.1 -->
+    <script src="/bup/tema/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="/bup/tema/dist/js/demo.js" type="text/javascript"></script>
+
+
+	
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
