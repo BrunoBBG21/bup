@@ -6,14 +6,22 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 /**
  *	Classe que representa as agencias de propaganda. 
  */
+@NamedQueries(value={
+		   @NamedQuery(
+				      name = "Agencia.buscaGerenciados",
+				      query="SELECT new map(a.id, a.nome) "
+				      		+ "FROM Anunciante a "
+				      		+ "WHERE a.gerenciado.id = :id")
+		}) 
 @Entity
 @Table
 public class Agencia extends Usuario implements Serializable {
@@ -26,7 +34,7 @@ public class Agencia extends Usuario implements Serializable {
 	@OneToMany(mappedBy = "agencia")
 	private List<LanceLeilao> lances = new ArrayList<LanceLeilao>();
 	
-	@OneToMany(mappedBy = "gerenciado")
+	@OneToMany(mappedBy = "gerenciado") //nunca ponha EAGER... uma agencia pode gerenciar MILHOES 
 	private List<Anunciante> gerencia = new ArrayList<Anunciante>();
 	
 	//get-set-gerados-------------------------------------------------------

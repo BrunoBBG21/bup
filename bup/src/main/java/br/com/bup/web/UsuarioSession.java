@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
+import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.Usuario;
 
@@ -27,8 +28,24 @@ public class UsuarioSession implements Serializable {
 		return usuarioLogado != null;
 	}
 
+	public Boolean isLogadoAgencia() {
+		return usuarioLogado != null && usuarioLogado instanceof Agencia;
+	}
+
+	public Boolean isGerenciando() {
+		return usuarioGerenciado != null;
+	}
+
+	public Long getIdGerenciado() {
+		return usuarioGerenciado != null ? usuarioGerenciado.getId() : null;
+	}
+
 	public Usuario getUsuarioLogado() {
 		return usuarioLogado;
+	}
+
+	public Agencia getUsuarioLogadoComoAgencia() {
+		return (Agencia) usuarioLogado;
 	}
 
 	public String getNomeUsuarioLogado() {

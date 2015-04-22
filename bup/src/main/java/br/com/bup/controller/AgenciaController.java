@@ -1,8 +1,10 @@
 package br.com.bup.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
+@Named("agenciaController")
 public class AgenciaController {
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger(AgenciaController.class);
@@ -57,6 +60,14 @@ public class AgenciaController {
 		this.usuarioDAO = usuarioDAO;
 	}
 
+	/**
+	 * Busca os nomes e ids dos Anunciantes que são gerenciados pela agencia.
+	 * @return map com id e nome dos anunciantes. 
+	 */
+	public List<Map<String, Object>> getGerenciados() {
+		return agenciaDAO.buscaGerenciados(usuarioSession.getUsuarioLogadoComoAgencia());
+	}
+	
 	public void formulario() {
 		LOGGER.debug("carregando formulario de agencia");
 		result.include("lances", lancesLeilaoDAO.buscarTodos());
@@ -64,6 +75,17 @@ public class AgenciaController {
 		result.include("usuarios", usuarioDAO.buscarTodos());
 		// simples formulario... futuramente receendo id para editar... ou
 		// nao...
+	}
+	
+	@OpenTransaction
+	public void gerenciar(Long id) {
+		if (id != null && id > 0) {
+			usuarioSession.gerenciar((Anunciante) usuarioDAO.buscarPorId(id));
+			
+		} else if (id != null && id < 0) { 
+			usuarioSession.desGerenciar();
+		}
+		result.redirectTo(IndexController.class).index();
 	}
 
 	@OpenTransaction
