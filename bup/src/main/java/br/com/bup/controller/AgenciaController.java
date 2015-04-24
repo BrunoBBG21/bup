@@ -27,8 +27,7 @@ import br.com.caelum.vraptor.validator.Validator;
 @Controller
 @Named("agenciaController")
 public class AgenciaController {
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(AgenciaController.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.class);
 
 	private final Result result;
 	private final Validator validator;

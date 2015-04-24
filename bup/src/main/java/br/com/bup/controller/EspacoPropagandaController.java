@@ -1,5 +1,7 @@
 package br.com.bup.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
@@ -79,11 +81,19 @@ public class EspacoPropagandaController {
         espacoPropagandaDAO.salvar(espacoPropaganda);
 		
 		result.include("success", "Espaco criado com sucesso.");
+		result.redirectTo(this).listar();
 	}
 
 	private void validarCriar(EspacoPropaganda espacoPropaganda) {
 		validator.validate(espacoPropaganda);
 		
 		//TODO validar inclusao repetida
+	}
+	
+	@OpenTransaction
+	public List<EspacoPropaganda> listar() {
+		LOGGER.debug("Listando os espacos ");
+		
+		return espacoPropagandaDAO.buscarTodos();
 	}
 }

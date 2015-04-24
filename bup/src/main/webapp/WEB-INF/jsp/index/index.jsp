@@ -29,17 +29,15 @@
 				<div class="box-tools pull-right">
 					<button class="btn btn-box-tool" data-widget="collapse"
 						data-toggle="tooltip" title="Collapse">
-						<i class="fa fa-minus">aaaa</i>
+						<i class="fa fa-minus"></i>
 					</button>
 					<button class="btn btn-box-tool" data-widget="remove"
 						data-toggle="tooltip" title="Remove">
-						<i class="fa fa-times">bbbb</i>
+						<i class="fa fa-times"></i>
 					</button>
 				</div>
 			</div>
 			<div class="box-body">
-				${usuarioSession.usuarioLogado.nome} - ${usuarioSession.usuarioLogado.email}
-				<br/>
 				
 				${success}
 				<br/>
@@ -53,16 +51,6 @@
 				</c:forEach>
 				<br/>
 				
-				<a href="<c:url value='/login/login'/>">/login/login</a>
-				<br/>
-				<a href="<c:url value='/login/logout'/>">/login/logout</a>
-				<br/>
-				<a href="<c:url value='/usuario/formulario'/>">/usuario/formulario</a>
-				<br/>
-				<a href="<c:url value='/espacoPropaganda/formulario'/>">/espacoPropaganda/formulario</a>
-				<br/>
-				<a href="<c:url value='/midia/formulario'/>">/midia/formulario</a>
-				<br/>
 			</div>
 			
 			<div class="box-footer">Footer</div>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -26,10 +27,15 @@
   <body class="login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
+        <a href="../../index2.html">
+        	<b>BUP</b>
+        </a>
       </div><!-- /.login-logo -->
+      
       <div class="login-box-body">
-        <p class="login-box-msg">Sign in to start your session</p>
+        <p class="login-box-msg">
+        	<fmt:message key="login.msg.inicial"/>
+        </p>
         <form action='<c:url value="/login/login"></c:url>' method="post">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" placeholder="Email" name="email"/>
@@ -53,13 +59,6 @@
           </div>
         </form>
 
-        <div class="social-auth-links text-center">
-          <p>- OR -</p>
-          <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using Facebook</a>
-          <a href="#" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-google-plus"></i> Sign in using Google+</a>
-        </div><!-- /.social-auth-links -->
-
-        <a href="#">I forgot my password</a><br>
         <a href='<c:url value="/usuario/formulario" />' class="text-center">Register a new membership</a>
 
       </div><!-- /.login-box-body -->

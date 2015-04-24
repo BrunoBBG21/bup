@@ -35,6 +35,7 @@
 		<ul class="sidebar-menu">
 			<li class="header">MAIN NAVIGATION</li>
 			
+			<!-- BOTOES VERMELHOS estao desativados -->
 			<li class="treeview">
 				<a href="#"> 
 					<span>
@@ -44,27 +45,27 @@
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.leilao.criar"/>
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.leilao.listar"/>
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.leilao.inscrever"/>
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.leilao.meus_leiloes"/>
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.leilao.inscritos"/>
 						</a>
 					</li>
@@ -80,12 +81,12 @@
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="#">
+						<a href="<c:url value='/usuario/formulario'/>">
 							<fmt:message key="menu.usuario.cadastro"/>
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.usuario.listar_agentes"/>
 						</a>
 					</li>
@@ -101,12 +102,12 @@
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.transferencia.creditar"/>
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.transferencia.retirar"/>
 						</a>
 					</li>
@@ -122,12 +123,12 @@
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.modalidade_pagamento.listar"/>
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.modalidade_pagamento.cadastrar"/>
 						</a>
 					</li>
@@ -137,19 +138,19 @@
 			<li class="treeview">
 				<a href="#"> 
 					<span>
-						<fmt:message key="menu.espado_propaganda"/>
+						<fmt:message key="menu.espaco_propaganda"/>
 					</span> 
 					<i class="fa fa-angle-left pull-right"></i>
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="#">
-							<fmt:message key="menu.espado_propaganda.listar"/>
+						<a href="<c:url value='/espacoPropaganda/listar'/>">
+							<fmt:message key="menu.espaco_propaganda.listar"/>
 						</a>
 					</li>
 					<li>
-						<a href="#">
-							<fmt:message key="menu.espado_propaganda.cadastrar"/>
+						<a href="<c:url value='/espacoPropaganda/formulario'/>" >
+							<fmt:message key="menu.espaco_propaganda.cadastrar"/>
 						</a>
 					</li>
 				</ul>
@@ -164,12 +165,12 @@
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.midia_propaganda.listar"/>
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="<c:url value='/midia/formulario'/>" >
 							<fmt:message key="menu.midia_propaganda.cadastrar"/>
 						</a>
 					</li>
@@ -185,7 +186,7 @@
 				</a>
 				<ul class="treeview-menu">
 					<li>
-						<a href="#">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.relatorio.operacional"/>
 						</a>
 					</li>
