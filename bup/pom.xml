@@ -32,6 +32,13 @@
 			<version>1.2</version>
 		</dependency>
 		
+		<!-- TILES - Apache Tiles is a framework that implements the Composite View pattern... -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-extras</artifactId>
+		    <version>3.0.5</version>
+		</dependency>
+		
 		<!-- LOG -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

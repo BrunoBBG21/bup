@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <!-- DEFINICAO SIMPLES ->
+    <definition name="homePage" template="/WEB-INF/jsp/tiles/template.jsp">
+        <put-attribute name="header" value="/WEB-INF/jsp/tiles/defaultHeader.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/tiles/defaultMenu.jsp" />
+        <put-attribute name="body" value="/WEB-INF/jsp/tiles/home_body.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/jsp/tiles/defaultFooter.jsp" />
+    </definition>
+    <!- END  -->
+    <!-- DEFINICAO COM HERANCA -->
+    <definition name="login/login" template="/WEB-INF/jsp/login/login.jsp" />
+    
+    <definition name="commonPage" template="/WEB-INF/jsp/tiles/template.jsp">
+        <put-attribute name="header" value="/WEB-INF/jsp/tiles/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/jsp/tiles/menu.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/jsp/tiles/footer.jsp" />
+    </definition>
+    
+    <definition name="index/index" extends="commonPage">
+        <put-attribute name="title" value="Index" />
+        <put-attribute name="body" value="/WEB-INF/jsp/index/index.jsp" />
+    </definition>
+    
+    <definition name="midia/formulario" extends="commonPage">
+        <put-attribute name="title" value="Index" />
+        <put-attribute name="body" value="/WEB-INF/jsp/midia/formulario.jsp" />
+    </definition>
+    
+    <definition name="espacoPropaganda/listar" extends="commonPage">
+        <put-attribute name="title" value="Espaço Propaganda" />
+        <put-attribute name="body" value="/WEB-INF/jsp/espacoPropaganda/listar.jsp" />
+    </definition>
+    <definition name="espacoPropaganda/formulario" extends="commonPage">
+        <put-attribute name="title" value="Espaço Propaganda" />
+        <put-attribute name="body" value="/WEB-INF/jsp/espacoPropaganda/formulario.jsp" />
+    </definition>
+    
+    <definition name="usuario/formulario" extends="commonPage">
+        <put-attribute name="title" value="Inserir Usuário" />
+        <put-attribute name="body" value="/WEB-INF/jsp/usuario/formulario.jsp" />
+    </definition>
+    <!-- END -->
+</tiles-definitions>
