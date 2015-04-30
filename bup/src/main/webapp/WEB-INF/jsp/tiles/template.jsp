@@ -41,6 +41,9 @@
 		<!-- AdminLTE for demo purposes -->
 		<script src="/bup/tema/dist/js/demo.js" type="text/javascript"></script>
 		
+		<!-- JS do projeto -->
+		<script src="/bup/js/application.js" type="text/javascript"></script>
+		
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>

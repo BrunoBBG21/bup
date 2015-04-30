@@ -70,7 +70,7 @@
 			</ul>
 		</li>
 		
-		<li class="treeview">
+		<li class="treeview" id="/bup/usuario">
 			<a href="#"> 
 				<span>
 					<fmt:message key="menu.usuario"/>
@@ -78,7 +78,7 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li>
+				<li id="/bup/usuario/formulario">
 					<a href="<c:url value='/usuario/formulario'/>">
 						<fmt:message key="menu.usuario.cadastro"/>
 					</a>
@@ -133,7 +133,7 @@
 			</ul>
 		</li>
 		
-		<li class="treeview">
+		<li class="treeview" id="/bup/espacoPropaganda">
 			<a href="#"> 
 				<span>
 					<fmt:message key="menu.espaco_propaganda"/>
@@ -141,12 +141,12 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li>
+				<li id="/bup/espacoPropaganda/listar">
 					<a href="<c:url value='/espacoPropaganda/listar'/>">
 						<fmt:message key="menu.espaco_propaganda.listar"/>
 					</a>
 				</li>
-				<li>
+				<li id="/bup/espacoPropaganda/formulario">
 					<a href="<c:url value='/espacoPropaganda/formulario'/>" >
 						<fmt:message key="menu.espaco_propaganda.cadastrar"/>
 					</a>
@@ -154,7 +154,7 @@
 			</ul>
 		</li>
 		
-		<li class="treeview">
+		<li class="treeview" id="/bup/midia">
 			<a href="#"> 
 				<span>
 					<fmt:message key="menu.midia_propaganda"/>
@@ -167,7 +167,7 @@
 						<fmt:message key="menu.midia_propaganda.listar"/>
 					</a>
 				</li>
-				<li>
+				<li id="/bup/midia/formulario">
 					<a href="<c:url value='/midia/formulario'/>" >
 						<fmt:message key="menu.midia_propaganda.cadastrar"/>
 					</a>
