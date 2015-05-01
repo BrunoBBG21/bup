@@ -8,12 +8,12 @@
 			<fmt:message key="espaco_propaganda.formulario.box_header"/>
 		</h3>
 	</div>
-	<div class="box-body">
-		<div class="box-body">
+	
+		<div class="box-body table-responsive">
 			<c:forEach var="error" items="${errors}">
 			    ${error.category} - ${error.message}<br />
 			</c:forEach>
-
+			
 			<table class="table table-bordered table-striped table-hover">
 				<thead>
 					<tr>
@@ -88,4 +88,4 @@
 			</table>					
 		</div>
 	</div>
-</div>
+
