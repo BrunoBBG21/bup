@@ -112,7 +112,7 @@
 			</ul>
 		</li>
 		
-		<li class="treeview">
+		<li class="treeview" id="/bup/modalidadePagamento">
 			<a href="#"> 
 				<span>
 					<fmt:message key="menu.modalidade_pagamento"/>
@@ -125,8 +125,8 @@
 						<fmt:message key="menu.modalidade_pagamento.listar"/>
 					</a>
 				</li>
-				<li>
-					<a href="#" style="color: red;">
+				<li id="/bup/modalidadePagamento/formulario">
+					<a href="<c:url value='/modalidadePagamento/formulario'/>" >
 						<fmt:message key="menu.modalidade_pagamento.cadastrar"/>
 					</a>
 				</li>

@@ -21,32 +21,38 @@
     </definition>
     
     <definition name="index/index" extends="commonPage">
-        <put-attribute name="title" value="Index" />
+        <put-attribute name="title" value="index.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/index/index.jsp" />
     </definition>
     
     <definition name="midia/formulario" extends="commonPage">
-        <put-attribute name="title" value="Mídia" />
+        <put-attribute name="title" value="midia.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/midia/formulario.jsp" />
     </definition>
     
     <definition name="midia/listar" extends="commonPage">
-        <put-attribute name="title" value="midia.listar.box_header" />
+        <put-attribute name="title" value="midia.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/midia/listar.jsp" />
     </definition>
     
     <definition name="espacoPropaganda/listar" extends="commonPage">
-        <put-attribute name="title" value="Espaço Propaganda" />
+        <put-attribute name="title" value="espaco_propaganda.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/espacoPropaganda/listar.jsp" />
     </definition>
     <definition name="espacoPropaganda/formulario" extends="commonPage">
-        <put-attribute name="title" value="Espaço Propaganda" />
+        <put-attribute name="title" value="espaco_propaganda.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/espacoPropaganda/formulario.jsp" />
     </definition>
     
     <definition name="usuario/formulario" extends="commonPage">
-        <put-attribute name="title" value="Inserir Usuário" />
+        <put-attribute name="title" value="usuario.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/usuario/formulario.jsp" />
     </definition>
+    
+    <definition name="modalidadePagamento/formulario" extends="commonPage">
+        <put-attribute name="title" value="modalidade_pagamento.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/modalidadePagamento/formulario.jsp" />
+    </definition>
+    
     <!-- END -->
 </tiles-definitions>
