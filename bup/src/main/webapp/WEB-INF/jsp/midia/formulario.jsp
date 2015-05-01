@@ -6,22 +6,25 @@
 <div class="box">
 	<div class="box-header with-border">
 		<h3 class="box-title">
-			aaaaaaaaaa
+			<fmt:message key="midia.formulario.box_header"/>
 		</h3>
 	</div>
-	<div class="box-body">
+
 		<div class="box-body">
 			<c:forEach var="error" items="${errors}">
 			    ${error.category} - ${error.message}<br />
 			</c:forEach>
 			
 			<form action="<c:url value='/midia/criar'/>" method="post">
-				tipo: 
-				<input type="text" name="tipo"/>
-				<span class="error">${errors.from('tipo').join(' - ')}</span> 
-				<br/>
-				<input type="submit" value='<fmt:message key="btn.salvar"/>' />
+				<div class="form-group ${empty errors.from('tipo') ? '' : 'has-error'}">
+					<label for="inpTipo">
+						<fmt:message key="midia.formulario.tipo"/>
+					</label>
+					<input id="inpTipo" type="text" class="form-control" name="tipo" 
+							value="${tipo}" placeholder="Mídia" required />
+				</div>
+				<input type="submit" class="btn btn-primary"  value='<fmt:message key="btn.salvar"/>' />
 			</form>
 		</div>
 	</div>
-</div>
+

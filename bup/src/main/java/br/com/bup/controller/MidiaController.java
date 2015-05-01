@@ -1,5 +1,7 @@
 package br.com.bup.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
@@ -8,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.MidiaDAO;
+import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.Midia;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
@@ -66,5 +69,12 @@ public class MidiaController {
 		validator.validate(midia);
 		
 		//TODO validar inclusao repetida
+	}
+	
+	@OpenTransaction
+	public List<Midia> listar() {
+		LOGGER.debug("Listando as midias ");
+		
+		return midiaDAO.buscarTodos();
 	}
 }

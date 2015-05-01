@@ -21,20 +21,33 @@
 		<properties>
 			<!-- <property name="hibernate.ejb.cfgfile" value="hibernate.cfg.xml"></property> -->
 
+<!-- 			dados da conexao --> 
+<!-- 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" /> -->
+
+<!-- 		    propriedades do hibernate --> 
+<!-- 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" /> -->
+<!-- 			<property name="hibernate.show_sql" value="true" /> -->
+<!-- 			<property name="hibernate.format_sql" value="true" /> -->
+
 			<!-- dados da conexao -->
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />
+			<property name="javax.persistence.jdbc.user" value="sa" />
+			<property name="javax.persistence.jdbc.password" value="" />
 
 			<!-- propriedades do hibernate -->
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.internal.NoCacheProvider" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
+
 
 			<!-- teste Drop and re-create the database schema on startup: 
 			- validate: validate the schema, makes no changes to the database. 
 			- update: update the schema. 
 			- create: creates the schema, destroying previous data. 
 			- create-drop: drop the schema at the end of the session. -->
-			<property name="hibernate.hbm2ddl.auto" value="validate" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 
 		</properties>
 	</persistence-unit>

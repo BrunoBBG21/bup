@@ -26,8 +26,13 @@
     </definition>
     
     <definition name="midia/formulario" extends="commonPage">
-        <put-attribute name="title" value="Index" />
+        <put-attribute name="title" value="Mídia" />
         <put-attribute name="body" value="/WEB-INF/jsp/midia/formulario.jsp" />
+    </definition>
+    
+    <definition name="midia/listar" extends="commonPage">
+        <put-attribute name="title" value="midia.listar.box_header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/midia/listar.jsp" />
     </definition>
     
     <definition name="espacoPropaganda/listar" extends="commonPage">

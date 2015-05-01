@@ -162,8 +162,8 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li>
-					<a href="#" style="color: red;">
+				<li  id="/bup/midia/listar">
+					<a href="<c:url value='/midia/listar'/>" >
 						<fmt:message key="menu.midia_propaganda.listar"/>
 					</a>
 				</li>
