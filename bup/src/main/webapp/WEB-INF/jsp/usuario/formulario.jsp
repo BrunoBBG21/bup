@@ -43,7 +43,7 @@
 				
 				<div class="form-group ${empty errors.from('password') ? '' : 'has-error'}">
 					<label for="inpPassword">
-						<fmt:message key="usuario.formulario.label.password"/>:
+						<fmt:message key="usuario.formulario.label.password"/>
 					</label>
 					<input id="inpPassword" type="password" class="form-control" name="password" value="${password}"/>
 				</div>

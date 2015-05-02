@@ -1,5 +1,7 @@
 package br.com.bup.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -13,6 +15,7 @@ import br.com.bup.annotation.Telefone;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
+import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.TipoUsuario;
 import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
@@ -116,5 +119,11 @@ public class UsuarioController {
 		}
 		
 		validator.validate(usuario);
+	}
+	@OpenTransaction
+	public List<Usuario> listar() {
+		LOGGER.debug("Listando os espacos ");
+		
+		return usuarioDAO.buscarTodos();
 	}
 }

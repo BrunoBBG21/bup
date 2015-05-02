@@ -15,6 +15,7 @@ import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.FormatoEspacoPropaganda;
 import br.com.bup.domain.Midia;
 import br.com.bup.domain.ModalidadePagamento;
+import br.com.bup.domain.Usuario;
 
 public class ProdutorEntityManager {
 	private static EntityManagerFactory factory = Persistence
@@ -22,6 +23,15 @@ public class ProdutorEntityManager {
 	static{
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
+		Agencia admin = new Agencia();
+		admin.setCep("0");
+		admin.setCnpj("0");
+		admin.setEmail("admin@a.a");
+		admin.setEndereco("bup");
+		admin.setNome("Admin do BUP");
+		admin.setPassword("141");
+		admin.setTelefone("21");
+		
 		Agencia a = new Agencia();
 		a.setCep("1");
 		a.setCnpj("2");
@@ -42,6 +52,7 @@ public class ProdutorEntityManager {
 		bup.setGerenciado(a);
 		
 		UsuarioDAO u = new UsuarioDAO(em);
+		u.salvar(admin);
 		u.salvar(a);
 		u.salvar(bup);
 		
