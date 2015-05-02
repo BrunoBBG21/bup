@@ -88,13 +88,13 @@
 						<fmt:message key="menu.usuario.listar"/>
 					</a>
 				</li>
-				<li>
-					<a href="#" style="color: red;">
+				<li id="/bup/agencia/listar">
+					<a href="<c:url value='/agencia/listar'/>">
 						<fmt:message key="menu.usuario.listar_agentes"/>
 					</a>
 				</li>
-				<li>
-					<a href="#" style="color: red;">
+				<li id="/bup/anunciante/listar">
+					<a href="<c:url value='/anunciante/listar'/>">
 						<fmt:message key="menu.usuario.listar_anunciantes"/>
 					</a>
 				</li>

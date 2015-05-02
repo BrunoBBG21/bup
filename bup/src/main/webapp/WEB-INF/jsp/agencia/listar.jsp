@@ -5,7 +5,7 @@
 <div class="box">
 	<div class="box-header with-border">
 		<h3 class="box-title">
-			<fmt:message key="espaco_propaganda.formulario.box_header"/>
+			<fmt:message key="usuario.formulario.box_header"/>
 		</h3>
 	</div>
 		<div class="box-body table-responsive">
@@ -16,9 +16,7 @@
 			<table class="table table-bordered table-striped table-hover">
 				<thead>
 					<tr>
-						<th>
-							<fmt:message key="usuario.formulario.label.tipoUsuario"/>
-						</th>
+						
 					
 						<th>
 							<fmt:message key="usuario.formulario.label.email"/>
@@ -39,15 +37,15 @@
 						<th>
 							<fmt:message key="usuario.formulario.label.telefone"/>
 						</th>
-						
+						<th>
+							<fmt:message key="usuario.formulario.label.cnpj"/>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="agencia" items="${agenciaList}">
 					    <tr>
-					    	<td>
-								${agencia.id}
-							</td>
+					    	
 							
 					    	<td>
 								${agencia.email}
@@ -66,6 +64,9 @@
 						
 					    	<td>
 								${agencia.telefone}
+							</td>
+							<td>
+								${agencia.cnpj}
 							</td>
 						</tr>
 					</c:forEach>

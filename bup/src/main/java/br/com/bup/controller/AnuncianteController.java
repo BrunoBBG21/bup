@@ -133,4 +133,10 @@ public class AnuncianteController {
 
 		// TODO validar inclusao repetida
 	}
+	@OpenTransaction
+	public List<Anunciante> listar() {
+		LOGGER.debug("Listando os anunciantes. ");
+		
+		return anuncianteDAO.buscarTodos();
+	}
 }

@@ -52,6 +52,14 @@
         <put-attribute name="title" value="usuario.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/usuario/listar.jsp" />
     </definition>
+    <definition name="agencia/listar" extends="commonPage">
+        <put-attribute name="title" value="agencia.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/agencia/listar.jsp" />
+    </definition>
+    <definition name="anunciante/listar" extends="commonPage">
+        <put-attribute name="title" value="anunciante.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/anunciante/listar.jsp" />
+    </definition>
     
     <definition name="modalidadePagamento/formulario" extends="commonPage">
         <put-attribute name="title" value="modalidade_pagamento.header" />

@@ -17,7 +17,7 @@
 				<thead>
 					<tr>
 						<th>
-							<fmt:message key="usuario.formulario.label.tipoUsuario"/>
+							<fmt:message key="usuario.formulario.label.id"/>
 						</th>
 					
 						<th>

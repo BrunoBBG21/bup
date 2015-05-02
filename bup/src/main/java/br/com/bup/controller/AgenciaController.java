@@ -60,7 +60,7 @@ public class AgenciaController {
 	}
 
 	/**
-	 * Busca os nomes e ids dos Anunciantes que são gerenciados pela agencia.
+	 * Busca os nomes e ids dos Anunciantes que sï¿½o gerenciados pela agencia.
 	 * @return map com id e nome dos anunciantes. 
 	 */
 	public List<Map<String, Object>> getGerenciados() {
@@ -124,5 +124,11 @@ public class AgenciaController {
 		validator.validate(agencia);
 
 		// TODO validar inclusao repetida
+	}
+	@OpenTransaction
+	public List<Agencia> listar() {
+		LOGGER.debug("Listando os agentes. ");
+		
+		return agenciaDAO.buscarTodos();
 	}
 }
