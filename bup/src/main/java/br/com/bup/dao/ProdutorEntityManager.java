@@ -71,19 +71,20 @@ public class ProdutorEntityManager {
 		pDAO.salvar(p1);
 		pDAO.salvar(p2);
 		
-//		EspacoPropaganda ep = new EspacoPropaganda();
-//		ep.setUrl("http://b.up");
-//		ep.setAltura(40.00);
-//		ep.setLargura(30.00);
-//		ep.setDescricao("site de leilao da propaganda");
-//		ep.setFormatoEspacoPropaganda(FormatoEspacoPropaganda.IMAGEM);
-//		ep.setMidia(m);
-//		ep.setPeriodo(1);
-//		ep.setPageViews(1000000l);
-//		ep.setPosicaoTela("Topo");
-//		ep.setPesoMaximo(1000);
-//		EspacoPropagandaDAO epDAO = new EspacoPropagandaDAO(em); 
-//		epDAO.salvar(ep);
+		EspacoPropaganda ep = new EspacoPropaganda();
+		ep.setUrl("http://b.up");
+		ep.setAltura(40.00);
+		ep.setLargura(30.00);
+		ep.setDescricao("site de leilao da propaganda");
+		ep.setFormatoEspacoPropaganda(FormatoEspacoPropaganda.IMAGEM);
+		ep.setMidia(m);
+		ep.setPeriodo(1);
+		ep.setPageViews(1000000l);
+		ep.setPosicaoTela("Topo");
+		ep.setPesoMaximo(1000);
+		ep.setPertence(bup);
+		EspacoPropagandaDAO epDAO = new EspacoPropagandaDAO(em); 
+		epDAO.salvar(ep);
 		em.getTransaction().commit();
 		em.close();
 	}

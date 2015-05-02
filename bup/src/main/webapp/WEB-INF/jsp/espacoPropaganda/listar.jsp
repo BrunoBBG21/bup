@@ -74,10 +74,10 @@
 								${espaco.pageViews}
 							</td>
 							<td>
-								${espaco.midia}
+								${espaco.midia.tipo}
 							</td>
 							<td>
-								${espaco.pertence}
+								${espaco.pertence.nome}
 							</td>
 							<td>
 								${espaco.formatoEspacoPropaganda}
