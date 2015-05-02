@@ -70,5 +70,13 @@
         <put-attribute name="body" value="/WEB-INF/jsp/modalidadePagamento/listar.jsp" />
     </definition>
     
+    <definition name="publicoAlvo/formulario" extends="commonPage">
+        <put-attribute name="title" value="publico_alvo.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/publicoAlvo/formulario.jsp" />
+    </definition>
+    <definition name="publicoAlvo/listar" extends="commonPage">
+        <put-attribute name="title" value="publico_alvo.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/publicoAlvo/listar.jsp" />
+    </definition>
     <!-- END -->
 </tiles-definitions>

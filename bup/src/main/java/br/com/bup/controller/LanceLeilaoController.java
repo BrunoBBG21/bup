@@ -93,7 +93,7 @@ public class LanceLeilaoController {
 			// salva
 			lanceLeilaoDAO.salvar(lanceLeilao);
 
-			result.include("success", "historico espaco propaganda criada com sucesso.");
+			result.include("success", "lance leilao criado com sucesso.");
 			result.redirectTo(IndexController.class).index();
 		
 	}

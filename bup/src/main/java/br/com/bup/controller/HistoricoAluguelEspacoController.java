@@ -92,7 +92,7 @@ public class HistoricoAluguelEspacoController {
 			// salva
 			historicoAluguelEspacoDAO.salvar(historicoAluguelEspaco);
 
-			result.include("success", "historico espaco propaganda criada com sucesso.");
+			result.include("success", "historico aluguel de espaco da propaganda criada com sucesso.");
 			result.redirectTo(IndexController.class).index();
 		}
 	}

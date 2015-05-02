@@ -46,7 +46,7 @@ public class PublicoAlvoController {
 	}
 	@OpenTransaction
 	public List<PublicoAlvo> listar() {
-		LOGGER.debug("Listando os públicos alvos. ");
+		LOGGER.debug("Listando os publicos alvos. ");
 		
 		return publicoAlvoDAO.buscarTodos();
 	}
@@ -62,7 +62,7 @@ public class PublicoAlvoController {
         //salva
         publicoAlvoDAO.salvar(publicoAlvo);
 		
-		result.include("success", "Modalidade de pagamento criada com sucesso.");
+		result.include("success", "Publico alvo criado com sucesso.");
 		result.redirectTo(IndexController.class).index();
 	}
 	private void validarCriar(PublicoAlvo publicoAlvo) {

@@ -123,7 +123,7 @@ public class AnuncianteController {
 		// salva
 		anuncianteDAO.salvar(anunciante);
 
-		result.include("success", "conta bancaria criada com sucesso.");
+		result.include("success", "anunciante criado com sucesso.");
 		result.redirectTo(IndexController.class).index();
 
 	}

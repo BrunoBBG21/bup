@@ -115,7 +115,7 @@ public class AgenciaController {
 			// salva
 			agenciaDAO.salvar(agencia);
 
-			result.include("success", "conta bancaria criada com sucesso.");
+			result.include("success", "agencia criada com sucesso.");
 			result.redirectTo(IndexController.class).index();
 		}
 	}

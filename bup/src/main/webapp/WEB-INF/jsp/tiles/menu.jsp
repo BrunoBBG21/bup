@@ -161,6 +161,16 @@
 						<fmt:message key="menu.espaco_propaganda.cadastrar"/>
 					</a>
 				</li>
+				<li id="/bup/publicoAlvo/listar">
+					<a href="<c:url value='/publicoAlvo/listar'/>">
+						<fmt:message key="menu.publico_alvo.listar"/>
+					</a>
+				</li>
+				<li id="/bup/publicoAlvo/formulario">
+					<a href="<c:url value='/publicoAlvo/formulario'/>" >
+						<fmt:message key="menu.publico_alvo.cadastrar"/>
+					</a>
+				</li>
 			</ul>
 		</li>
 		
