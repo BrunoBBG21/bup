@@ -5,7 +5,7 @@
 <div class="box">
 	<div class="box-header with-border">
 		<h3 class="box-title">
-			<fmt:message key="usuario.formulario.box_header"/>
+			<fmt:message key="espaco_propaganda.formulario.box_header"/>
 		</h3>
 	</div>
 		<div class="box-body table-responsive">
@@ -43,29 +43,29 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="usuario" items="${usuarioList}">
+					<c:forEach var="agencia" items="${agenciaList}">
 					    <tr>
 					    	<td>
-								${usuario.id}
+								${agencia.id}
 							</td>
 							
 					    	<td>
-								${usuario.email}
+								${agencia.email}
 							</td>
 							
 					    	<td>
-								${usuario.nome}
+								${agencia.nome}
 							</td>
 							
 					    	<td>
-								${usuario.endereco}
+								${agencia.endereco}
 							</td>
 							<td>
-								${usuario.cep}
+								${agencia.cep}
 							</td>
 						
 					    	<td>
-								${usuario.telefone}
+								${agencia.telefone}
 							</td>
 						</tr>
 					</c:forEach>

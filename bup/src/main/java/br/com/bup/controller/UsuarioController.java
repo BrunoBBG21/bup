@@ -122,7 +122,7 @@ public class UsuarioController {
 	}
 	@OpenTransaction
 	public List<Usuario> listar() {
-		LOGGER.debug("Listando os espacos ");
+		LOGGER.debug("Listando os usuários. ");
 		
 		return usuarioDAO.buscarTodos();
 	}
