@@ -120,8 +120,8 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li>
-					<a href="#" style="color: red;">
+				<li id="/bup/modalidadePagamento/listar">
+					<a href="<c:url value='/modalidadePagamento/listar'/>" >
 						<fmt:message key="menu.modalidade_pagamento.listar"/>
 					</a>
 				</li>

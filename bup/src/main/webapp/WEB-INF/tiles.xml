@@ -53,6 +53,10 @@
         <put-attribute name="title" value="modalidade_pagamento.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/modalidadePagamento/formulario.jsp" />
     </definition>
+    <definition name="modalidadePagamento/listar" extends="commonPage">
+        <put-attribute name="title" value="modalidade_pagamento.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/modalidadePagamento/listar.jsp" />
+    </definition>
     
     <!-- END -->
 </tiles-definitions>
