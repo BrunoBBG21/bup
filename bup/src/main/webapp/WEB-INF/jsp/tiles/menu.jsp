@@ -83,9 +83,19 @@
 						<fmt:message key="menu.usuario.cadastro"/>
 					</a>
 				</li>
+				<li id="/bup/usuario/listar">
+					<a href="<c:url value='/usuario/listar'/>" >
+						<fmt:message key="menu.usuario.listar"/>
+					</a>
+				</li>
 				<li>
 					<a href="#" style="color: red;">
 						<fmt:message key="menu.usuario.listar_agentes"/>
+					</a>
+				</li>
+				<li>
+					<a href="#" style="color: red;">
+						<fmt:message key="menu.usuario.listar_anunciantes"/>
 					</a>
 				</li>
 			</ul>

@@ -48,6 +48,10 @@
         <put-attribute name="title" value="usuario.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/usuario/formulario.jsp" />
     </definition>
+    <definition name="usuario/listar" extends="commonPage">
+        <put-attribute name="title" value="usuario.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/usuario/listar.jsp" />
+    </definition>
     
     <definition name="modalidadePagamento/formulario" extends="commonPage">
         <put-attribute name="title" value="modalidade_pagamento.header" />
