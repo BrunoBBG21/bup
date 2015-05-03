@@ -127,11 +127,94 @@
 					<span class="error">${errors.from('espacoPropaganda.formatoEspacoPropaganda').join(' - ')}</span>
 				</div>
 			
-				publicosAlvos: TODO...
+				
 				<br/>
+				
+				<!-- iCheck -->
+              <div class="box box-success">
+                <div class="box-header">
+                  <h3 class="box-title">Publicos Alvos:</h3>
+                </div>
+                <div class="box-body">
+                  <!-- Minimal style -->
+
+                  <!-- checkbox -->
+                  <div class="checkbox">
+                       
+                        <c:forEach items="${publicosAlvos}" var="publico" varStatus="i">
+                        	<label>
+        					 	<input type="checkbox" name="espacoPropaganda.publicosAlvos.id" value="${publico.id}"
+        					 	   <c:forEach items="${espacoPropaganda.publicosAlvos}" var="alvo">
+        					 		 <c:if test="${publico.id eq alvo.id}">checked</c:if>
+        					 	   </c:forEach> 
+        					 	/>${publico.nome}
+        					</label>
+    					</c:forEach>  
+                    
+                  </div>
+                 
+                </div><!-- /.box-body -->
+				</div>
+				
+				
+				<div class="box box-success">
+                <div class="box-header">
+                  <h3 class="box-title">Classe Economica:</h3>
+                </div>
+                <div class="box-body">
+                  <!-- Minimal style -->
+
+                  <!-- checkbox -->
+                  <div class="checkbox">
+                       
+                     
+                        	<label>
+        					 	<input type="checkbox" />Classe A
+        					</label>
+    				<label>
+        					 	<input type="checkbox" />Classe B
+        					</label>
+        					<label>
+        					 	<input type="checkbox" />Classe C
+        					</label>
+                    
+                  </div>
+                 
+                </div><!-- /.box-body -->
+				</div>
+				
+				<div class="box box-success">
+                <div class="box-header">
+                  <h3 class="box-title">Idade:</h3>
+                </div>
+                <div class="box-body">
+                  <!-- Minimal style -->
+
+                  <!-- checkbox -->
+                  <div class="checkbox">
+                       
+                     
+                        	<label>
+        					 	<input type="checkbox" />0-10
+        					</label>
+    				<label>
+        					 	<input type="checkbox" />11-20
+        					</label>
+        					<label>
+        					 	<input type="checkbox" />21-65
+        					</label>
+                    <label>
+        					 	<input type="checkbox" />65+
+        					</label>
+                  </div>
+                 
+                </div><!-- /.box-body -->
+				</div>
+				
 				
 				<input type="submit" class="btn btn-primary" value='<fmt:message key="btn.salvar"/>' />
 			</form>
 		</div>
 	</div>
 </div>
+  

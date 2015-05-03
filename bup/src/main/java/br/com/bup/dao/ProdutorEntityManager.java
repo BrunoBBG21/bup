@@ -15,6 +15,7 @@ import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.FormatoEspacoPropaganda;
 import br.com.bup.domain.Midia;
 import br.com.bup.domain.ModalidadePagamento;
+import br.com.bup.domain.PublicoAlvo;
 import br.com.bup.domain.Usuario;
 
 public class ProdutorEntityManager {
@@ -81,6 +82,57 @@ public class ProdutorEntityManager {
 		pDAO.salvar(p);
 		pDAO.salvar(p1);
 		pDAO.salvar(p2);
+		
+		PublicoAlvo ca = new PublicoAlvo();
+		ca.setNome("Classe A");
+		ca.setDescricao("Classficação na faixa economica");
+		PublicoAlvo cb = new PublicoAlvo();
+		cb.setNome("Classe B");
+		cb.setDescricao("Classficação na faixa economica");
+		PublicoAlvo cc = new PublicoAlvo();
+		cc.setNome("Classe C");
+		cc.setDescricao("Classficação na faixa economica");
+		PublicoAlvo cd = new PublicoAlvo();
+		cd.setNome("Classe D");
+		cd.setDescricao("Classficação na faixa economica");
+		
+		PublicoAlvo es = new PublicoAlvo();
+		es.setNome("Ensino Superior");
+		es.setDescricao("Classficação na faixa de escolariedade");
+		PublicoAlvo eme = new PublicoAlvo();
+		eme.setNome("Ensino Médio");
+		eme.setDescricao("Classficação na faixa de escolariedade");
+		PublicoAlvo ef = new PublicoAlvo();
+		ef.setNome("Ensino Fundamental");
+		ef.setDescricao("Classficação na faixa de escolariedade");
+		
+		PublicoAlvo infantil = new PublicoAlvo();
+		infantil.setNome("Infantil");
+		infantil.setDescricao("Classficação etária");
+		PublicoAlvo adolescente = new PublicoAlvo();
+		adolescente.setNome("Adolescente");
+		adolescente.setDescricao("Classficação etária");
+		PublicoAlvo adulto = new PublicoAlvo();
+		adulto.setNome("Adulto");
+		adulto.setDescricao("Classficação etária");
+		PublicoAlvo aposentado = new PublicoAlvo();
+		aposentado.setNome("Aposentado");
+		aposentado.setDescricao("Classficação etária");
+		
+		PublicoAlvoDAO paDAO = new PublicoAlvoDAO(em);
+		paDAO.salvar(ca);
+		paDAO.salvar(cb);
+		paDAO.salvar(cc);
+		paDAO.salvar(cd);
+		
+		paDAO.salvar(es);
+		paDAO.salvar(eme);
+		paDAO.salvar(ef);
+		
+		paDAO.salvar(infantil);
+		paDAO.salvar(adolescente);
+		paDAO.salvar(adulto);
+		paDAO.salvar(aposentado);
 		
 		EspacoPropaganda ep = new EspacoPropaganda();
 		ep.setUrl("http://b.up");

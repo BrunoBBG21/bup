@@ -34,7 +34,7 @@
 			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />
 			<property name="javax.persistence.jdbc.user" value="sa" />
 			<property name="javax.persistence.jdbc.password" value="" />
-
+<!-- 			<property name="hibernate.default_schema" value="SAMPLE"/> -->
 			<!-- propriedades do hibernate -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
 			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.internal.NoCacheProvider" />
