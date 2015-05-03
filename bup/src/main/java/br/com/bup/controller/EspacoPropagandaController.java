@@ -1,5 +1,8 @@
 package br.com.bup.controller;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -34,6 +37,29 @@ public class EspacoPropagandaController {
 	private final MidiaDAO midiaDAO;
 	private final UsuarioSession usuarioSession;
 	private final PublicoAlvoDAO publicoAlvoDAO;
+	private final Comparator<PublicoAlvo> c = new Comparator<PublicoAlvo>(){
+
+		public int compare(PublicoAlvo o1, PublicoAlvo o2) {
+			if(o1==null && o2 ==null)
+				return 0;
+			if(o1!=null && o2 ==null)
+				return +1;
+			if(o1==null && o2 !=null)
+				return -1;
+			if(o1.equals(o2))
+				return 0;
+			if(o1.getDescricao()==null && o2.getDescricao() ==null)
+				return 0;
+			if(o1.getDescricao()!=null && o2.getDescricao() ==null)
+				return +1;
+			if(o1.getDescricao()==null && o2.getDescricao() !=null)
+				return -1;
+			if(o1.getDescricao().equals(o2.getDescricao()))
+				return 0;
+			
+			return o1.getDescricao().compareToIgnoreCase(o2.getDescricao());
+			
+		}};
 	/**
      * @deprecated CDI eyes only
      */
@@ -58,7 +84,9 @@ public class EspacoPropagandaController {
 		//simples formulario... futuramente receendo id para editar... ou nao...
 		result.include("formatosEspaco", FormatoEspacoPropaganda.values());
 		result.include("midias", midiaDAO.buscarTodos());
-		result.include("publicosAlvos", publicoAlvoDAO.buscarTodos());
+		List<PublicoAlvo> alvos = publicoAlvoDAO.buscarTodos();
+		Collections.sort(alvos, c);
+		result.include("publicosAlvos", alvos);
 	}
 	
 	@OpenTransaction
