@@ -1,6 +1,8 @@
 package br.com.bup.dao;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Disposes;
@@ -146,6 +148,12 @@ public class ProdutorEntityManager {
 		ep.setPosicaoTela("Topo");
 		ep.setPesoMaximo(1000);
 		ep.setPertence(bup);
+		List<PublicoAlvo> alvos = new ArrayList<PublicoAlvo>();
+		alvos.add(adolescente);
+		alvos.add(aposentado);
+		alvos.add(es);
+		alvos.add(ca);
+		ep.setPublicosAlvos(alvos);
 		EspacoPropagandaDAO epDAO = new EspacoPropagandaDAO(em); 
 		epDAO.salvar(ep);
 		em.getTransaction().commit();
