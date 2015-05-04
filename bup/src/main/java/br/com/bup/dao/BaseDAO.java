@@ -44,10 +44,12 @@ public abstract class BaseDAO<T> {
 	 * 
 	 * @param id
 	 */
-	public void apagarPorId(Long id) {
+	public void apagarPorId(Long id) throws Exception{
 		Object o = manager.find(classT, id);
-		if (o != null)
+		if (o != null){
 			manager.remove(o);
+			manager.flush();
+		}
 	}
 
 	/**

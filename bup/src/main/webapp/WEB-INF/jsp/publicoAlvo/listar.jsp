@@ -17,6 +17,9 @@
 				<thead>
 					<tr>
 						<th>
+							<fmt:message key="btn.apagar"/>
+						</th>
+						<th>
 							<fmt:message key="publico_alvo.formulario.label.nome"/>
 						</th>
 					
@@ -28,6 +31,15 @@
 				<tbody>
 					<c:forEach var="publicoAlvo" items="${publicoAlvoList}">
 					    <tr>
+					    	<c:if test="${usuarioSession.isAdministrador() }">
+					    	<td>
+								<form>
+									<button type="submit" formaction='<c:url value="/publicoAlvo/apagar/${publicoAlvo.id}"/>' >
+										<fmt:message key="btn.apagar"/>
+									</button>
+								</form>
+							</td>
+							</c:if>
 					    	<td>
 								${publicoAlvo.nome}
 							</td>

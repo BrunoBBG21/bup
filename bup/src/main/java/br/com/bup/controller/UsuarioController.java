@@ -114,7 +114,7 @@ public class UsuarioController {
 	 */
 	private void validarInclusaoUsuario(Usuario usuario) {
 		if (usuario == null) {
-			validator.add(new I18nMessage("tipoUsuario", "usuario.formulario.tipo.invalido"));
+			validator.add(new I18nMessage("tipoUsuario", "msg.error.apagar"));
 			return;
 		}
 		

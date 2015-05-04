@@ -17,6 +17,7 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -90,7 +91,12 @@ public class MidiaController {
 	@OpenTransaction
 	@ApenasAdministrador
 	public void apagar(Long id) {
-		midiaDAO.apagarPorId(id);
-		result.redirectTo(this).listar();
+		try {
+			midiaDAO.apagarPorId(id);
+			result.redirectTo(this).listar();
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Mídia", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+		}
+		
 	}
 }

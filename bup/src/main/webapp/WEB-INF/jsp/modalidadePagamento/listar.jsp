@@ -18,6 +18,9 @@
 				<thead>
 					<tr>
 						<th>
+							<fmt:message key="btn.apagar"/>
+						</th>
+						<th>
 							<fmt:message key="modalidade_pagamento.listar.tipo"/>
 						</th>
 						<th>
@@ -34,6 +37,13 @@
 				<tbody>
 					<c:forEach var="modalidadePagamento" items="${modalidadePagamentoList}">
 					    <tr>
+					    	<td>
+								<form>
+									<button type="submit" formaction='<c:url value="/modalidadePagamento/apagar/${modalidadePagamento.id}"/>' >
+										<fmt:message key="btn.apagar"/>
+									</button>
+								</form>
+							</td>
 							<td>
 								${modalidadePagamento.tipo}
 							</td>
