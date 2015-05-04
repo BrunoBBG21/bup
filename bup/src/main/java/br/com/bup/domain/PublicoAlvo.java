@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.WordUtils;
+
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"nome","descricao"}))
 public class PublicoAlvo {
@@ -46,7 +48,7 @@ public class PublicoAlvo {
 		return descricao;
 	}
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = WordUtils.capitalizeFully(descricao);
 	}
 	public List<EspacoPropaganda> getEspacosPropagandas() {
 		return espacosPropagandas;

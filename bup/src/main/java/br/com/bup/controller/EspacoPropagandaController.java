@@ -8,8 +8,12 @@ import java.util.ResourceBundle;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.CaseFormat;
 
 import br.com.bup.annotation.ApenasAnunciante;
 import br.com.bup.annotation.OpenTransaction;
@@ -111,7 +115,6 @@ public class EspacoPropagandaController {
 		LOGGER.debug("criando espaco: " + espacoPropaganda);
 
 		Usuario usuario = usuarioSession.getUsuario();
-
 		if (!(usuario instanceof Anunciante)) {
 			validator.add(new SimpleMessage("error",
 					"Usuario deve ser do tipo Anunciante"));
@@ -120,7 +123,7 @@ public class EspacoPropagandaController {
 		} else {
 			espacoPropaganda.setPertence((Anunciante) usuario);
 		}
-
+		
 		// validacoes...
 		validarCriar(espacoPropaganda);
 		validator.onErrorRedirectTo(this).formulario();
@@ -131,7 +134,7 @@ public class EspacoPropagandaController {
 		result.include("success", "Espaco criado com sucesso.");
 		result.redirectTo(this).listar();
 	}
-
+	
 	private void validarCriar(EspacoPropaganda espacoPropaganda) {
 		validator.validate(espacoPropaganda);
 
