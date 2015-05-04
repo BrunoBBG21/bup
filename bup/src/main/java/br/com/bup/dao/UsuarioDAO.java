@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.Usuario;
 
 @RequestScoped
@@ -52,5 +53,17 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 		query.setParameter("email", email);
 		
 		return (Boolean) query.getSingleResult();
+	}
+	/**
+	 * para garantir que o usuario apague o seu usuario.
+	 * @param id
+	 * @param usuario
+	 */
+	public void apagarLogado(Long id,Long usuario) throws Exception{
+		Usuario e = this.buscarPorId(id);
+		if(e!=null&&e.getId().equals(usuario)){
+			manager.remove(e);
+			manager.flush();
+		}
 	}
 }

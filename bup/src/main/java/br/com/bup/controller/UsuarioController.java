@@ -1,6 +1,9 @@
 package br.com.bup.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 
@@ -15,12 +18,13 @@ import br.com.bup.annotation.Telefone;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
-import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.TipoUsuario;
 import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.core.JstlLocalization;
 import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -32,22 +36,27 @@ public class UsuarioController {
 	private final Validator validator;
 	private UsuarioDAO usuarioDAO;
 	private UsuarioSession usuarioSession;
-	
+	private final ResourceBundle i18n;
 	/**
      * @deprecated CDI eyes only
      */
 	protected UsuarioController() {
-		this(null, null, null, null);
+		this(null, null, null, null,null);
 	}
 	
 	@Inject
 	public UsuarioController(Result result, Validator validator,
-			UsuarioDAO usuarioDAO, UsuarioSession usuarioSession) {
+			UsuarioDAO usuarioDAO, UsuarioSession usuarioSession,JstlLocalization local) {
 		LOGGER.debug("Criando controller UsuarioController...");
 		this.result = result;
 		this.validator = validator;
 		this.usuarioDAO = usuarioDAO;
 		this.usuarioSession = usuarioSession;
+		if(local!=null){
+			this.i18n = local.getBundle(local.getLocale());
+		}else{
+			this.i18n = null;
+		}
 	}
 	
 	@Public
@@ -121,9 +130,26 @@ public class UsuarioController {
 		validator.validate(usuario);
 	}
 	@OpenTransaction
-	public List<Usuario> listar() {
+	public Usuario listar() {
 		LOGGER.debug("Listando os usuários. ");
 		
-		return usuarioDAO.buscarTodos();
+		return usuarioSession
+				.getUsuarioLogado();
+	}
+	@Path("/usuario/apagar/{id}")
+	@OpenTransaction
+	public void apagar(Long id) {
+		try {
+			usuarioDAO.apagarLogado(id, usuarioSession
+					.getUsuarioLogado().getId());
+			usuarioSession.deslogar();
+			if(i18n!=null){
+				result.include("success", i18n.getString("msg.success.apagar"));
+			}
+			result.redirectTo(this).listar();
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Usuário", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+		}
+		
 	}
 }

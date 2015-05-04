@@ -17,6 +17,9 @@
 				<thead>
 					<tr>
 						<th>
+							<fmt:message key="btn.apagar"/>
+						</th>
+						<th>
 							<fmt:message key="usuario.formulario.label.id"/>
 						</th>
 					
@@ -43,8 +46,15 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="usuario" items="${usuarioList}">
+					<c:if test="${not empty usuario}">
 					    <tr>
+					    	<td>
+								<form>
+									<button type="submit" formaction='<c:url value="/usuario/apagar/${usuario.id}"/>' >
+										<fmt:message key="btn.apagar"/>
+									</button>
+								</form>
+							</td>
 					    	<td>
 								${usuario.id}
 							</td>
@@ -68,7 +78,7 @@
 								${usuario.telefone}
 							</td>
 						</tr>
-					</c:forEach>
+					</c:if>
 				</tbody>
 			</table>					
 		</div>
