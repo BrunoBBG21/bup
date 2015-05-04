@@ -134,7 +134,7 @@
 			</ul>
 		</li>
 	
-		<c:if test="${usuarioSession.isAdministrador() }">
+		
 		<li class="treeview" id="/bup/modalidadePagamento">
 			<a href="#"> 
 				<span>
@@ -155,7 +155,7 @@
 				</li>
 			</ul>
 		</li>
-		</c:if>
+		
 		<li class="treeview" id="/bup/espacoPropaganda">
 			<a href="#"> 
 				<span>

@@ -17,9 +17,11 @@
 			<table class="table table-bordered table-striped table-hover">
 				<thead>
 					<tr>
+					<c:if test="${usuarioSession.isAdministrador() }">
 						<th>
 							<fmt:message key="btn.apagar"/>
 						</th>
+						</c:if>
 						<th>
 							<fmt:message key="modalidade_pagamento.listar.tipo"/>
 						</th>
@@ -37,6 +39,7 @@
 				<tbody>
 					<c:forEach var="modalidadePagamento" items="${modalidadePagamentoList}">
 					    <tr>
+					    <c:if test="${usuarioSession.isAdministrador() }">
 					    	<td>
 								<form>
 									<button type="submit" formaction='<c:url value="/modalidadePagamento/apagar/${modalidadePagamento.id}"/>' >
@@ -44,6 +47,7 @@
 									</button>
 								</form>
 							</td>
+							</c:if>
 							<td>
 								${modalidadePagamento.tipo}
 							</td>

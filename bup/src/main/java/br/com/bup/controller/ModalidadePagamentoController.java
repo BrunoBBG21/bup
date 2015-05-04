@@ -16,7 +16,9 @@ import br.com.bup.domain.Midia;
 import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -48,20 +50,17 @@ public class ModalidadePagamentoController {
 		this.usuarioSession = usuarioSession;
 	}
 	@OpenTransaction
-	@ApenasAdministrador
 	public void formulario() {
 		LOGGER.debug("carregando formulario de modalidade de pagamento.");
 		result.include("listaMidias",midiaDAO.buscarTodos());
 	}
 	@OpenTransaction
-	@ApenasAdministrador
 	public List<ModalidadePagamento> listar() {
 		LOGGER.debug("Listando as modalidades de pagamento. ");
 		
 		return modalidadePagamentoDAO.buscarTodos();
 	}
 	@OpenTransaction
-	@ApenasAdministrador
 	public void criar(@NotNull ModalidadePagamento modalidadePagamento) {
 		validator.onErrorRedirectTo(this).formulario(); //caso seja null...
 		LOGGER.debug("criando modalidade de pagamento: " + modalidadePagamento);
@@ -78,5 +77,17 @@ public class ModalidadePagamentoController {
 	}
 	private void validarCriar(ModalidadePagamento modalidadePagamento) {
 		validator.validate(modalidadePagamento);
+	}
+	@Path("/modalidadePagamento/apagar/{id}")
+	@OpenTransaction
+	@ApenasAdministrador
+	public void apagar(Long id) {
+		try {
+			modalidadePagamentoDAO.apagarPorId(id);
+			result.redirectTo(this).listar();
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Modalidade de Pagamento", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+		}
+		
 	}
 }
