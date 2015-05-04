@@ -1,6 +1,5 @@
 package br.com.bup.controller;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -91,8 +90,7 @@ public class EspacoPropagandaController {
 	
 	@OpenTransaction
 	@ApenasAnunciante
-	public void criar(@NotNull EspacoPropaganda espacoPropaganda,List<PublicoAlvo> alvos) {
-		//espacoPropaganda.setPublicosAlvos(alvos);
+	public void criar(@NotNull EspacoPropaganda espacoPropaganda) {
 		validator.onErrorRedirectTo(this).formulario(); //caso seja null...
 		LOGGER.debug("criando espaco: " + espacoPropaganda);
 		

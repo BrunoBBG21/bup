@@ -1,5 +1,7 @@
 package br.com.bup.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
@@ -9,10 +11,13 @@ import org.slf4j.LoggerFactory;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.ContaBancariaDAO;
 import br.com.bup.dao.UsuarioDAO;
+import br.com.bup.domain.Agencia;
 import br.com.bup.domain.ContaBancaria;
+import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -49,20 +54,17 @@ public class ContaBancariaController {
 		LOGGER.debug("carregando formulario de conta");
 		result.include("usuarios", usuarioDAO.buscarTodos());
 		// simples formulario... futuramente receendo id para editar... ou
-		// nao...
+		// nao... reebe o id se for diferente de null ele edita 
 	}
 
 	@OpenTransaction
-	public void criar(@NotNull String agencia,@NotNull String conta,@NotNull String banco,@NotNull Boolean ativa,Usuario usuario) {
+	public void criar(@NotNull ContaBancaria contaBancaria) {
+		//se tem id buscar do banco a conta bancaria e atribuir 
+		//o que nao vem da tela na entidade que veio da tela
+		//se nao tem id ele vai e segue normal
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
-		LOGGER.debug("criando conta bancaria: agencia - " + agencia+ ", conta - "+conta+ ", banco - "+banco+ ", ativa - "+ativa);
-		
-			ContaBancaria contaBancaria = new ContaBancaria();
-			contaBancaria.setAgencia(agencia);
-			contaBancaria.setConta(conta);
-			contaBancaria.setBanco(banco);
-			contaBancaria.setAtiva(ativa);
-			contaBancaria.setUsuario(usuario);
+		LOGGER.debug("criando conta bancaria");
+		contaBancaria.setUsuario(usuarioSession.getUsuarioLogado());
 			// validacoes...
 			validarCriar(contaBancaria);
 			validator.onErrorRedirectTo(this).formulario();
@@ -79,5 +81,16 @@ public class ContaBancariaController {
 		validator.validate(contaBancaria);
 
 		// TODO validar inclusao repetida
+	}
+	@OpenTransaction
+	public List<ContaBancaria> listar() {
+		LOGGER.debug("Listando as contas bancarias");  
+		return contaBancariaDAO.buscarPorUsuarioId(usuarioSession.getUsuarioLogado().getId());
+	}
+	@Path("/contaBancaria/apagar/{id}")
+	@OpenTransaction
+	public void apagar(Long id){
+		contaBancariaDAO.apagarPorId(id);
+		result.redirectTo(this).listar();
 	}
 }

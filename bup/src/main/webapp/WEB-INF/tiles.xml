@@ -52,6 +52,14 @@
         <put-attribute name="title" value="usuario.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/usuario/listar.jsp" />
     </definition>
+    <definition name="contaBancaria/formulario" extends="commonPage">
+        <put-attribute name="title" value="conta_bancaria.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/contaBancaria/formulario.jsp" />
+    </definition>
+    <definition name="contaBancaria/listar" extends="commonPage">
+        <put-attribute name="title" value="conta_bancaria.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/contaBancaria/listar.jsp" />
+    </definition>
     <definition name="agencia/listar" extends="commonPage">
         <put-attribute name="title" value="agencia.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/agencia/listar.jsp" />

@@ -19,14 +19,22 @@ public abstract class BaseDAO<T> {
 	
 	/**
 	 * Salvar padrao.
-	 * @param entidade entidade que será salva
+	 * @param entidade entidade que serï¿½ salva
 	 * @return entidade salva.
 	 */
 	public T salvar(T entidade) {
 		manager.persist(entidade);
 		return entidade;
 	}
-	
+	/**
+	 * apaga por id
+	 * @param id
+	 */
+	public void apagarPorId(Long id){
+		Object o = manager.find(classT, id);
+		if(o!=null)
+			manager.remove(o);
+	}
 	/**
 	 * Buscar pro id padrao.
 	 * @param id id da entidade.

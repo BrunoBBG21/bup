@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -17,6 +19,12 @@ import javax.validation.constraints.NotNull;
 /**
  * Classe que representa as contas bancarias FISICAS do usuario. 
  */
+@NamedQueries(value={
+		   @NamedQuery(
+				      name = "ContaBancaria.buscarPorUsuarioId",
+				      query="select c from ContaBancaria c where c.usuario.id = :id")
+		}) 
+
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"agencia","conta","banco"}))
 public class ContaBancaria {
@@ -38,7 +46,7 @@ public class ContaBancaria {
 	
 	@Column(nullable=false)
 	@NotNull
-	private Boolean ativa;
+	private Boolean ativa = Boolean.FALSE;
 	
 	@ManyToOne
 	private Usuario usuario;

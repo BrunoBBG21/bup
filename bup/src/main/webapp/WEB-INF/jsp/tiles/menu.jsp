@@ -88,6 +88,16 @@
 						<fmt:message key="menu.usuario.listar"/>
 					</a>
 				</li>
+				<li id="/bup/contaBancaria/listar">
+					<a href="<c:url value='/contaBancaria/listar'/>" >
+						<fmt:message key="menu.conta_bancaria.listar"/>
+					</a>
+				</li>
+				<li id="/bup/contaBancaria/formulario">
+					<a href="<c:url value='/contaBancaria/formulario'/>" >
+						<fmt:message key="menu.conta_bancaria.cadastro"/>
+					</a>
+				</li>
 				<li id="/bup/agencia/listar">
 					<a href="<c:url value='/agencia/listar'/>">
 						<fmt:message key="menu.usuario.listar_agentes"/>
