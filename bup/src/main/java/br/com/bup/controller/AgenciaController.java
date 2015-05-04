@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.bup.annotation.ApenasAnunciante;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.AgenciaDAO;
 import br.com.bup.dao.AnuncianteDAO;
@@ -142,6 +143,7 @@ public class AgenciaController {
 	}
 	@Path("/agencia/associar/{id}")
 	@OpenTransaction
+	@ApenasAnunciante
 	public void associar(Long id){
 		try {
 			Anunciante a = anuncianteDAO.buscarPorId(usuarioSession
