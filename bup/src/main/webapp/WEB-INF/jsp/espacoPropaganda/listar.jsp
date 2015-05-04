@@ -52,7 +52,7 @@
 			<tbody>
 				<c:forEach var="espaco" items="${espacoPropagandaList}">
 					<tr>
-					<c:if test="${!usuarioSession.isGerenciando() }">
+					<c:if test="${usuarioSession.isLogadoAnunciante() }">
 						<td>
 								<form>                                             
 									<button type="submit" formaction='<c:url value="/espacoPropaganda/apagar/${espaco.id}"/>' >

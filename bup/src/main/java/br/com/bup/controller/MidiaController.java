@@ -1,6 +1,7 @@
 package br.com.bup.controller;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.core.JstlLocalization;
 import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -29,21 +31,26 @@ public class MidiaController {
 	private final Validator validator;
 	private final MidiaDAO midiaDAO;
 	private final UsuarioSession usuarioSession;
-
+	private final ResourceBundle i18n;
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected MidiaController() {
-		this(null, null, null, null);
+		this(null, null, null, null,null);
 	}
 
 	@Inject
 	public MidiaController(Result result, Validator validator,
-			MidiaDAO midiaDAO, UsuarioSession usuarioSession) {
+			MidiaDAO midiaDAO, UsuarioSession usuarioSession,JstlLocalization local) {
 		this.result = result;
 		this.validator = validator;
 		this.midiaDAO = midiaDAO;
 		this.usuarioSession = usuarioSession;
+		if(local!=null){
+			this.i18n = local.getBundle(local.getLocale());
+		}else{
+			this.i18n = null;
+		}
 	}
 
 	@ApenasAdministrador
@@ -93,6 +100,9 @@ public class MidiaController {
 	public void apagar(Long id) {
 		try {
 			midiaDAO.apagarPorId(id);
+			if(i18n!=null){
+				result.include("success", i18n.getString("msg.success.apagar"));
+			}
 			result.redirectTo(this).listar();
 		} catch (Exception e) {
 			validator.add(new I18nMessage("Mídia", "msg.error.apagar")).onErrorRedirectTo(this).listar();
