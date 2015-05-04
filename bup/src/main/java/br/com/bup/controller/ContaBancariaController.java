@@ -19,6 +19,7 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -90,7 +91,11 @@ public class ContaBancariaController {
 	@Path("/contaBancaria/apagar/{id}")
 	@OpenTransaction
 	public void apagar(Long id){
-		contaBancariaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
-		result.redirectTo(this).listar();
+		try{
+			contaBancariaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
+			result.redirectTo(this).listar();
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Conta bancária", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+		}
 	}
 }

@@ -8,12 +8,15 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.bup.annotation.ApenasAdministrador;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.PublicoAlvoDAO;
 import br.com.bup.domain.PublicoAlvo;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 @Controller
 public class PublicoAlvoController {
@@ -67,5 +70,17 @@ public class PublicoAlvoController {
 	}
 	private void validarCriar(PublicoAlvo publicoAlvo) {
 		validator.validate(publicoAlvo);
+	}
+	@Path("/publicoAlvo/apagar/{id}")
+	@OpenTransaction
+	@ApenasAdministrador
+	public void apagar(Long id) {
+		try {
+			publicoAlvoDAO.apagarPorId(id);
+			result.redirectTo(this).listar();
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Público Alvo", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+		}
+		
 	}
 }

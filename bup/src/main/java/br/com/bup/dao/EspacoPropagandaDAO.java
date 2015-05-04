@@ -34,10 +34,11 @@ public class EspacoPropagandaDAO extends BaseDAO<EspacoPropaganda> {
 	 * @param id
 	 * @param usuario
 	 */
-	public void apagarLogado(Long id,Long usuario){
+	public void apagarLogado(Long id,Long usuario) throws Exception{
 		EspacoPropaganda e = this.buscarPorId(id);
 		if(e!=null&&e.getPertence().getId().equals(usuario)){
 			manager.remove(e);
+			manager.flush();
 		}
 	}
 	public List<EspacoPropaganda> buscarPorAnuncianteId(Long id) {

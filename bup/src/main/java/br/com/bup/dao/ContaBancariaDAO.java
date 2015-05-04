@@ -50,7 +50,7 @@ public class ContaBancariaDAO extends BaseDAO<ContaBancaria> {
 	 * @param id
 	 * @param usuario
 	 */
-	public void apagarLogado(Long id,Long usuario){
+	public void apagarLogado(Long id,Long usuario) throws Exception{
 		ContaBancaria c = this.buscarPorId(id);
 		if(c!=null&&c.getUsuario().getId().equals(usuario)){
 			manager.remove(c);

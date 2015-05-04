@@ -24,6 +24,7 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -131,7 +132,11 @@ public class EspacoPropagandaController {
 	@Path("/espacoPropaganda/apagar/{id}")
 	@OpenTransaction
 	public void apagar(Long id){
-		espacoPropagandaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
-		result.redirectTo(this).listar();
+		try{
+			espacoPropagandaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
+			result.redirectTo(this).listar();
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Espaço de Propaganda", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+		}
 	}
 }
