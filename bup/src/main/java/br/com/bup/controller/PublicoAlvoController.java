@@ -29,7 +29,6 @@ public class PublicoAlvoController {
 	private final Validator validator;
 	private final PublicoAlvoDAO publicoAlvoDAO;
 	private final UsuarioSession usuarioSession;
-	private final JstlLocalization local;
 	private final ResourceBundle i18n;
 	/**
 	 * @deprecated CDI eyes only
@@ -45,8 +44,11 @@ public class PublicoAlvoController {
 		this.validator = validator;
 		this.publicoAlvoDAO = publicoAlvoDAO;
 		this.usuarioSession = usuarioSession;
-		this.local = local;
-		this.i18n = local.getBundle(local.getLocale());
+		if(local!=null){
+			this.i18n = local.getBundle(local.getLocale());
+		}else{
+			this.i18n = null;
+		}
 	}
 	@OpenTransaction
 	public void formulario() {
@@ -82,7 +84,9 @@ public class PublicoAlvoController {
 	public void apagar(Long id) {
 		try {
 			publicoAlvoDAO.apagarPorId(id);
-			result.include("success", i18n.getString("msg.success.apagar"));
+			if(i18n!=null){
+				result.include("success", i18n.getString("msg.success.apagar"));
+			}
 			result.redirectTo(this).listar();
 		} catch (Exception e) {
 			validator.add(new I18nMessage("Público Alvo", "msg.error.apagar")).onErrorRedirectTo(this).listar();

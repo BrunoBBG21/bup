@@ -1,6 +1,7 @@
 package br.com.bup.controller;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.core.JstlLocalization;
 import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -31,22 +33,27 @@ public class ModalidadePagamentoController {
 	private final ModalidadePagamentoDAO modalidadePagamentoDAO;
 	private final MidiaDAO midiaDAO;
 	private final UsuarioSession usuarioSession;
-
+	private final ResourceBundle i18n;
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected ModalidadePagamentoController() {
-		this(null, null, null, null,null);
+		this(null, null, null, null,null,null);
 	}
 
 	@Inject
 	public ModalidadePagamentoController(Result result, Validator validator,
 			ModalidadePagamentoDAO modalidadePagamentoDAO, MidiaDAO midiaDAO,
-			UsuarioSession usuarioSession) {
+			UsuarioSession usuarioSession,JstlLocalization local) {
 		this.result = result;
 		this.validator = validator;
 		this.modalidadePagamentoDAO = modalidadePagamentoDAO;
 		this.midiaDAO = midiaDAO;
+		if(local!=null){
+			this.i18n = local.getBundle(local.getLocale());
+		}else{
+			this.i18n = null;
+		}
 		this.usuarioSession = usuarioSession;
 	}
 	@OpenTransaction
@@ -84,6 +91,9 @@ public class ModalidadePagamentoController {
 	public void apagar(Long id) {
 		try {
 			modalidadePagamentoDAO.apagarPorId(id);
+			if(i18n!=null){
+				result.include("success", i18n.getString("msg.success.apagar"));
+			}
 			result.redirectTo(this).listar();
 		} catch (Exception e) {
 			validator.add(new I18nMessage("Modalidade de Pagamento", "msg.error.apagar")).onErrorRedirectTo(this).listar();

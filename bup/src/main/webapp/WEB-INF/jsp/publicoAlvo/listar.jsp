@@ -16,9 +16,11 @@
 			<table class="table table-bordered table-striped table-hover">
 				<thead>
 					<tr>
+					<c:if test="${usuarioSession.isAdministrador() }">
 						<th>
 							<fmt:message key="btn.apagar"/>
 						</th>
+						</c:if>
 						<th>
 							<fmt:message key="publico_alvo.formulario.label.nome"/>
 						</th>
