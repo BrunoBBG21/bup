@@ -17,7 +17,7 @@
 		<table class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
-				<c:if test="${!usuarioSession.isGerenciando() }">
+				<c:if test="${usuarioSession.isLogadoAnunciante() }">
 					<th>
 						<fmt:message key="btn.apagar"/>
 					</th>
