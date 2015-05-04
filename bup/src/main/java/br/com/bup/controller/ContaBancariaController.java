@@ -90,7 +90,7 @@ public class ContaBancariaController {
 	@Path("/contaBancaria/apagar/{id}")
 	@OpenTransaction
 	public void apagar(Long id){
-		contaBancariaDAO.apagarPorId(id);
+		contaBancariaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
 		result.redirectTo(this).listar();
 	}
 }

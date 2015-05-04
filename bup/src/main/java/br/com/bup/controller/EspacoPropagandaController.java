@@ -22,6 +22,7 @@ import br.com.bup.domain.PublicoAlvo;
 import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
@@ -125,6 +126,12 @@ public class EspacoPropagandaController {
 	public List<EspacoPropaganda> listar() {
 		LOGGER.debug("Listando os espacos ");  
 		result.include("publicosAlvos", publicoAlvoDAO.buscarTodos());
-		return espacoPropagandaDAO.buscarTodos();
+		return espacoPropagandaDAO.buscarPorAnuncianteId(usuarioSession.getUsuario().getId());
+	}
+	@Path("/espacoPropaganda/apagar/{id}")
+	@OpenTransaction
+	public void apagar(Long id){
+		espacoPropagandaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
+		result.redirectTo(this).listar();
 	}
 }

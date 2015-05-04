@@ -12,11 +12,20 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-
+/**
+ * Classe que representa os espacos de propaganda do usuario. 
+ */
+@NamedQueries(value={
+		   @NamedQuery(
+				      name = "EspacoPropaganda.buscarPorAnuncianteId",
+				      query="select e from EspacoPropaganda e where e.pertence.id = :id")
+		}) 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"url","posicaoTela","largura","altura","midia_id"}))
 public class EspacoPropaganda {

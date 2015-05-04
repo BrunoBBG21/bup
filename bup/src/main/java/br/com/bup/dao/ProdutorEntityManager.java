@@ -13,12 +13,12 @@ import javax.persistence.Persistence;
 
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
+import br.com.bup.domain.ContaBancaria;
 import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.FormatoEspacoPropaganda;
 import br.com.bup.domain.Midia;
 import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.domain.PublicoAlvo;
-import br.com.bup.domain.Usuario;
 
 public class ProdutorEntityManager {
 	private static EntityManagerFactory factory = Persistence
@@ -26,6 +26,7 @@ public class ProdutorEntityManager {
 	static{
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
+		
 		Agencia admin = new Agencia();
 		admin.setCep("0");
 		admin.setCnpj("0");
@@ -44,6 +45,20 @@ public class ProdutorEntityManager {
 		a.setPassword("a");
 		a.setTelefone("21");
 		
+		ContaBancaria contaA= new ContaBancaria();
+		contaA.setAgencia("1");
+		contaA.setAtiva(Boolean.TRUE);
+		contaA.setBanco("1");
+		contaA.setConta("1");
+		contaA.setUsuario(a);
+		
+		ContaBancaria contaC= new ContaBancaria();
+		contaC.setAgencia("3");
+		contaC.setAtiva(Boolean.FALSE);
+		contaC.setBanco("3");
+		contaC.setConta("3");
+		contaC.setUsuario(a);
+		
 		Anunciante bup = new Anunciante();
 		bup.setCep("2");
 		bup.setCpf("1");
@@ -53,6 +68,26 @@ public class ProdutorEntityManager {
 		bup.setPassword("b");
 		bup.setTelefone("21");
 		bup.setGerenciado(a);
+		
+		ContaBancaria contaB= new ContaBancaria();
+		contaB.setAgencia("2");
+		contaB.setAtiva(Boolean.TRUE);
+		contaB.setBanco("2");
+		contaB.setConta("2");
+		contaB.setUsuario(bup);
+		
+		ContaBancaria contaD= new ContaBancaria();
+		contaD.setAgencia("4");
+		contaD.setAtiva(Boolean.FALSE);
+		contaD.setBanco("4");
+		contaD.setConta("4");
+		contaD.setUsuario(bup);
+		
+		ContaBancariaDAO contaDAO = new ContaBancariaDAO(em);
+		contaDAO.salvar(contaA);
+		contaDAO.salvar(contaB);
+		contaDAO.salvar(contaC);
+		contaDAO.salvar(contaD);
 		
 		UsuarioDAO u = new UsuarioDAO(em);
 		u.salvar(admin);

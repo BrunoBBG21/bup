@@ -17,6 +17,11 @@
 		<table class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
+				<c:if test="${!usuarioSession.isGerenciando() }">
+					<th>
+						<fmt:message key="btn.apagar"/>
+					</th>
+					</c:if>
 					<th><fmt:message key="espaco_propaganda.listar.header.url" />
 					</th>
 					<th><fmt:message
@@ -47,6 +52,16 @@
 			<tbody>
 				<c:forEach var="espaco" items="${espacoPropagandaList}">
 					<tr>
+					<c:if test="${!usuarioSession.isGerenciando() }">
+						<td>
+								<form>                                             
+									<button type="submit" formaction='<c:url value="/espacoPropaganda/apagar/${espaco.id}"/>' >
+										<fmt:message key="btn.apagar"/>
+									</button>
+								</form>
+						</td>
+						</c:if>
+						
 						<td>${espaco.url}</td>
 						<td>${espaco.posicaoTela}</td>
 						<td>${espaco.descricao}</td>

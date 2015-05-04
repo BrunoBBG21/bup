@@ -18,6 +18,9 @@
 				<thead>
 					<tr>
 						<th>
+							<fmt:message key="btn.apagar"/>
+						</th>
+						<th>
 							<fmt:message key="conta_bancaria.formulario.label.agencia"/>
 						</th>
 						<th>
@@ -32,14 +35,19 @@
 						<th>
 							<fmt:message key="conta_bancaria.formulario.label.usuario"/>
 						</th>
-						<th>
-							<fmt:message key="conta_bancaria.formulario.label.apagar"/>
-						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="contaBancaria" items="${contaBancariaList}">
 					    <tr>
+					    	<td>
+								<form>
+									<button type="submit" formaction='<c:url value="/contaBancaria/apagar/${contaBancaria.id}"/>' >
+										<fmt:message key="btn.apagar"/>
+									</button>
+								</form>
+							</td>
+							
 							<td>
 								${contaBancaria.agencia}
 							</td>
@@ -54,13 +62,6 @@
 							</td>
 							<td>
 								${contaBancaria.usuario.nome}
-							</td>
-							<td>
-								<form>
-									<button type="submit" formaction='<c:url value="/contaBancaria/apagar/${contaBancaria.id}"/>' >
-										<fmt:message key="conta_bancaria.formulario.label.apagar"/>
-									</button>
-								</form>
 							</td>
 							
 						</tr>
