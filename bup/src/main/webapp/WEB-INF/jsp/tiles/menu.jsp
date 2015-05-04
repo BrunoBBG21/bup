@@ -119,11 +119,13 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li>
-					<a href="#" style="color: red;">
-						<fmt:message key="menu.transferencia.creditar"/>
-					</a>
-				</li>
+				<c:if test="${usuarioSession.isAdministrador() }">
+					<li>
+						<a href="#" style="color: red;">
+							<fmt:message key="menu.transferencia.creditar"/>
+						</a>
+					</li>
+				</c:if>
 				<li>
 					<a href="#" style="color: red;">
 						<fmt:message key="menu.transferencia.retirar"/>
@@ -131,7 +133,8 @@
 				</li>
 			</ul>
 		</li>
-		
+	
+		<c:if test="${usuarioSession.isAdministrador() }">
 		<li class="treeview" id="/bup/modalidadePagamento">
 			<a href="#"> 
 				<span>
@@ -152,7 +155,7 @@
 				</li>
 			</ul>
 		</li>
-		
+		</c:if>
 		<li class="treeview" id="/bup/espacoPropaganda">
 			<a href="#"> 
 				<span>
@@ -183,7 +186,7 @@
 				</li>
 			</ul>
 		</li>
-		
+		<c:if test="${usuarioSession.isAdministrador() }">
 		<li class="treeview" id="/bup/midia">
 			<a href="#"> 
 				<span>
@@ -204,7 +207,7 @@
 				</li>
 			</ul>
 		</li>
-		
+		</c:if>
 		<li class="treeview">
 			<a href="#"> 
 				<span>

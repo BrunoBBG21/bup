@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.bup.annotation.ApenasAdministrador;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.MidiaDAO;
 import br.com.bup.dao.ModalidadePagamentoDAO;
@@ -47,17 +48,20 @@ public class ModalidadePagamentoController {
 		this.usuarioSession = usuarioSession;
 	}
 	@OpenTransaction
+	@ApenasAdministrador
 	public void formulario() {
 		LOGGER.debug("carregando formulario de modalidade de pagamento.");
 		result.include("listaMidias",midiaDAO.buscarTodos());
 	}
 	@OpenTransaction
+	@ApenasAdministrador
 	public List<ModalidadePagamento> listar() {
 		LOGGER.debug("Listando as modalidades de pagamento. ");
 		
 		return modalidadePagamentoDAO.buscarTodos();
 	}
 	@OpenTransaction
+	@ApenasAdministrador
 	public void criar(@NotNull ModalidadePagamento modalidadePagamento) {
 		validator.onErrorRedirectTo(this).formulario(); //caso seja null...
 		LOGGER.debug("criando modalidade de pagamento: " + modalidadePagamento);

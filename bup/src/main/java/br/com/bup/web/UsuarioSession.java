@@ -23,7 +23,9 @@ public class UsuarioSession implements Serializable {
 	public void deslogar() {
 		this.usuarioLogado = null;
 	}
-
+	public Boolean isAdministrador() {
+		return usuarioLogado != null && usuarioLogado.getId()==1;
+	}
 	public Boolean isLogado() {
 		return usuarioLogado != null;
 	}
@@ -31,7 +33,9 @@ public class UsuarioSession implements Serializable {
 	public Boolean isLogadoAgencia() {
 		return usuarioLogado != null && usuarioLogado instanceof Agencia;
 	}
-
+	public Boolean isLogadoAnunciante() {
+		return usuarioLogado != null && usuarioLogado instanceof Anunciante;
+	}
 	public Boolean isGerenciando() {
 		return usuarioGerenciado != null;
 	}

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.bup.annotation.ApenasAdministrador;
 import br.com.bup.annotation.ApenasAgencia;
 import br.com.bup.annotation.ApenasAnunciante;
 import br.com.bup.controller.IndexController;
@@ -38,15 +39,16 @@ public class AcessoUsuarioInterceptor {
 	
 	private boolean possuiApenasAnunciante = false;
 	private boolean possuiApenasAgencia = false;
-
+	private boolean possuiApenasAdministrador = false;
 	@Accepts
 	public boolean accepts(ControllerMethod method) {
 	    possuiApenasAnunciante = method.containsAnnotation(ApenasAnunciante.class);
 	    possuiApenasAgencia = method.containsAnnotation(ApenasAgencia.class);
-
+	    possuiApenasAdministrador = method.containsAnnotation(ApenasAdministrador.class);
 	    return usuarioSession.isLogado() 
 	    		&& (possuiApenasAnunciante && !(usuarioSession.getUsuario() instanceof Anunciante)
-	    			|| possuiApenasAgencia && !(usuarioSession.getUsuarioLogado() instanceof Agencia));
+	    			|| possuiApenasAgencia && !(usuarioSession.getUsuarioLogado() instanceof Agencia)
+	    			|| possuiApenasAdministrador && !(usuarioSession.getUsuarioLogado() instanceof Agencia && usuarioSession.getUsuarioLogado().getId() == 1));
 	}
 	
 	@AroundCall
@@ -55,12 +57,13 @@ public class AcessoUsuarioInterceptor {
 		
 		if (possuiApenasAnunciante) {
 			validator.add(new I18nMessage("info", "acesso.usuario.anunciante.invalido", Severity.INFO));
-			
 		} else if (possuiApenasAgencia) {
 			validator.add(new I18nMessage("info", "acesso.usuario.agencia.invalido", Severity.INFO));
+		}else if (possuiApenasAgencia) {
+			validator.add(new I18nMessage("info", "acesso.usuario.administrador.invalido", Severity.INFO));
 		}
 		
 		result.redirectTo(IndexController.class).index();
-//		stack.next(); // continua a execução
+//		stack.next(); // continua a execuï¿½ï¿½o
 	}
 }

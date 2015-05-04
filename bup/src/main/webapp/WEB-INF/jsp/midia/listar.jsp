@@ -13,10 +13,13 @@
 			<c:forEach var="error" items="${errors}">
 			    ${error.category} - ${error.message}<br />
 			</c:forEach>
-			
+			${success}
 			<table class="table table-bordered table-striped table-hover">
 				<thead>
 					<tr>
+						<th>
+							<fmt:message key="btn.apagar"/>
+						</th>
 						<th>
 							<fmt:message key="midia.formulario.tipo"/>
 						</th>
@@ -25,6 +28,13 @@
 				<tbody>
 					<c:forEach var="midia" items="${midiaList}">
 					    <tr>
+					    <td>
+								<form>
+									<button type="submit" formaction='<c:url value="/midia/apagar/${midia.id}"/>' >
+										<fmt:message key="btn.apagar"/>
+									</button>
+								</form>
+							</td>
 							<td>
 								${midia.tipo}
 							</td>
