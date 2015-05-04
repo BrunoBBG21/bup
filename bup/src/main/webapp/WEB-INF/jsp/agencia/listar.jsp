@@ -16,7 +16,11 @@
 		<table class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
-
+				<c:if test="${usuarioSession.isLogadoAnunciante() }">
+						<th>
+							<fmt:message key="btn.associar"/>
+						</th>
+						</c:if>
 					<th><fmt:message key="usuario.formulario.label.email" /></th>
 
 					<th><fmt:message key="usuario.formulario.label.nome" /></th>
