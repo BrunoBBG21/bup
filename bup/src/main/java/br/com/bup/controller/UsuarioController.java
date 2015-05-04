@@ -1,8 +1,5 @@
 package br.com.bup.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
@@ -15,6 +12,8 @@ import br.com.bup.annotation.EmailDisponivel;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.annotation.Public;
 import br.com.bup.annotation.Telefone;
+import br.com.bup.dao.AgenciaDAO;
+import br.com.bup.dao.AnuncianteDAO;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
@@ -34,24 +33,28 @@ public class UsuarioController {
 	
     private final Result result;
 	private final Validator validator;
-	private UsuarioDAO usuarioDAO;
-	private UsuarioSession usuarioSession;
+	private final AnuncianteDAO anuncianteDAO;
+	private final AgenciaDAO agenciaDAO;
+	private final UsuarioDAO usuarioDAO;
+	private final UsuarioSession usuarioSession;
 	private final ResourceBundle i18n;
 	/**
      * @deprecated CDI eyes only
      */
 	protected UsuarioController() {
-		this(null, null, null, null,null);
+		this(null, null, null, null,null,null,null);
 	}
 	
 	@Inject
 	public UsuarioController(Result result, Validator validator,
-			UsuarioDAO usuarioDAO, UsuarioSession usuarioSession,JstlLocalization local) {
+			UsuarioDAO usuarioDAO, UsuarioSession usuarioSession,AnuncianteDAO anuncianteDAO,AgenciaDAO agenciaDAO,JstlLocalization local) {
 		LOGGER.debug("Criando controller UsuarioController...");
 		this.result = result;
 		this.validator = validator;
 		this.usuarioDAO = usuarioDAO;
 		this.usuarioSession = usuarioSession;
+		this.anuncianteDAO = anuncianteDAO;
+		this.agenciaDAO = agenciaDAO;
 		if(local!=null){
 			this.i18n = local.getBundle(local.getLocale());
 		}else{
@@ -152,4 +155,6 @@ public class UsuarioController {
 		}
 		
 	}
+	
+	
 }

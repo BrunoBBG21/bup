@@ -2,6 +2,7 @@ package br.com.bup.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,7 +21,10 @@ import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.core.JstlLocalization;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -39,17 +43,17 @@ public class AgenciaController {
 	private final LanceLeilaoDAO lancesLeilaoDAO;
 	
 	private final AnuncianteDAO anuncianteDAO;
-
+	private final ResourceBundle i18n;
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected AgenciaController() {
-		this(null, null, null, null,null, null, null);
+		this(null, null, null, null,null, null, null,null);
 	}
 
 	@Inject
 	public AgenciaController(Result result, Validator validator,
-			AgenciaDAO agenciaDAO,LanceLeilaoDAO lancesLeilaoDAO,AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession,UsuarioDAO usuarioDAO) {
+			AgenciaDAO agenciaDAO,LanceLeilaoDAO lancesLeilaoDAO,AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession,UsuarioDAO usuarioDAO,JstlLocalization local) {
 		this.result = result;
 		this.validator = validator;
 		this.agenciaDAO = agenciaDAO;
@@ -57,6 +61,11 @@ public class AgenciaController {
 		this.anuncianteDAO = anuncianteDAO;
 		this.usuarioSession = usuarioSession;
 		this.usuarioDAO = usuarioDAO;
+		if(local!=null){
+			this.i18n = local.getBundle(local.getLocale());
+		}else{
+			this.i18n = null;
+		}
 	}
 
 	/**
@@ -130,5 +139,22 @@ public class AgenciaController {
 		LOGGER.debug("Listando os agentes. ");
 		
 		return agenciaDAO.buscarTodos();
+	}
+	@Path("/agencia/associar/{id}")
+	@OpenTransaction
+	public void associar(Long id){
+		try {
+			Anunciante a = anuncianteDAO.buscarPorId(usuarioSession
+					.getUsuarioLogado().getId());
+			Agencia ag = agenciaDAO.buscarPorId(id);
+			a.setGerenciado(ag);
+			agenciaDAO.salvar(ag);
+			if(i18n!=null){
+				result.include("success", i18n.getString("msg.success.associar"));
+			}
+			result.redirectTo(this).listar();
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Usuário", "msg.error.associar")).onErrorRedirectTo(this).listar();
+		}
 	}
 }
