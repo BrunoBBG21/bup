@@ -26,6 +26,7 @@ import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -95,6 +96,7 @@ public class AnuncianteController {
 			List<EspacoPropaganda> espacosPossuidos,
 			List<EspacoPropaganda> espacosAlugados,
 			List<HistoricoAluguelEspaco> historicosAlugueis) {
+		try{
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando anunciante: anunciante - " + cpf + ", usuario - "
 				+ usuario.getNome());
@@ -125,7 +127,9 @@ public class AnuncianteController {
 
 		result.include("success", "anunciante criado com sucesso.");
 		result.redirectTo(IndexController.class).index();
-
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Anunciante", "msg.error.salvar")).onErrorRedirectTo(this).listar();
+		}
 	}
 
 	private void validarCriar(Anunciante anunciante) {

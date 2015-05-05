@@ -63,7 +63,7 @@ public class AgenciaDAO extends BaseDAO<Agencia> {
 
 	public List<Agencia> buscaNaoGerenciados(Long idAnunciante) {
 
-		Query query = manager.createNamedQuery("Agencia.buscaNaoGerenciados)");
+		Query query = manager.createNamedQuery("Agencia.buscaNaoGerenciados");
 		query.setParameter("id", idAnunciante);
 
 		List<Agencia> result = new ArrayList<Agencia>();

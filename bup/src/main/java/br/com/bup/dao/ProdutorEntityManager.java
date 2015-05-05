@@ -19,11 +19,13 @@ import br.com.bup.domain.FormatoEspacoPropaganda;
 import br.com.bup.domain.Midia;
 import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.domain.PublicoAlvo;
+import br.com.caelum.vraptor.validator.I18nMessage;
 
 public class ProdutorEntityManager {
 	private static EntityManagerFactory factory = Persistence
 			.createEntityManagerFactory("bup");
 	static{
+		try {
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
 		
@@ -68,6 +70,11 @@ public class ProdutorEntityManager {
 		bup.setPassword("b");
 		bup.setTelefone("21");
 		bup.setGerenciado(a);
+	
+		UsuarioDAO u = new UsuarioDAO(em);
+		u.salvar(admin);
+		u.salvar(a);
+		u.salvar(bup);
 		
 		ContaBancaria contaB= new ContaBancaria();
 		contaB.setAgencia("2");
@@ -89,11 +96,6 @@ public class ProdutorEntityManager {
 		contaDAO.salvar(contaC);
 		contaDAO.salvar(contaD);
 		
-		UsuarioDAO u = new UsuarioDAO(em);
-		u.salvar(admin);
-		u.salvar(a);
-		u.salvar(bup);
-		
 		Midia m = new Midia();
 		m.setTipo("Banner");
 		MidiaDAO mDAO = new MidiaDAO(em);
@@ -104,11 +106,13 @@ public class ProdutorEntityManager {
 		p.setValorMinParcela(BigDecimal.ZERO);
 		p.setMaxParcela(0);
 		p.setMidia(m);
+		
 		ModalidadePagamento p1 = new ModalidadePagamento();
 		p1.setTipo("3x");
 		p1.setValorMinParcela(BigDecimal.ONE);
 		p1.setMaxParcela(3);
 		p1.setMidia(m);
+		
 		ModalidadePagamento p2 = new ModalidadePagamento();
 		p2.setTipo("0+3x");
 		p2.setValorMinParcela(BigDecimal.ZERO);
@@ -124,12 +128,15 @@ public class ProdutorEntityManager {
 		ca.setNome("Classe A");
 		ca.setDescricao("Classficação na faixa economica");
 		PublicoAlvo cb = new PublicoAlvo();
+		
 		cb.setNome("Classe B");
 		cb.setDescricao("Classficação na faixa economica");
 		PublicoAlvo cc = new PublicoAlvo();
+		
 		cc.setNome("Classe C");
 		cc.setDescricao("Classficação na faixa economica");
 		PublicoAlvo cd = new PublicoAlvo();
+		
 		cd.setNome("Classe D");
 		cd.setDescricao("Classficação na faixa economica");
 		
@@ -193,6 +200,8 @@ public class ProdutorEntityManager {
 		epDAO.salvar(ep);
 		em.getTransaction().commit();
 		em.close();
+		} catch (Exception e) {
+		}
 	}
 	@Produces
 	@RequestScoped

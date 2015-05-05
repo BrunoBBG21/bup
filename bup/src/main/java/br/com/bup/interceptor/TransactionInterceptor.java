@@ -50,11 +50,12 @@ public class TransactionInterceptor {
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			LOGGER.debug("rollback...");
-			try{
+//			try{
 				entityManager.getTransaction().rollback();
-			} catch (Exception ex) {
-				LOGGER.debug("Está em uso apague os vinculos primeiro.");
-			}
+				throw e;
+//			} catch (Exception ex) {
+//				LOGGER.debug("Está em uso apague os vinculos primeiro.");
+//			}
 		}
 	}
 }

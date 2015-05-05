@@ -25,6 +25,7 @@ import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -86,6 +87,7 @@ public class LeilaoController {
 			@NotNull EspacoPropaganda espacoPropaganda,
 			List<LanceLeilao> lances, List<Anunciante> inscritos,
 			BigDecimal reserva, BigDecimal inscricao, Boolean ativo) {
+		try{
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando leilao: dataInicio - " + dataInicio
 				+ ", dataFim - " + dataFim + ", ModalidadePagamento - "
@@ -111,7 +113,9 @@ public class LeilaoController {
 
 		result.include("success", "conta bancaria criada com sucesso.");
 		result.redirectTo(IndexController.class).index();
-
+	} catch (Exception e) {
+		validator.add(new I18nMessage("Leilão", "msg.error.salvar")).onErrorRedirectTo(IndexController.class).index();
+	}
 	}
 
 	private void validarCriar(Leilao leilao) {

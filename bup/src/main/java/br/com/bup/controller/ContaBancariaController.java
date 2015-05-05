@@ -67,12 +67,13 @@ public class ContaBancariaController {
 
 	@OpenTransaction
 	public void criar(@NotNull ContaBancaria contaBancaria) {
-		//se tem id buscar do banco a conta bancaria e atribuir 
-		//o que nao vem da tela na entidade que veio da tela
-		//se nao tem id ele vai e segue normal
-		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
-		LOGGER.debug("criando conta bancaria");
-		contaBancaria.setUsuario(usuarioSession.getUsuarioLogado());
+		try {
+			//se tem id buscar do banco a conta bancaria e atribuir 
+			//o que nao vem da tela na entidade que veio da tela
+			//se nao tem id ele vai e segue normal
+			validator.onErrorRedirectTo(this).formulario(); // caso seja null...
+			LOGGER.debug("criando conta bancaria");
+			contaBancaria.setUsuario(usuarioSession.getUsuarioLogado());
 			// validacoes...
 			validarCriar(contaBancaria);
 			validator.onErrorRedirectTo(this).formulario();
@@ -82,7 +83,9 @@ public class ContaBancariaController {
 
 			result.include("success", "conta bancaria criada com sucesso.");
 			result.redirectTo(IndexController.class).index();
-		
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Conta Bancária", "msg.error.salvar")).onErrorRedirectTo(this).listar();
+		}
 	}
 
 	private void validarCriar(ContaBancaria contaBancaria) {

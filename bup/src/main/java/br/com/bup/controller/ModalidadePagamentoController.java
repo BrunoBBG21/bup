@@ -69,6 +69,7 @@ public class ModalidadePagamentoController {
 	}
 	@OpenTransaction
 	public void criar(@NotNull ModalidadePagamento modalidadePagamento) {
+		try{
 		validator.onErrorRedirectTo(this).formulario(); //caso seja null...
 		LOGGER.debug("criando modalidade de pagamento: " + modalidadePagamento);
 		
@@ -81,6 +82,10 @@ public class ModalidadePagamentoController {
 		
 		result.include("success", "Modalidade de pagamento criada com sucesso.");
 		result.redirectTo(IndexController.class).index();
+	} catch (Exception e) {
+		validator.add(new I18nMessage("Modalidade de Pagamento", "msg.error.apagar"))
+				.onErrorRedirectTo(this).listar();
+	}
 	}
 	private void validarCriar(ModalidadePagamento modalidadePagamento) {
 		validator.validate(modalidadePagamento);

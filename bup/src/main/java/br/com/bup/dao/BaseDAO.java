@@ -34,8 +34,9 @@ public abstract class BaseDAO<T> {
 	 *            entidade que ser� salva
 	 * @return entidade salva.
 	 */
-	public T salvar(T entidade) {
+	public T salvar(T entidade) throws Exception{
 		manager.persist(entidade);
+		manager.flush();
 		return entidade;
 	}
 

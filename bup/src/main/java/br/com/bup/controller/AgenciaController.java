@@ -99,6 +99,7 @@ public class AgenciaController {
 
 	@OpenTransaction
 	public void criar(@NotNull String cnpj,@NotNull Usuario usuario,List<Anunciante> gerencias) {
+		try {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando agencia: agencia - " + cnpj+ ", usuario - "+usuario.getNome());
 		Usuario logado = usuarioSession.getUsuario();
@@ -127,6 +128,10 @@ public class AgenciaController {
 
 			result.include("success", "agencia criada com sucesso.");
 			result.redirectTo(IndexController.class).index();
+		}
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Mídia", "msg.error.salvar"))
+					.onErrorRedirectTo(this).listar();
 		}
 	}
 

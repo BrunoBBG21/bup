@@ -62,6 +62,7 @@ public class PublicoAlvoController {
 	}
 	@OpenTransaction
 	public void criar(@NotNull PublicoAlvo publicoAlvo) {
+		try{
 		validator.onErrorRedirectTo(this).formulario(); //caso seja null...
 		LOGGER.debug("criando publico alvo: " + publicoAlvo);
 		
@@ -74,6 +75,10 @@ public class PublicoAlvoController {
 		
 		result.include("success", "Publico alvo criado com sucesso.");
 		result.redirectTo(IndexController.class).index();
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Publico alvo", "msg.error.apagar"))
+					.onErrorRedirectTo(this).listar();
+		}
 	}
 	private void validarCriar(PublicoAlvo publicoAlvo) {
 		validator.validate(publicoAlvo);

@@ -111,6 +111,7 @@ public class EspacoPropagandaController {
 	@OpenTransaction
 	@ApenasAnunciante
 	public void criar(@NotNull EspacoPropaganda espacoPropaganda) {
+		try{
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando espaco: " + espacoPropaganda);
 
@@ -133,6 +134,9 @@ public class EspacoPropagandaController {
 
 		result.include("success", "Espaco criado com sucesso.");
 		result.redirectTo(this).listar();
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Espaço de Propaganda", "msg.error.salvar")).onErrorRedirectTo(this).listar();
+		}
 	}
 	
 	private void validarCriar(EspacoPropaganda espacoPropaganda) {

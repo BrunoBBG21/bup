@@ -32,23 +32,25 @@ public class MidiaController {
 	private final MidiaDAO midiaDAO;
 	private final UsuarioSession usuarioSession;
 	private final ResourceBundle i18n;
+
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected MidiaController() {
-		this(null, null, null, null,null);
+		this(null, null, null, null, null);
 	}
 
 	@Inject
 	public MidiaController(Result result, Validator validator,
-			MidiaDAO midiaDAO, UsuarioSession usuarioSession,JstlLocalization local) {
+			MidiaDAO midiaDAO, UsuarioSession usuarioSession,
+			JstlLocalization local) {
 		this.result = result;
 		this.validator = validator;
 		this.midiaDAO = midiaDAO;
 		this.usuarioSession = usuarioSession;
-		if(local!=null){
+		if (local != null) {
 			this.i18n = local.getBundle(local.getLocale());
-		}else{
+		} else {
 			this.i18n = null;
 		}
 	}
@@ -63,21 +65,26 @@ public class MidiaController {
 	@OpenTransaction
 	@ApenasAdministrador
 	public void criar(@NotNull String tipo) {
-		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
-		LOGGER.debug("criando midia: " + tipo);
+		try {
+			validator.onErrorRedirectTo(this).formulario(); // caso seja null...
+			LOGGER.debug("criando midia: " + tipo);
 
-		Midia midia = new Midia();
-		midia.setTipo(tipo);
+			Midia midia = new Midia();
+			midia.setTipo(tipo);
 
-		// validacoes...
-		validarCriar(midia);
-		validator.onErrorRedirectTo(this).formulario();
+			// validacoes...
+			validarCriar(midia);
+			validator.onErrorRedirectTo(this).formulario();
 
-		// salva
-		midiaDAO.salvar(midia);
+			// salva
+			midiaDAO.salvar(midia);
 
-		result.include("success", "Midia criado com sucesso.");
-		result.redirectTo(IndexController.class).index();
+			result.include("success", "Midia criado com sucesso.");
+			result.redirectTo(IndexController.class).index();
+		} catch (Exception e) {
+			validator.add(new I18nMessage("Mídia", "msg.error.apagar"))
+					.onErrorRedirectTo(this).listar();
+		}
 	}
 
 	private void validarCriar(Midia midia) {
@@ -100,13 +107,14 @@ public class MidiaController {
 	public void apagar(Long id) {
 		try {
 			midiaDAO.apagarPorId(id);
-			if(i18n!=null){
+			if (i18n != null) {
 				result.include("success", i18n.getString("msg.success.apagar"));
 			}
 			result.redirectTo(this).listar();
 		} catch (Exception e) {
-			validator.add(new I18nMessage("Mídia", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+			validator.add(new I18nMessage("Mídia", "msg.error.apagar"))
+					.onErrorRedirectTo(this).listar();
 		}
-		
+
 	}
 }
