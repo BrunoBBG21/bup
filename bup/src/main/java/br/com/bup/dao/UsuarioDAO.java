@@ -59,11 +59,10 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 	 * @param id
 	 * @param usuario
 	 */
-	public void apagarLogado(Long id,Long usuario) throws Exception{
+	public void apagarLogado(Long id,Long usuario) {
 		Usuario e = this.buscarPorId(id);
 		if(e!=null&&e.getId().equals(usuario)){
 			manager.remove(e);
-			manager.flush();
 		}
 	}
 }

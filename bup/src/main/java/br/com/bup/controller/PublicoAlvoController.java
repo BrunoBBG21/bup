@@ -60,9 +60,9 @@ public class PublicoAlvoController {
 		
 		return publicoAlvoDAO.buscarTodos();
 	}
+	
 	@OpenTransaction
 	public void criar(@NotNull PublicoAlvo publicoAlvo) {
-		try{
 		validator.onErrorRedirectTo(this).formulario(); //caso seja null...
 		LOGGER.debug("criando publico alvo: " + publicoAlvo);
 		
@@ -75,27 +75,20 @@ public class PublicoAlvoController {
 		
 		result.include("success", "Publico alvo criado com sucesso.");
 		result.redirectTo(IndexController.class).index();
-		} catch (Exception e) {
-			validator.add(new I18nMessage("Publico alvo", "msg.error.apagar"))
-					.onErrorRedirectTo(this).listar();
-		}
 	}
+	
 	private void validarCriar(PublicoAlvo publicoAlvo) {
 		validator.validate(publicoAlvo);
 	}
+	
 	@Path("/publicoAlvo/apagar/{id}")
 	@OpenTransaction
 	@ApenasAdministrador
 	public void apagar(Long id) {
-		try {
-			publicoAlvoDAO.apagarPorId(id);
-			if(i18n!=null){
-				result.include("success", i18n.getString("msg.success.apagar"));
-			}
-			result.redirectTo(this).listar();
-		} catch (Exception e) {
-			validator.add(new I18nMessage("Público Alvo", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+		publicoAlvoDAO.apagarPorId(id);
+		if(i18n!=null){
+			result.include("success", i18n.getString("msg.success.apagar"));
 		}
-		
+		result.redirectTo(this).listar();
 	}
 }

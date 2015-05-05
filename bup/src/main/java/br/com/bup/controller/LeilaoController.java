@@ -87,7 +87,6 @@ public class LeilaoController {
 			@NotNull EspacoPropaganda espacoPropaganda,
 			List<LanceLeilao> lances, List<Anunciante> inscritos,
 			BigDecimal reserva, BigDecimal inscricao, Boolean ativo) {
-		try{
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando leilao: dataInicio - " + dataInicio
 				+ ", dataFim - " + dataFim + ", ModalidadePagamento - "
@@ -113,9 +112,6 @@ public class LeilaoController {
 
 		result.include("success", "conta bancaria criada com sucesso.");
 		result.redirectTo(IndexController.class).index();
-	} catch (Exception e) {
-		validator.add(new I18nMessage("Leilão", "msg.error.salvar")).onErrorRedirectTo(IndexController.class).index();
-	}
 	}
 
 	private void validarCriar(Leilao leilao) {

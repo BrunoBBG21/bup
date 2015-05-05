@@ -72,7 +72,6 @@ public class UsuarioController {
 	@OpenTransaction
 	public void criar(TipoUsuario tipoUsuario, @NotEmpty @EmailDisponivel String email, String password, String nome, 
 			String endereco, String cep, @Telefone String telefone, String cpfCnpj) {
-		try{
 		LOGGER.debug("criar usuario com email: " + email);
 		validator.onErrorRedirectTo(this).formulario();
 		
@@ -89,10 +88,6 @@ public class UsuarioController {
 		usuarioSession.logar(usuario);
 		result.include("success", "Usuario incluido com sucesso.");
 		result.redirectTo(IndexController.class).index();
-	} catch (Exception e) {
-		validator.add(new I18nMessage("Usuário", "msg.error.apagar"))
-				.onErrorRedirectTo(this).listar();
-	}
 	}
 	
 	private Usuario montarUsuario(TipoUsuario tipoUsuario, String email,
@@ -147,18 +142,13 @@ public class UsuarioController {
 	@Path("/usuario/apagar/{id}")
 	@OpenTransaction
 	public void apagar(Long id) {
-		try {
-			usuarioDAO.apagarLogado(id, usuarioSession
-					.getUsuarioLogado().getId());
-			usuarioSession.deslogar();
-			if(i18n!=null){
-				result.include("success", i18n.getString("msg.success.apagar"));
-			}
-			result.redirectTo(this).listar();
-		} catch (Exception e) {
-			validator.add(new I18nMessage("Usuário", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+		usuarioDAO.apagarLogado(id, usuarioSession
+				.getUsuarioLogado().getId());
+		usuarioSession.deslogar();
+		if(i18n!=null){
+			result.include("success", i18n.getString("msg.success.apagar"));
 		}
-		
+		result.redirectTo(this).listar();
 	}
 	
 	

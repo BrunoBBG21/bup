@@ -2,8 +2,13 @@ package br.com.bup.controller;
 
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -12,10 +17,7 @@ import org.slf4j.LoggerFactory;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.ContaBancariaDAO;
 import br.com.bup.dao.UsuarioDAO;
-import br.com.bup.domain.Agencia;
 import br.com.bup.domain.ContaBancaria;
-import br.com.bup.domain.EspacoPropaganda;
-import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
@@ -67,31 +69,29 @@ public class ContaBancariaController {
 
 	@OpenTransaction
 	public void criar(@NotNull ContaBancaria contaBancaria) {
-		try {
-			//se tem id buscar do banco a conta bancaria e atribuir 
-			//o que nao vem da tela na entidade que veio da tela
-			//se nao tem id ele vai e segue normal
-			validator.onErrorRedirectTo(this).formulario(); // caso seja null...
-			LOGGER.debug("criando conta bancaria");
-			contaBancaria.setUsuario(usuarioSession.getUsuarioLogado());
-			// validacoes...
-			validarCriar(contaBancaria);
-			validator.onErrorRedirectTo(this).formulario();
+		//se tem id buscar do banco a conta bancaria e atribuir 
+		//o que nao vem da tela na entidade que veio da tela
+		//se nao tem id ele vai e segue normal
+		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
+		LOGGER.debug("criando conta bancaria");
+		contaBancaria.setUsuario(usuarioSession.getUsuarioLogado());
+		// validacoes...
+		validarCriar(contaBancaria);
+		validator.onErrorRedirectTo(this).formulario();
 
-			// salva
-			contaBancariaDAO.salvar(contaBancaria);
+		// salva
+		contaBancariaDAO.salvar(contaBancaria);
 
-			result.include("success", "conta bancaria criada com sucesso.");
-			result.redirectTo(IndexController.class).index();
-		} catch (Exception e) {
-			validator.add(new I18nMessage("Conta Bancária", "msg.error.salvar")).onErrorRedirectTo(this).listar();
-		}
+		result.include("success", "conta bancaria criada com sucesso.");
+		result.redirectTo(IndexController.class).index();
 	}
 
 	private void validarCriar(ContaBancaria contaBancaria) {
 		validator.validate(contaBancaria);
-
-		// TODO validar inclusao repetida
+		
+		if (!contaBancariaDAO.unicContrantValida(contaBancaria)) {
+			validator.add(new I18nMessage("Conta", "msg.error.salvar"));
+		}
 	}
 	@OpenTransaction
 	public List<ContaBancaria> listar() {
@@ -101,14 +101,10 @@ public class ContaBancariaController {
 	@Path("/contaBancaria/apagar/{id}")
 	@OpenTransaction
 	public void apagar(Long id){
-		try{
-			contaBancariaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
-			if(i18n!=null){
-				result.include("success", i18n.getString("msg.success.apagar"));
-			}
-			result.redirectTo(this).listar();
-		} catch (Exception e) {
-			validator.add(new I18nMessage("Conta bancária", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+		contaBancariaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
+		if(i18n!=null){
+			result.include("success", i18n.getString("msg.success.apagar"));
 		}
+		result.redirectTo(this).listar();
 	}
 }

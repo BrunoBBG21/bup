@@ -78,7 +78,6 @@ public class HistoricoAluguelEspacoController {
 	@OpenTransaction
 	public void criar(@NotNull Date dataInicio, @NotNull Date dataFim,
 			@NotNull Anunciante anunciante, @NotNull EspacoPropaganda espacoPropaganda) {
-		try{
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando historico espaco propaganda:data inicio - " + dataInicio
 				+ ",data  fim - " + dataFim + ", anunciante - " + anunciante.getNome() + ", espaco propaganda - "
@@ -104,9 +103,6 @@ public class HistoricoAluguelEspacoController {
 			result.include("success", "historico aluguel de espaco da propaganda criada com sucesso.");
 			result.redirectTo(IndexController.class).index();
 		}
-	} catch (Exception e) {
-		validator.add(new I18nMessage("Historico de Aluguel do espaço de propaganda", "msg.error.salvar")).onErrorRedirectTo(IndexController.class).index();
-	}
 	}
 
 	private void validarCriar(HistoricoAluguelEspaco historicoAluguelEspaco) {

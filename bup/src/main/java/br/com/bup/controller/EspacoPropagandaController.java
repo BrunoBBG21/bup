@@ -8,12 +8,8 @@ import java.util.ResourceBundle;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.base.CaseFormat;
 
 import br.com.bup.annotation.ApenasAnunciante;
 import br.com.bup.annotation.OpenTransaction;
@@ -30,7 +26,6 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.core.JstlLocalization;
-import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -111,7 +106,6 @@ public class EspacoPropagandaController {
 	@OpenTransaction
 	@ApenasAnunciante
 	public void criar(@NotNull EspacoPropaganda espacoPropaganda) {
-		try{
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando espaco: " + espacoPropaganda);
 
@@ -134,9 +128,6 @@ public class EspacoPropagandaController {
 
 		result.include("success", "Espaco criado com sucesso.");
 		result.redirectTo(this).listar();
-		} catch (Exception e) {
-			validator.add(new I18nMessage("Espaço de Propaganda", "msg.error.salvar")).onErrorRedirectTo(this).listar();
-		}
 	}
 	
 	private void validarCriar(EspacoPropaganda espacoPropaganda) {
@@ -157,18 +148,11 @@ public class EspacoPropagandaController {
 	@OpenTransaction
 	@ApenasAnunciante
 	public void apagar(Long id) {
-		try {
-			espacoPropagandaDAO.apagarLogado(id, usuarioSession
-					.getUsuarioLogado().getId());
-			if (i18n != null) {
-				result.include("success", i18n.getString("msg.success.apagar"));
-			}
-			result.redirectTo(this).listar();
-		} catch (Exception e) {
-			validator
-					.add(new I18nMessage("Espaço de Propaganda",
-							"msg.error.apagar")).onErrorRedirectTo(this)
-					.listar();
+		espacoPropagandaDAO.apagarLogado(id, usuarioSession
+				.getUsuarioLogado().getId());
+		if (i18n != null) {
+			result.include("success", i18n.getString("msg.success.apagar"));
 		}
+		result.redirectTo(this).listar();
 	}
 }

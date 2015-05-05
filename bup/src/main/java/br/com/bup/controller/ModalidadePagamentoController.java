@@ -69,7 +69,6 @@ public class ModalidadePagamentoController {
 	}
 	@OpenTransaction
 	public void criar(@NotNull ModalidadePagamento modalidadePagamento) {
-		try{
 		validator.onErrorRedirectTo(this).formulario(); //caso seja null...
 		LOGGER.debug("criando modalidade de pagamento: " + modalidadePagamento);
 		
@@ -82,10 +81,6 @@ public class ModalidadePagamentoController {
 		
 		result.include("success", "Modalidade de pagamento criada com sucesso.");
 		result.redirectTo(IndexController.class).index();
-	} catch (Exception e) {
-		validator.add(new I18nMessage("Modalidade de Pagamento", "msg.error.apagar"))
-				.onErrorRedirectTo(this).listar();
-	}
 	}
 	private void validarCriar(ModalidadePagamento modalidadePagamento) {
 		validator.validate(modalidadePagamento);
@@ -94,15 +89,10 @@ public class ModalidadePagamentoController {
 	@OpenTransaction
 	@ApenasAdministrador
 	public void apagar(Long id) {
-		try {
-			modalidadePagamentoDAO.apagarPorId(id);
-			if(i18n!=null){
-				result.include("success", i18n.getString("msg.success.apagar"));
-			}
-			result.redirectTo(this).listar();
-		} catch (Exception e) {
-			validator.add(new I18nMessage("Modalidade de Pagamento", "msg.error.apagar")).onErrorRedirectTo(this).listar();
+		modalidadePagamentoDAO.apagarPorId(id);
+		if(i18n!=null){
+			result.include("success", i18n.getString("msg.success.apagar"));
 		}
-		
+		result.redirectTo(this).listar();
 	}
 }

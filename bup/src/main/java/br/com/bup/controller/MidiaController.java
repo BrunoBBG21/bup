@@ -65,26 +65,21 @@ public class MidiaController {
 	@OpenTransaction
 	@ApenasAdministrador
 	public void criar(@NotNull String tipo) {
-		try {
-			validator.onErrorRedirectTo(this).formulario(); // caso seja null...
-			LOGGER.debug("criando midia: " + tipo);
+		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
+		LOGGER.debug("criando midia: " + tipo);
 
-			Midia midia = new Midia();
-			midia.setTipo(tipo);
+		Midia midia = new Midia();
+		midia.setTipo(tipo);
 
-			// validacoes...
-			validarCriar(midia);
-			validator.onErrorRedirectTo(this).formulario();
+		// validacoes...
+		validarCriar(midia);
+		validator.onErrorRedirectTo(this).formulario();
 
-			// salva
-			midiaDAO.salvar(midia);
+		// salva
+		midiaDAO.salvar(midia);
 
-			result.include("success", "Midia criado com sucesso.");
-			result.redirectTo(IndexController.class).index();
-		} catch (Exception e) {
-			validator.add(new I18nMessage("Mídia", "msg.error.apagar"))
-					.onErrorRedirectTo(this).listar();
-		}
+		result.include("success", "Midia criado com sucesso.");
+		result.redirectTo(IndexController.class).index();
 	}
 
 	private void validarCriar(Midia midia) {
@@ -105,16 +100,10 @@ public class MidiaController {
 	@OpenTransaction
 	@ApenasAdministrador
 	public void apagar(Long id) {
-		try {
-			midiaDAO.apagarPorId(id);
-			if (i18n != null) {
-				result.include("success", i18n.getString("msg.success.apagar"));
-			}
-			result.redirectTo(this).listar();
-		} catch (Exception e) {
-			validator.add(new I18nMessage("Mídia", "msg.error.apagar"))
-					.onErrorRedirectTo(this).listar();
+		midiaDAO.apagarPorId(id);
+		if (i18n != null) {
+			result.include("success", i18n.getString("msg.success.apagar"));
 		}
-
+		result.redirectTo(this).listar();
 	}
 }

@@ -25,7 +25,6 @@ public class ProdutorEntityManager {
 	private static EntityManagerFactory factory = Persistence
 			.createEntityManagerFactory("bup");
 	static{
-		try {
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
 		
@@ -200,9 +199,8 @@ public class ProdutorEntityManager {
 		epDAO.salvar(ep);
 		em.getTransaction().commit();
 		em.close();
-		} catch (Exception e) {
-		}
 	}
+	
 	@Produces
 	@RequestScoped
 	public EntityManager criaEntityManager() {

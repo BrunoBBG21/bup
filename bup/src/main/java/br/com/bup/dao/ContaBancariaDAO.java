@@ -1,9 +1,7 @@
 package br.com.bup.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -50,10 +48,25 @@ public class ContaBancariaDAO extends BaseDAO<ContaBancaria> {
 	 * @param id
 	 * @param usuario
 	 */
-	public void apagarLogado(Long id,Long usuario) throws Exception{
+	public void apagarLogado(Long id,Long usuario){
 		ContaBancaria c = this.buscarPorId(id);
 		if(c!=null&&c.getUsuario().getId().equals(usuario)){
 			manager.remove(c);
 		}
+	}
+
+	/**
+	 * Valida a unicConstrant anotada na classe... @UniqueConstraint(columnNames={"agencia","conta","banco"}). 
+	 * @param contaBancaria
+	 * @return Boolean
+	 */
+	public Boolean unicContrantValida(ContaBancaria contaBancaria) {
+		Query query = manager.createNamedQuery("ContaBancaria.unicContrantValida");
+		
+		query.setParameter("agencia", contaBancaria.getAgencia());
+		query.setParameter("conta", contaBancaria.getConta());
+		query.setParameter("banco", contaBancaria.getBanco());
+		
+		return (Long.valueOf(0)).equals((Long)query.getSingleResult());
 	}
 }

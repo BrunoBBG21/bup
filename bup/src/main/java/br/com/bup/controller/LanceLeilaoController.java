@@ -82,7 +82,6 @@ public class LanceLeilaoController {
 	@OpenTransaction
 	public void criar(@NotNull BigDecimal valor, @NotNull Date data,
 			@NotNull Anunciante anunciante,@NotNull Leilao leilao,Boolean vencedor, Agencia agencia) {
-		try{
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando Lance Leilao do espaco propaganda:valor - " + valor
 				+ ",data  - " + data + ", anunciante - " + anunciante.getNome() + ", Leilao - "
@@ -104,9 +103,6 @@ public class LanceLeilaoController {
 
 			result.include("success", "lance leilao criado com sucesso.");
 			result.redirectTo(IndexController.class).index();
-		} catch (Exception e) {
-			validator.add(new I18nMessage("Lance do leilão", "msg.error.salvar")).onErrorRedirectTo(IndexController.class).index();
-		}
 	}
 
 	private void validarCriar(LanceLeilao lanceLeilao) {

@@ -20,9 +20,17 @@ import javax.validation.constraints.NotNull;
  * Classe que representa as contas bancarias FISICAS do usuario. 
  */
 @NamedQueries(value={
-		   @NamedQuery(
+		@NamedQuery(
 				      name = "ContaBancaria.buscarPorUsuarioId",
-				      query="select c from ContaBancaria c where c.usuario.id = :id")
+				      query="select c from ContaBancaria c where c.usuario.id = :id"),
+	    @NamedQuery(
+					name = "ContaBancaria.unicContrantValida",
+					query="select count(c) "
+							+ " from ContaBancaria c "
+							+ " where "
+							+ "		c.agencia = :agencia "
+							+ "	AND c.conta = :conta "
+							+ " AND c.banco = :banco ")
 		}) 
 
 @Entity

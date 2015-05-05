@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import br.com.bup.domain.ContaBancaria;
 import br.com.bup.domain.EspacoPropaganda;
 
 @RequestScoped
@@ -34,11 +33,10 @@ public class EspacoPropagandaDAO extends BaseDAO<EspacoPropaganda> {
 	 * @param id
 	 * @param usuario
 	 */
-	public void apagarLogado(Long id,Long usuario) throws Exception{
+	public void apagarLogado(Long id,Long usuario) {
 		EspacoPropaganda e = this.buscarPorId(id);
 		if(e!=null&&e.getPertence().getId().equals(usuario)){
 			manager.remove(e);
-			manager.flush();
 		}
 	}
 	public List<EspacoPropaganda> buscarPorAnuncianteId(Long id) {

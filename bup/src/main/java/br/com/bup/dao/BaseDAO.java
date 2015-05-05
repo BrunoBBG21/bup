@@ -7,9 +7,6 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.bup.controller.IndexController;
-import br.com.bup.controller.MidiaController;
-
 public abstract class BaseDAO<T> {
 	private final static Logger LOGGER = LoggerFactory.getLogger(BaseDAO.class);
 	protected EntityManager manager;
@@ -34,9 +31,8 @@ public abstract class BaseDAO<T> {
 	 *            entidade que ser� salva
 	 * @return entidade salva.
 	 */
-	public T salvar(T entidade) throws Exception{
+	public T salvar(T entidade) {
 		manager.persist(entidade);
-		manager.flush();
 		return entidade;
 	}
 
@@ -45,11 +41,10 @@ public abstract class BaseDAO<T> {
 	 * 
 	 * @param id
 	 */
-	public void apagarPorId(Long id) throws Exception{
+	public void apagarPorId(Long id) {
 		Object o = manager.find(classT, id);
 		if (o != null){
 			manager.remove(o);
-			manager.flush();
 		}
 	}
 
@@ -71,12 +66,5 @@ public abstract class BaseDAO<T> {
 	 */
 	public List<T> buscarTodos() {
 		return manager.createQuery("from " + classT.getName()).getResultList();
-	}
-
-	/**
-	 * EntityManager.flush().
-	 */
-	public void flush() {
-		manager.flush();
 	}
 }
