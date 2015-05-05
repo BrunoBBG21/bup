@@ -27,7 +27,7 @@ public class UsuarioDAOTest extends AbstractDAOTest {
 		agencia.setTelefone("telefone");
 		
 		Assert.assertNull(agencia.getId());
-		dao.salvar(agencia);
+		agencia = (Agencia) dao.salvar(agencia);
 		Assert.assertNotNull(agencia.getId());
 		
 		//testando

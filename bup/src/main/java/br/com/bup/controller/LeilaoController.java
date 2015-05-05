@@ -25,41 +25,37 @@ import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
 public class LeilaoController {
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(AgenciaController.class);
-
+	private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.class);
+	
 	private final Result result;
 	private final Validator validator;
 	private final UsuarioSession usuarioSession;
 	private final UsuarioDAO usuarioDAO;
-
+	
 	private final LanceLeilaoDAO lancesLeilaoDAO;
-
+	
 	private final AnuncianteDAO anuncianteDAO;
-
+	
 	private final ModalidadePagamentoDAO modalidadePagamentoDAO;
 	private final EspacoPropagandaDAO espacoPropagandaDAO;
-
+	
 	private final LeilaoDAO leilaoDAO;
-
+	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected LeilaoController() {
 		this(null, null, null, null, null, null, null, null, null);
 	}
-
+	
 	@Inject
-	public LeilaoController(Result result, Validator validator,
-			LeilaoDAO leilaoDAO, ModalidadePagamentoDAO modalidadePagamentoDAO,
-			EspacoPropagandaDAO espacoPropagandaDAO,
-			LanceLeilaoDAO lancesLeilaoDAO, AnuncianteDAO anuncianteDAO,
-			UsuarioSession usuarioSession, UsuarioDAO usuarioDAO) {
+	public LeilaoController(Result result, Validator validator, LeilaoDAO leilaoDAO,
+			ModalidadePagamentoDAO modalidadePagamentoDAO, EspacoPropagandaDAO espacoPropagandaDAO,
+			LanceLeilaoDAO lancesLeilaoDAO, AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession, UsuarioDAO usuarioDAO) {
 		this.result = result;
 		this.validator = validator;
 		this.leilaoDAO = leilaoDAO;
@@ -70,7 +66,7 @@ public class LeilaoController {
 		this.usuarioSession = usuarioSession;
 		this.usuarioDAO = usuarioDAO;
 	}
-
+	
 	public void formulario() {
 		LOGGER.debug("carregando formulario de agencia");
 		result.include("lances", lancesLeilaoDAO.buscarTodos());
@@ -80,19 +76,15 @@ public class LeilaoController {
 		// simples formulario... futuramente receendo id para editar... ou
 		// nao...
 	}
-
+	
 	@OpenTransaction
-	public void criar(@NotNull Date dataInicio, @NotNull Date dataFim,
-			@NotNull ModalidadePagamento modalidadePagamento,
-			@NotNull EspacoPropaganda espacoPropaganda,
-			List<LanceLeilao> lances, List<Anunciante> inscritos,
-			BigDecimal reserva, BigDecimal inscricao, Boolean ativo) {
+	public void criar(@NotNull Date dataInicio, @NotNull Date dataFim, @NotNull ModalidadePagamento modalidadePagamento,
+			@NotNull EspacoPropaganda espacoPropaganda, List<LanceLeilao> lances, List<Anunciante> inscritos, BigDecimal reserva,
+			BigDecimal inscricao, Boolean ativo) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
-		LOGGER.debug("criando leilao: dataInicio - " + dataInicio
-				+ ", dataFim - " + dataFim + ", ModalidadePagamento - "
-				+ modalidadePagamento.getTipo() + ", espacoPropaganda - "
-				+ espacoPropaganda.getDescricao());
-
+		LOGGER.debug("criando leilao: dataInicio - " + dataInicio + ", dataFim - " + dataFim + ", ModalidadePagamento - "
+				+ modalidadePagamento.getTipo() + ", espacoPropaganda - " + espacoPropaganda.getDescricao());
+		
 		Leilao leilao = new Leilao();
 		leilao.setAtivo(ativo);
 		leilao.setDataFim(dataFim);
@@ -106,17 +98,17 @@ public class LeilaoController {
 		// validacoes...
 		validarCriar(leilao);
 		validator.onErrorRedirectTo(this).formulario();
-
+		
 		// salva
-		leilaoDAO.salvar(leilao);
-
+		leilao = leilaoDAO.salvar(leilao);
+		
 		result.include("success", "conta bancaria criada com sucesso.");
 		result.redirectTo(IndexController.class).index();
 	}
-
+	
 	private void validarCriar(Leilao leilao) {
 		validator.validate(leilao);
-
+		
 		// TODO validar inclusao repetida
 	}
 }

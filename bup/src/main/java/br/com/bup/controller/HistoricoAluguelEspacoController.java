@@ -1,7 +1,6 @@
 package br.com.bup.controller;
 
 import java.util.Date;
-import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
@@ -21,38 +20,34 @@ import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.core.JstlLocalization;
-import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
 public class HistoricoAluguelEspacoController {
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(HistoricoAluguelEspacoController.class);
-
+	private final static Logger LOGGER = LoggerFactory.getLogger(HistoricoAluguelEspacoController.class);
+	
 	private final Result result;
 	private final Validator validator;
 	private final HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO;
 	private final UsuarioSession usuarioSession;
 	private final UsuarioDAO usuarioDAO;
-
+	
 	private final EspacoPropagandaDAO espacoPropagandaDAO;
-
+	
 	private final AnuncianteDAO anuncianteDAO;
-	private final ResourceBundle i18n;
+	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected HistoricoAluguelEspacoController() {
-		this(null, null, null, null, null, null,null,null);
+		this(null, null, null, null, null, null, null);
 	}
-
+	
 	@Inject
 	public HistoricoAluguelEspacoController(Result result, Validator validator,
-			HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO,EspacoPropagandaDAO espacoPropagandaDAO,
-			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession,
-			UsuarioDAO usuarioDAO,JstlLocalization local) {
+			HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO, EspacoPropagandaDAO espacoPropagandaDAO,
+			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession, UsuarioDAO usuarioDAO) {
 		this.result = result;
 		this.validator = validator;
 		this.historicoAluguelEspacoDAO = historicoAluguelEspacoDAO;
@@ -60,13 +55,8 @@ public class HistoricoAluguelEspacoController {
 		this.anuncianteDAO = anuncianteDAO;
 		this.usuarioSession = usuarioSession;
 		this.usuarioDAO = usuarioDAO;
-		if(local!=null){
-			this.i18n = local.getBundle(local.getLocale());
-		}else{
-			this.i18n = null;
-		}
 	}
-
+	
 	public void formulario() {
 		LOGGER.debug("carregando formulario de conta");
 		result.include("anunciantes", anuncianteDAO.buscarTodos());
@@ -74,18 +64,16 @@ public class HistoricoAluguelEspacoController {
 		// simples formulario... futuramente receendo id para editar... ou
 		// nao...
 	}
-
+	
 	@OpenTransaction
-	public void criar(@NotNull Date dataInicio, @NotNull Date dataFim,
-			@NotNull Anunciante anunciante, @NotNull EspacoPropaganda espacoPropaganda) {
+	public void criar(@NotNull Date dataInicio, @NotNull Date dataFim, @NotNull Anunciante anunciante,
+			@NotNull EspacoPropaganda espacoPropaganda) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
-		LOGGER.debug("criando historico espaco propaganda:data inicio - " + dataInicio
-				+ ",data  fim - " + dataFim + ", anunciante - " + anunciante.getNome() + ", espaco propaganda - "
-				+ espacoPropaganda.getDescricao());
+		LOGGER.debug("criando historico espaco propaganda:data inicio - " + dataInicio + ",data  fim - " + dataFim
+				+ ", anunciante - " + anunciante.getNome() + ", espaco propaganda - " + espacoPropaganda.getDescricao());
 		Usuario logado = usuarioSession.getUsuario();
 		if (!("admin".equals(logado.getNome()) && logado.getId() == 1)) {
-			validator.add(new SimpleMessage("error",
-					"Usuario deve ser o administrador"));
+			validator.add(new SimpleMessage("error", "Usuario deve ser o administrador"));
 			validator.onErrorRedirectTo(this).formulario();
 		} else {
 			HistoricoAluguelEspaco historicoAluguelEspaco = new HistoricoAluguelEspaco();
@@ -96,18 +84,18 @@ public class HistoricoAluguelEspacoController {
 			// validacoes...
 			validarCriar(historicoAluguelEspaco);
 			validator.onErrorRedirectTo(this).formulario();
-
+			
 			// salva
-			historicoAluguelEspacoDAO.salvar(historicoAluguelEspaco);
-
+			historicoAluguelEspaco = historicoAluguelEspacoDAO.salvar(historicoAluguelEspaco);
+			
 			result.include("success", "historico aluguel de espaco da propaganda criada com sucesso.");
 			result.redirectTo(IndexController.class).index();
 		}
 	}
-
+	
 	private void validarCriar(HistoricoAluguelEspaco historicoAluguelEspaco) {
 		validator.validate(historicoAluguelEspaco);
-
+		
 		// TODO validar inclusao repetida
 	}
 }

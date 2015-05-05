@@ -24,8 +24,6 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.core.JstlLocalization;
-import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -33,28 +31,29 @@ import br.com.caelum.vraptor.validator.Validator;
 @Named("agenciaController")
 public class AgenciaController {
 	private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.class);
-
+	
 	private final Result result;
 	private final Validator validator;
 	private final UsuarioSession usuarioSession;
 	private final UsuarioDAO usuarioDAO;
-
+	
 	private final AgenciaDAO agenciaDAO;
-
+	
 	private final LanceLeilaoDAO lancesLeilaoDAO;
 	
 	private final AnuncianteDAO anuncianteDAO;
 	private final ResourceBundle i18n;
+	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected AgenciaController() {
-		this(null, null, null, null,null, null, null,null);
+		this(null, null, null, null, null, null, null, null);
 	}
-
+	
 	@Inject
-	public AgenciaController(Result result, Validator validator,
-			AgenciaDAO agenciaDAO,LanceLeilaoDAO lancesLeilaoDAO,AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession,UsuarioDAO usuarioDAO,JstlLocalization local) {
+	public AgenciaController(Result result, Validator validator, AgenciaDAO agenciaDAO, LanceLeilaoDAO lancesLeilaoDAO,
+			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession, UsuarioDAO usuarioDAO, ResourceBundle i18n) {
 		this.result = result;
 		this.validator = validator;
 		this.agenciaDAO = agenciaDAO;
@@ -62,16 +61,13 @@ public class AgenciaController {
 		this.anuncianteDAO = anuncianteDAO;
 		this.usuarioSession = usuarioSession;
 		this.usuarioDAO = usuarioDAO;
-		if(local!=null){
-			this.i18n = local.getBundle(local.getLocale());
-		}else{
-			this.i18n = null;
-		}
+		this.i18n = i18n;
 	}
-
+	
 	/**
 	 * Busca os nomes e ids dos Anunciantes que s�o gerenciados pela agencia.
-	 * @return map com id e nome dos anunciantes. 
+	 * 
+	 * @return map com id e nome dos anunciantes.
 	 */
 	public List<Map<String, Object>> getGerenciados() {
 		return agenciaDAO.buscaGerenciados(usuarioSession.getUsuarioLogadoComoAgencia());
@@ -91,16 +87,16 @@ public class AgenciaController {
 		if (id != null && id > 0) {
 			usuarioSession.gerenciar((Anunciante) usuarioDAO.buscarPorId(id));
 			
-		} else if (id != null && id < 0) { 
+		} else if (id != null && id < 0) {
 			usuarioSession.desGerenciar();
 		}
 		result.redirectTo(IndexController.class).index();
 	}
-
+	
 	@OpenTransaction
-	public void criar(@NotNull String cnpj,@NotNull Usuario usuario,List<Anunciante> gerencias) {
+	public void criar(@NotNull String cnpj, @NotNull Usuario usuario, List<Anunciante> gerencias) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
-		LOGGER.debug("criando agencia: agencia - " + cnpj+ ", usuario - "+usuario.getNome());
+		LOGGER.debug("criando agencia: agencia - " + cnpj + ", usuario - " + usuario.getNome());
 		Usuario logado = usuarioSession.getUsuario();
 		if (!("admin".equals(logado.getNome()) && logado.getId() == 1)) {
 			validator.add(new SimpleMessage("error", "Usuario deve ser o administrador"));
@@ -121,39 +117,38 @@ public class AgenciaController {
 			// validacoes...
 			validarCriar(agencia);
 			validator.onErrorRedirectTo(this).formulario();
-
+			
 			// salva
-			agenciaDAO.salvar(agencia);
-
+			agencia = agenciaDAO.salvar(agencia);
+			
 			result.include("success", "agencia criada com sucesso.");
 			result.redirectTo(IndexController.class).index();
 		}
 	}
-
+	
 	private void validarCriar(Agencia agencia) {
 		validator.validate(agencia);
-
+		
 		// TODO validar inclusao repetida
 	}
+	
 	@OpenTransaction
 	public List<Agencia> listar() {
 		LOGGER.debug("Listando os agentes. ");
 		
-		return agenciaDAO.buscaNaoGerenciados(usuarioSession
-				.getUsuarioLogado().getId());
+		return agenciaDAO.buscaNaoGerenciados(usuarioSession.getUsuarioLogado().getId());
 	}
+	
 	@Path("/agencia/associar/{id}")
 	@OpenTransaction
 	@ApenasAnunciante
-	public void associar(Long id){
-		Anunciante a = anuncianteDAO.buscarPorId(usuarioSession
-				.getUsuarioLogado().getId());
+	public void associar(Long id) {
+		Anunciante a = anuncianteDAO.buscarPorId(usuarioSession.getUsuarioLogado().getId());
 		Agencia ag = agenciaDAO.buscarPorId(id);
 		a.setGerenciado(ag);
-		agenciaDAO.salvar(ag);
-		if(i18n!=null){
-			result.include("success", i18n.getString("msg.success.associar"));
-		}
+		ag = agenciaDAO.salvar(ag);
+		
+		result.include("success", i18n.getString("msg.success.associar"));
 		result.redirectTo(this).listar();
 	}
 }

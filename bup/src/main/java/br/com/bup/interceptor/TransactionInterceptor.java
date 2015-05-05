@@ -18,20 +18,19 @@ import br.com.caelum.vraptor.interceptor.SimpleInterceptorStack;
 @RequestScoped
 public class TransactionInterceptor {
 	private final static Logger LOGGER = LoggerFactory.getLogger(TransactionInterceptor.class);
-	private static final java.lang.Exception Exception = null; 
 	
 	@Inject
 	private EntityManager entityManager;
 	
 	@Accepts
 	public boolean accepts(ControllerMethod method) {
-	    return method.containsAnnotation(OpenTransaction.class);
+		return method.containsAnnotation(OpenTransaction.class);
 	}
 	
 	@AroundCall
 	public void intercept(SimpleInterceptorStack stack) throws Exception {
 		LOGGER.debug("Abrindo uma transa�ao...");
-
+		
 		if (entityManager.getTransaction().isActive()) {
 			LOGGER.debug("J� existe uma transa�ao em aberto...");
 			
@@ -44,13 +43,9 @@ public class TransactionInterceptor {
 			LOGGER.debug("commit...");
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
-			LOGGER.debug("rollback...");
-//			try{
-				entityManager.getTransaction().rollback();
-				throw e;
-//			} catch (Exception ex) {
-//				LOGGER.debug("Está em uso apague os vinculos primeiro.");
-//			}
+			LOGGER.debug("rollback... devido ao erro", e);
+			entityManager.getTransaction().rollback();
+			throw e;
 		}
 	}
 }

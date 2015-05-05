@@ -70,4 +70,19 @@ public class UsuarioSession implements Serializable {
 	public Usuario getUsuario() {
 		return usuarioGerenciado == null ? usuarioLogado : usuarioGerenciado;
 	}
+	
+	/**
+	 * Verifica se o usuario logado está sendo gerenciado.
+	 * @return Boolean
+	 */
+	public Boolean isUsuarioLogadoGerenciado() {
+		Boolean value = Boolean.FALSE;
+		
+		if (usuarioLogado != null && usuarioLogado instanceof Anunciante) {
+			Anunciante usuarioLogadoAnunciante = (Anunciante) usuarioLogado;
+			value = usuarioLogadoAnunciante.getGerenciado() != null;
+		}
+		
+		return value;
+	}
 }

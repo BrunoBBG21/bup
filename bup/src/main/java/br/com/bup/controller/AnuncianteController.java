@@ -26,45 +26,40 @@ import br.com.bup.domain.Usuario;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
 public class AnuncianteController {
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(AnuncianteController.class);
-
+	private final static Logger LOGGER = LoggerFactory.getLogger(AnuncianteController.class);
+	
 	private final Result result;
 	private final Validator validator;
 	private final UsuarioSession usuarioSession;
 	private final UsuarioDAO usuarioDAO;
-
+	
 	private final AgenciaDAO agenciaDAO;
-
+	
 	private final LanceLeilaoDAO lancesLeilaoDAO;
-
+	
 	private final AnuncianteDAO anuncianteDAO;
-
+	
 	private final LeilaoDAO leilaoDAO;
-
+	
 	private final EspacoPropagandaDAO espacoPropagandaDAO;
-
+	
 	private final HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO;
-
+	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected AnuncianteController() {
 		this(null, null, null, null, null, null, null, null, null, null);
 	}
-
+	
 	@Inject
-	public AnuncianteController(Result result, Validator validator,
-			HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO,
-			AgenciaDAO agenciaDAO, EspacoPropagandaDAO espacoPropagandaDAO,
-			LeilaoDAO leilaoDAO, LanceLeilaoDAO lancesLeilaoDAO,
-			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession,
-			UsuarioDAO usuarioDAO) {
+	public AnuncianteController(Result result, Validator validator, HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO,
+			AgenciaDAO agenciaDAO, EspacoPropagandaDAO espacoPropagandaDAO, LeilaoDAO leilaoDAO, LanceLeilaoDAO lancesLeilaoDAO,
+			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession, UsuarioDAO usuarioDAO) {
 		this.result = result;
 		this.validator = validator;
 		this.agenciaDAO = agenciaDAO;
@@ -76,7 +71,7 @@ public class AnuncianteController {
 		this.espacoPropagandaDAO = espacoPropagandaDAO;
 		this.historicoAluguelEspacoDAO = historicoAluguelEspacoDAO;
 	}
-
+	
 	public void formulario() {
 		LOGGER.debug("carregando formulario de agencia");
 		result.include("lances", lancesLeilaoDAO.buscarTodos());
@@ -88,18 +83,14 @@ public class AnuncianteController {
 		// simples formulario... futuramente receendo id para editar... ou
 		// nao...
 	}
-
+	
 	@OpenTransaction
-	public void criar(@NotNull String cpf, @NotNull Usuario usuario,
-			Agencia gerenciado, List<LanceLeilao> lances,
-			List<Leilao> leiloesInscrito,
-			List<EspacoPropaganda> espacosPossuidos,
-			List<EspacoPropaganda> espacosAlugados,
+	public void criar(@NotNull String cpf, @NotNull Usuario usuario, Agencia gerenciado, List<LanceLeilao> lances,
+			List<Leilao> leiloesInscrito, List<EspacoPropaganda> espacosPossuidos, List<EspacoPropaganda> espacosAlugados,
 			List<HistoricoAluguelEspaco> historicosAlugueis) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
-		LOGGER.debug("criando anunciante: anunciante - " + cpf + ", usuario - "
-				+ usuario.getNome());
-
+		LOGGER.debug("criando anunciante: anunciante - " + cpf + ", usuario - " + usuario.getNome());
+		
 		Anunciante anunciante = new Anunciante();
 		anunciante.setCpf(cpf);
 		anunciante.setGerenciado(gerenciado);
@@ -120,19 +111,20 @@ public class AnuncianteController {
 		// validacoes...
 		validarCriar(anunciante);
 		validator.onErrorRedirectTo(this).formulario();
-
+		
 		// salva
-		anuncianteDAO.salvar(anunciante);
-
+		anunciante = anuncianteDAO.salvar(anunciante);
+		
 		result.include("success", "anunciante criado com sucesso.");
 		result.redirectTo(IndexController.class).index();
 	}
-
+	
 	private void validarCriar(Anunciante anunciante) {
 		validator.validate(anunciante);
-
+		
 		// TODO validar inclusao repetida
 	}
+	
 	@OpenTransaction
 	public List<Anunciante> listar() {
 		LOGGER.debug("Listando os anunciantes. ");

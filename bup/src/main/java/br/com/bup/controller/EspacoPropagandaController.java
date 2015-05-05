@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.bup.annotation.AnuncianteNaoGerenciado;
 import br.com.bup.annotation.ApenasAnunciante;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.EspacoPropagandaDAO;
@@ -25,15 +26,13 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.core.JstlLocalization;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
 public class EspacoPropagandaController {
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(EspacoPropagandaController.class);
-
+	private final static Logger LOGGER = LoggerFactory.getLogger(EspacoPropagandaController.class);
+	
 	private final Result result;
 	private final Validator validator;
 	private final EspacoPropagandaDAO espacoPropagandaDAO;
@@ -43,7 +42,6 @@ public class EspacoPropagandaController {
 	private final ResourceBundle i18n;
 	private final Comparator<PublicoAlvo> c = new Comparator<PublicoAlvo>() {
 		
-
 		public int compare(PublicoAlvo o1, PublicoAlvo o2) {
 			if (o1 == null && o2 == null)
 				return 0;
@@ -61,38 +59,35 @@ public class EspacoPropagandaController {
 				return -1;
 			if (o1.getDescricao().equals(o2.getDescricao()))
 				return 0;
-
+			
 			return o1.getDescricao().compareToIgnoreCase(o2.getDescricao());
-
+			
 		}
 	};
-
+	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected EspacoPropagandaController() {
-		this(null, null, null, null, null, null,null);
+		this(null, null, null, null, null, null, null);
 	}
-
+	
 	@Inject
-	public EspacoPropagandaController(Result result, Validator validator,
-			MidiaDAO midiaDAO, EspacoPropagandaDAO espacoPropagandaDAO,
-			PublicoAlvoDAO publicoAlvoDAO, UsuarioSession usuarioSession,JstlLocalization local) {
+	public EspacoPropagandaController(Result result, Validator validator, MidiaDAO midiaDAO,
+			EspacoPropagandaDAO espacoPropagandaDAO, PublicoAlvoDAO publicoAlvoDAO, UsuarioSession usuarioSession,
+			ResourceBundle i18n) {
 		this.result = result;
 		this.validator = validator;
 		this.midiaDAO = midiaDAO;
 		this.espacoPropagandaDAO = espacoPropagandaDAO;
 		this.publicoAlvoDAO = publicoAlvoDAO;
 		this.usuarioSession = usuarioSession;
-		if (local != null) {
-			this.i18n = local.getBundle(local.getLocale());
-		} else {
-			this.i18n = null;
-		}
+		this.i18n = i18n;
 	}
-
+	
 	@OpenTransaction
 	@ApenasAnunciante
+	@AnuncianteNaoGerenciado
 	public void formulario() {
 		// simples formulario... futuramente receendo id para editar... ou
 		// nao...
@@ -102,19 +97,19 @@ public class EspacoPropagandaController {
 		Collections.sort(alvos, c);
 		result.include("publicosAlvos", alvos);
 	}
-
+	
 	@OpenTransaction
 	@ApenasAnunciante
+	@AnuncianteNaoGerenciado
 	public void criar(@NotNull EspacoPropaganda espacoPropaganda) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando espaco: " + espacoPropaganda);
-
+		
 		Usuario usuario = usuarioSession.getUsuario();
 		if (!(usuario instanceof Anunciante)) {
-			validator.add(new SimpleMessage("error",
-					"Usuario deve ser do tipo Anunciante"));
+			validator.add(new SimpleMessage("error", "Usuario deve ser do tipo Anunciante"));
 			validator.onErrorRedirectTo(this).formulario();
-
+			
 		} else {
 			espacoPropaganda.setPertence((Anunciante) usuario);
 		}
@@ -122,37 +117,34 @@ public class EspacoPropagandaController {
 		// validacoes...
 		validarCriar(espacoPropaganda);
 		validator.onErrorRedirectTo(this).formulario();
-
+		
 		// salva
-		espacoPropagandaDAO.salvar(espacoPropaganda);
-
+		espacoPropaganda = espacoPropagandaDAO.salvar(espacoPropaganda);
+		
 		result.include("success", "Espaco criado com sucesso.");
 		result.redirectTo(this).listar();
 	}
 	
 	private void validarCriar(EspacoPropaganda espacoPropaganda) {
 		validator.validate(espacoPropaganda);
-
+		
 		// TODO validar inclusao repetida
 	}
-
+	
 	@OpenTransaction
 	public List<EspacoPropaganda> listar() {
 		LOGGER.debug("Listando os espacos ");
 		result.include("publicosAlvos", publicoAlvoDAO.buscarTodos());
-		return espacoPropagandaDAO.buscarPorAnuncianteId(usuarioSession
-				.getUsuario().getId());
+		return espacoPropagandaDAO.buscarPorAnuncianteId(usuarioSession.getUsuario().getId());
 	}
-
+	
 	@Path("/espacoPropaganda/apagar/{id}")
 	@OpenTransaction
 	@ApenasAnunciante
 	public void apagar(Long id) {
-		espacoPropagandaDAO.apagarLogado(id, usuarioSession
-				.getUsuarioLogado().getId());
-		if (i18n != null) {
-			result.include("success", i18n.getString("msg.success.apagar"));
-		}
+		espacoPropagandaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
+		
+		result.include("success", i18n.getString("msg.success.apagar"));
 		result.redirectTo(this).listar();
 	}
 }

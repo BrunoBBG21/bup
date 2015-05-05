@@ -40,11 +40,11 @@ public class AgenciaDAOTest extends AbstractDAOTest {
 		agencia.getGerencia().add(anunciante);
 
 		Assert.assertNull(agencia.getId());
-		usuarioDao.salvar(agencia);
+		agencia = (Agencia) usuarioDao.salvar(agencia);
 		Assert.assertNotNull(agencia.getId());
 
 		Assert.assertNull(anunciante.getId());
-		usuarioDao.salvar(anunciante);
+		anunciante = (Anunciante) usuarioDao.salvar(anunciante);
 		Assert.assertNotNull(anunciante.getId());
 		
 		//testando

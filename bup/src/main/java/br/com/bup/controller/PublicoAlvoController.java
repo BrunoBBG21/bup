@@ -17,43 +17,40 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.core.JstlLocalization;
-import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
+
 @Controller
 public class PublicoAlvoController {
-	private final static Logger LOGGER = LoggerFactory
-			.getLogger(PublicoAlvoController.class);
-
+	private final static Logger LOGGER = LoggerFactory.getLogger(PublicoAlvoController.class);
+	
 	private final Result result;
 	private final Validator validator;
 	private final PublicoAlvoDAO publicoAlvoDAO;
 	private final UsuarioSession usuarioSession;
 	private final ResourceBundle i18n;
+	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected PublicoAlvoController() {
-		this(null, null, null, null,null);
+		this(null, null, null, null, null);
 	}
+	
 	@Inject
-	public PublicoAlvoController(Result result, Validator validator,
-			PublicoAlvoDAO publicoAlvoDAO, 
-			UsuarioSession usuarioSession,JstlLocalization local) {
+	public PublicoAlvoController(Result result, Validator validator, PublicoAlvoDAO publicoAlvoDAO,
+			UsuarioSession usuarioSession, ResourceBundle i18n) {
 		this.result = result;
 		this.validator = validator;
 		this.publicoAlvoDAO = publicoAlvoDAO;
 		this.usuarioSession = usuarioSession;
-		if(local!=null){
-			this.i18n = local.getBundle(local.getLocale());
-		}else{
-			this.i18n = null;
-		}
+		this.i18n = i18n;
 	}
+	
 	@OpenTransaction
 	public void formulario() {
 		LOGGER.debug("carregando formulario de publico alvo.");
 	}
+	
 	@OpenTransaction
 	public List<PublicoAlvo> listar() {
 		LOGGER.debug("Listando os publicos alvos. ");
@@ -63,15 +60,15 @@ public class PublicoAlvoController {
 	
 	@OpenTransaction
 	public void criar(@NotNull PublicoAlvo publicoAlvo) {
-		validator.onErrorRedirectTo(this).formulario(); //caso seja null...
+		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando publico alvo: " + publicoAlvo);
 		
-		//validacoes...
+		// validacoes...
 		validarCriar(publicoAlvo);
-        validator.onErrorRedirectTo(this).formulario();		
+		validator.onErrorRedirectTo(this).formulario();
 		
-        //salva
-        publicoAlvoDAO.salvar(publicoAlvo);
+		// salva
+		publicoAlvo = publicoAlvoDAO.salvar(publicoAlvo);
 		
 		result.include("success", "Publico alvo criado com sucesso.");
 		result.redirectTo(IndexController.class).index();
@@ -86,9 +83,8 @@ public class PublicoAlvoController {
 	@ApenasAdministrador
 	public void apagar(Long id) {
 		publicoAlvoDAO.apagarPorId(id);
-		if(i18n!=null){
-			result.include("success", i18n.getString("msg.success.apagar"));
-		}
+		
+		result.include("success", i18n.getString("msg.success.apagar"));
 		result.redirectTo(this).listar();
 	}
 }

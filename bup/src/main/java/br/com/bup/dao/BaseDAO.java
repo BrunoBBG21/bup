@@ -12,7 +12,7 @@ public abstract class BaseDAO<T> {
 	protected EntityManager manager;
 	private final Class<T> classT;// = (Class<T>) ((ParameterizedType)
 									// getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-
+	
 	/**
 	 * Construtor usado nos testes unitarios.
 	 * 
@@ -23,19 +23,19 @@ public abstract class BaseDAO<T> {
 		this.classT = classT;
 		this.manager = manager;
 	}
-
+	
 	/**
-	 * Salvar padrao.
+	 * Salvar padrao. Utiliza o merge, logo ele retorna uma nova instancia
+	 * atachada. A instancia passada não é atachada.
 	 * 
 	 * @param entidade
-	 *            entidade que serï¿½ salva
-	 * @return entidade salva.
+	 *            entidade que será salva
+	 * @return entidade atachada.
 	 */
 	public T salvar(T entidade) {
-		manager.persist(entidade);
-		return entidade;
+		return manager.merge(entidade);
 	}
-
+	
 	/**
 	 * apaga por id
 	 * 
@@ -43,11 +43,11 @@ public abstract class BaseDAO<T> {
 	 */
 	public void apagarPorId(Long id) {
 		Object o = manager.find(classT, id);
-		if (o != null){
+		if (o != null) {
 			manager.remove(o);
 		}
 	}
-
+	
 	/**
 	 * Buscar pro id padrao.
 	 * 
@@ -58,7 +58,7 @@ public abstract class BaseDAO<T> {
 	public T buscarPorId(Long id) {
 		return manager.find(classT, id);
 	}
-
+	
 	/**
 	 * Buscar Todos padrao.
 	 * 
