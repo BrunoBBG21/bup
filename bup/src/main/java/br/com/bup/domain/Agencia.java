@@ -20,9 +20,12 @@ import javax.validation.constraints.NotNull;
 				      name = "Agencia.buscaGerenciados",
 				      query="SELECT new map(a.id, a.nome) "
 				      		+ "FROM Anunciante a "
-				      		+ "WHERE a.gerenciado.id = :id")
+				      		+ "WHERE a.gerenciado.id = :id"),
+				      		 @NamedQuery(
+				      name = "Agencia.buscaNaoGerenciados",
+				      query="Select a from Agencia a where a.id not in (select an.gerenciado.id from Anunciante an where an.id = :id)")
 		}) 
-@Entity
+@Entity 
 @Table
 public class Agencia extends Usuario implements Serializable {
 	private static final long serialVersionUID = -2729862041324410476L;

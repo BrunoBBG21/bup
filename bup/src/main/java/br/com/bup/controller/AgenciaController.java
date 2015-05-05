@@ -139,7 +139,8 @@ public class AgenciaController {
 	public List<Agencia> listar() {
 		LOGGER.debug("Listando os agentes. ");
 		
-		return agenciaDAO.buscarTodos();
+		return agenciaDAO.buscaNaoGerenciados(usuarioSession
+				.getUsuarioLogado().getId());
 	}
 	@Path("/agencia/associar/{id}")
 	@OpenTransaction
