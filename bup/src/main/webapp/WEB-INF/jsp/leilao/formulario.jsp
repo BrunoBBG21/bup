@@ -43,7 +43,9 @@
 						<div class="input-group-addon">
 							<i class="fa fa-clock-o"></i>
 						</div>
-						<input id="inpData" type="text" class="form-control pull-right" name="leilao.data" value="${leilao.data}"
+						<input id="inpData" type="text" class="form-control pull-right" name="leilao.dataInicio" value="${leilao.dataInicio}"
+							data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required />
+						<input id="inpData" type="text" class="form-control pull-right" name="leilao.dataFim" value="${leilao.dataFim}"
 							data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required />
 					</div>
 				</div>
@@ -70,15 +72,22 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="form-group row ${empty errors.from('inscricao') ? '' : 'has-error'}">
+			<div class="form-group row ${empty errors.from('espacoPropaganda.id') ? '' : 'has-error'}">
 				<div class="col-xs-6">
-					<label for="inpInscricao">
-						<fmt:message key="leilao.formulario.inscricao" />
+					<label for="inpModalidadePagamentoId">
+						<fmt:message key="leilao.formulario.espacoPropaganda" />
 					</label>
-					<div class="input-group">
-						<input id="inpInscricao" type="text" class="form-control" name="leilao.inscricao" value="${leilao.inscricao}" />
-					</div>
+					<select id="inpModalidadePagamentoId" class="form-control" name="leilao.espacoPropaganda.id" required>
+						<option value="">
+							<fmt:message key="combo.selecione" />
+						</option>
+
+						<c:forEach var="espaco" items="${espacos}">
+							<option value="${espaco.id}"
+								<c:if test="${leilao.espacoPropaganda.id eq espaco.id}">selected</c:if>>
+								${espaco.descricao}</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 
@@ -103,9 +112,9 @@
 							<fmt:message key="combo.selecione" />
 						</option>
 
-						<c:forEach var="modalidadePagamento" items="${modalidadePagamentoList}">
+						<c:forEach var="modalidadePagamento" items="${modalidades}">
 							<option value="${modalidadePagamento.id}"
-								<c:if test="${lelao.modalidadePagamento.id eq modalidadePagamento.id}">selected</c:if>>
+								<c:if test="${leilao.modalidadePagamento.id eq modalidadePagamento.id}">selected</c:if>>
 								${modalidadePagamento.tipo}</option>
 						</c:forEach>
 					</select>
