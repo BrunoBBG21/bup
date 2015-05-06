@@ -17,6 +17,7 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Accepts;
 import br.com.caelum.vraptor.AroundCall;
 import br.com.caelum.vraptor.Intercepts;
+import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.controller.ControllerMethod;
 import br.com.caelum.vraptor.interceptor.SimpleInterceptorStack;
 import br.com.caelum.vraptor.validator.I18nMessage;
@@ -30,6 +31,9 @@ public class AcessoUsuarioInterceptor {
 	
 	@Inject
 	private UsuarioSession usuarioSession;
+	
+	@Inject
+	private Result result;
 	
 	@Inject
 	private Validator validator;
@@ -89,7 +93,7 @@ public class AcessoUsuarioInterceptor {
 			}
 			
 			LOGGER.debug("Redirecionando para a pagina index...");
-			validator.onErrorRedirectTo(IndexController.class).index();
+			result.redirectTo(IndexController.class).index();
 		}
 	}
 	

@@ -40,7 +40,7 @@ public class Leilao {
 	
 	private BigDecimal inscricao;
 	
-	private Boolean ativo;
+	private Boolean ativo = Boolean.TRUE;
 	
 	@ManyToOne
 	@JoinColumn(name="modalidadePagamento_id",nullable=false)

@@ -1,25 +1,12 @@
-<%@ taglib
-	uri="http://java.sun.com/jsp/jstl/core"
-	prefix="c"%>
-<%@ taglib
-	uri="http://java.sun.com/jsp/jstl/fmt"
-	prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!-- sidebar: style can be found in sidebar.less -->
 <section class="sidebar">
-	<form
-		action="<c:url value='/agencia/gerenciar'/>"
-		method="post">
+	<form action="<c:url value='/agencia/gerenciar'/>" method="post">
 		<c:if test="${usuarioSession.isLogadoAgencia() }">
-			<select
-				class="form-control"
-				name="id"
-				onchange="jQuery('#btnSelectGerenciar').click();">
-				<option
-					value
-					disabled
-					<c:if test="${!usuarioSession.isGerenciando() }">selected</c:if>
-					style="display: none;">
+			<select class="form-control" name="id" onchange="jQuery('#btnSelectGerenciar').click();">
+				<option value disabled <c:if test="${!usuarioSession.isGerenciando() }">selected</c:if> style="display: none;">
 					<fmt:message key="menu.select.gerenciados.msg.vazia" />
 				</option>
 
@@ -29,19 +16,13 @@
 					</option>
 				</c:if>
 
-				<c:forEach
-					var="anunciante"
-					items="${agenciaController.getGerenciados()}">
-					<option
-						<c:if test="${usuarioSession.isGerenciando() && usuarioSession.idGerenciado eq anunciante.id }">selected</c:if>
+				<c:forEach var="anunciante" items="${agenciaController.getGerenciados()}">
+					<option <c:if test="${usuarioSession.isGerenciando() && usuarioSession.idGerenciado eq anunciante.id }">selected</c:if>
 						value="${anunciante.id}">${anunciante.nome}</option>
 				</c:forEach>
 			</select>
 
-			<input
-				id="btnSelectGerenciar"
-				hidden
-				type="submit" />
+			<input id="btnSelectGerenciar" hidden type="submit" />
 		</c:if>
 	</form>
 
@@ -58,36 +39,28 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li data-menu-map="/bup/leilao/formulario">
-					<a href="<c:url value='/leilao/formulario'/>">
+				<li data-menu-map="/bup/leilao/listarEspacos">
+					<a href="<c:url value='/leilao/listarEspacos'/>">
 						<fmt:message key="menu.leilao.criar" />
 					</a>
 				</li>
 				<li>
-					<a
-						href="#"
-						style="color: red;">
+					<a href="#" style="color: red;">
 						<fmt:message key="menu.leilao.listar" />
 					</a>
 				</li>
 				<li>
-					<a
-						href="#"
-						style="color: red;">
+					<a href="#" style="color: red;">
 						<fmt:message key="menu.leilao.inscrever" />
 					</a>
 				</li>
 				<li>
-					<a
-						href="#"
-						style="color: red;">
+					<a href="#" style="color: red;">
 						<fmt:message key="menu.leilao.meus_leiloes" />
 					</a>
 				</li>
 				<li>
-					<a
-						href="#"
-						style="color: red;">
+					<a href="#" style="color: red;">
 						<fmt:message key="menu.leilao.inscritos" />
 					</a>
 				</li>
@@ -145,17 +118,13 @@
 			<ul class="treeview-menu">
 				<c:if test="${usuarioSession.isAdministrador() }">
 					<li>
-						<a
-							href="#"
-							style="color: red;">
+						<a href="#" style="color: red;">
 							<fmt:message key="menu.transferencia.creditar" />
 						</a>
 					</li>
 				</c:if>
 				<li>
-					<a
-						href="#"
-						style="color: red;">
+					<a href="#" style="color: red;">
 						<fmt:message key="menu.transferencia.retirar" />
 					</a>
 				</li>
@@ -245,9 +214,7 @@
 			</a>
 			<ul class="treeview-menu">
 				<li>
-					<a
-						href="#"
-						style="color: red;">
+					<a href="#" style="color: red;">
 						<fmt:message key="menu.relatorio.operacional" />
 					</a>
 				</li>
