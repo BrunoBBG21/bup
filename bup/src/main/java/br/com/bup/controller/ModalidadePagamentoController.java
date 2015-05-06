@@ -128,6 +128,7 @@ public class ModalidadePagamentoController {
 	private ModalidadePagamento atualizarEntidadeDoFormulario(ModalidadePagamento modalidadePagamento) {
 		ModalidadePagamento modalidadeAtualizada = modalidadePagamentoDAO.buscarPorId(modalidadePagamento.getId());
 		
+		//TODO testar o BeanBuild... sl oq
 		modalidadeAtualizada.setMaxParcela(modalidadePagamento.getMaxParcela());
 		modalidadeAtualizada.setMidia(modalidadePagamento.getMidia());
 		modalidadeAtualizada.setTipo(modalidadePagamento.getTipo());

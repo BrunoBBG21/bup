@@ -58,10 +58,8 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li>
-					<a
-						href="#"
-						style="color: red;">
+				<li data-menu-map="/bup/leilao/formulario">
+					<a href="<c:url value='/leilao/formulario'/>">
 						<fmt:message key="menu.leilao.criar" />
 					</a>
 				</li>
