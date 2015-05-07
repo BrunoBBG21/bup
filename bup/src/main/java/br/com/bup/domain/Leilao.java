@@ -7,11 +7,15 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,8 +23,15 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
+import br.com.bup.state.EstadoLeilao;
+import br.com.bup.state.TipoEstadoLeilao;
+
+@NamedQueries(value = {
+		@NamedQuery(name = "Leilao.buscarPorAnuncianteId",
+				query = "select l from Leilao l where l.espacoPropaganda.pertence.id = :anuncianteId")
+})
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"dataInicio","dataFim","modalidadePagamento_id","espacoPropaganda_id"}))
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"dataInicio", "dataFim", "modalidadePagamento_id", "espacoPropaganda_id"}))
 public class Leilao {
 	@Id
 	@GeneratedValue
@@ -42,6 +53,9 @@ public class Leilao {
 	
 	private Boolean ativo = Boolean.TRUE;
 	
+	@Enumerated(EnumType.STRING)
+	private TipoEstadoLeilao estado = TipoEstadoLeilao.ESPERANDO;
+	
 	@ManyToOne
 	@JoinColumn(name="modalidadePagamento_id",nullable=false)
 	@NotNull
@@ -57,6 +71,20 @@ public class Leilao {
 	
 	@ManyToMany
 	private List<Anunciante> inscritos = new ArrayList<Anunciante>();
+
+	//metodos----------------------------------------------------------------
+	
+	/**
+	 * Retorna o estado atual do leilao.
+	 * @return EstadoLeilao
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 */
+	public EstadoLeilao getEstadoAtual() throws InstantiationException, IllegalAccessException {
+		EstadoLeilao instance = estado.getInstance();
+		instance.setLeilao(this);
+		return instance;
+	}
 	
 	//get-set-gerados-------------------------------------------------------
 	
@@ -119,5 +147,11 @@ public class Leilao {
 	}
 	public void setInscricao(BigDecimal inscricao) {
 		this.inscricao = inscricao;
+	}
+	public TipoEstadoLeilao getEstado() {
+		return estado;
+	}
+	public void setEstado(TipoEstadoLeilao estado) {
+		this.estado = estado;
 	}
 }

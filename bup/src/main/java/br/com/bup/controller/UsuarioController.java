@@ -12,8 +12,6 @@ import br.com.bup.annotation.EmailDisponivel;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.annotation.Public;
 import br.com.bup.annotation.Telefone;
-import br.com.bup.dao.AgenciaDAO;
-import br.com.bup.dao.AnuncianteDAO;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
@@ -32,8 +30,6 @@ public class UsuarioController {
 	
 	private final Result result;
 	private final Validator validator;
-	private final AnuncianteDAO anuncianteDAO;
-	private final AgenciaDAO agenciaDAO;
 	private final UsuarioDAO usuarioDAO;
 	private final UsuarioSession usuarioSession;
 	private final ResourceBundle i18n;
@@ -42,19 +38,17 @@ public class UsuarioController {
 	 * @deprecated CDI eyes only
 	 */
 	protected UsuarioController() {
-		this(null, null, null, null, null, null, null);
+		this(null, null, null, null, null);
 	}
 	
 	@Inject
 	public UsuarioController(Result result, Validator validator, UsuarioDAO usuarioDAO, UsuarioSession usuarioSession,
-			AnuncianteDAO anuncianteDAO, AgenciaDAO agenciaDAO, ResourceBundle i18n) {
+			ResourceBundle i18n) {
 		LOGGER.debug("Criando controller UsuarioController...");
 		this.result = result;
 		this.validator = validator;
 		this.usuarioDAO = usuarioDAO;
 		this.usuarioSession = usuarioSession;
-		this.anuncianteDAO = anuncianteDAO;
-		this.agenciaDAO = agenciaDAO;
 		this.i18n = i18n;
 	}
 	

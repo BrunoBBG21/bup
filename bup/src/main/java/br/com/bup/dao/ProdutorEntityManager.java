@@ -1,7 +1,10 @@
 package br.com.bup.dao;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -16,21 +19,25 @@ import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.ContaBancaria;
 import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.FormatoEspacoPropaganda;
+import br.com.bup.domain.Leilao;
 import br.com.bup.domain.Midia;
 import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.domain.PublicoAlvo;
+import br.com.bup.state.TipoEstadoLeilao;
 
 public class ProdutorEntityManager {
 	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("bup");
 	static {
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
-		UsuarioDAO u = new UsuarioDAO(em);
-		ContaBancariaDAO contaDAO = new ContaBancariaDAO(em);
+		
 		MidiaDAO mDAO = new MidiaDAO(em);
-		ModalidadePagamentoDAO pDAO = new ModalidadePagamentoDAO(em);
+		UsuarioDAO u = new UsuarioDAO(em);
+		LeilaoDAO lDAO = new LeilaoDAO(em);
 		PublicoAlvoDAO paDAO = new PublicoAlvoDAO(em);
+		ContaBancariaDAO contaDAO = new ContaBancariaDAO(em);
 		EspacoPropagandaDAO epDAO = new EspacoPropagandaDAO(em);
+		ModalidadePagamentoDAO pDAO = new ModalidadePagamentoDAO(em);
 		
 		Agencia admin = new Agencia();
 		admin.setCep("0");
@@ -218,8 +225,64 @@ public class ProdutorEntityManager {
 		
 		ep = epDAO.salvar(ep);
 		
+		EspacoPropaganda ep2 = new EspacoPropaganda();
+		ep2.setUrl("http://b2.up");
+		ep2.setAltura(40.00);
+		ep2.setLargura(30.00);
+		ep2.setDescricao("site de leilao da propaganda");
+		ep2.setFormatoEspacoPropaganda(FormatoEspacoPropaganda.IMAGEM);
+		ep2.setMidia(m);
+		ep2.setPeriodo(1);
+		ep2.setPageViews(1000000l);
+		ep2.setPosicaoTela("Topo");
+		ep2.setPesoMaximo(1000);
+		ep2.setPertence(bup);
+		alvos = new ArrayList<PublicoAlvo>();
+		alvos.add(adolescente);
+		alvos.add(aposentado);
+		alvos.add(es);
+		alvos.add(ca);
+		ep2.setPublicosAlvos(alvos);
+		
+		ep2 = epDAO.salvar(ep2);
+		
+		Leilao leilao = new Leilao();
+		leilao.setAtivo(false);
+		leilao.setDataFim(parseDate("10/10/2010"));
+		leilao.setDataInicio(parseDate("01/10/2010"));
+		leilao.setEspacoPropaganda(ep);
+		leilao.setEstado(TipoEstadoLeilao.CANCELADO);
+		leilao.setInscricao(BigDecimal.ZERO);
+		leilao.setModalidadePagamento(p2);
+		leilao.setReserva(BigDecimal.ZERO);
+		
+		leilao = lDAO.salvar(leilao);
+		
+		Leilao leilao2 = new Leilao();
+		leilao2.setAtivo(true);
+		leilao2.setDataFim(parseDate("10/10/2020"));
+		leilao2.setDataInicio(parseDate("01/10/2010"));
+		leilao2.setEspacoPropaganda(ep2);
+		leilao2.setEstado(TipoEstadoLeilao.EM_ANDAMENTO);
+		leilao2.setInscricao(BigDecimal.ZERO);
+		leilao2.setModalidadePagamento(p2);
+		leilao2.setReserva(BigDecimal.ZERO);
+		
+		leilao2 = lDAO.salvar(leilao2);
+		
 		em.getTransaction().commit();
 		em.close();
+	}
+
+	private static Date parseDate(String value) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date parse = null;
+		try {
+			parse = sdf.parse(value);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return parse;
 	}
 	
 	@Produces

@@ -14,7 +14,27 @@ function activeItemMenuPelaUrl() {
 	for (var i = 1; i < splUrl.length; i++) {
 		url += "/" + splUrl[i]; 
 		
-		var liItem = document.querySelectorAll('[data-menu-map="' + url + '"]');
+		var allLiItens = document.querySelectorAll('[data-menu-map]');
+		var liItem = null;
+		
+		for (var o = 0; o < allLiItens.length; o++) {
+			var liItemAux = allLiItens[o];
+			var menuSplit = jQuery(liItemAux).attr("data-menu-map").split(",");
+			
+			for (var u = 0; u < menuSplit.length; u++) {
+				if (url == menuSplit[u]) {
+					liItem = liItemAux;
+					break;
+				}
+			}
+			
+			if (liItem != null) {
+				break;
+			}
+			
+		}
+		
+		var liItem = document.querySelectorAll('[data-menu-map*="' + url + '"]');
 		
 		if (liItem.length == 1) {
 			jQuery(liItem[0]).addClass("active");

@@ -55,7 +55,7 @@ public class LeilaoController extends BaseController {
 	public List<EspacoPropaganda> listarEspacos() {
 		LOGGER.debug("Listando os espacos para o leilao");
 		result.include("publicosAlvos", publicoAlvoDAO.buscarTodos());
-		return espacoPropagandaDAO.buscarPorAnuncianteId(usuarioSession.getUsuario().getId());
+		return espacoPropagandaDAO.buscarLivresPorAnuncianteId(usuarioSession.getUsuario().getId());
 	}
 	
 	@OpenTransaction
@@ -94,5 +94,13 @@ public class LeilaoController extends BaseController {
 		
 		setSuccessMsg("leilao.criar.sucesso");
 		result.redirectTo(IndexController.class).index();
+	}
+	
+	@OpenTransaction
+	@ApenasAnunciante
+	public List<Leilao> listar() {
+		LOGGER.debug("Listando os leiloes ");
+		
+		return leilaoDAO.buscarPorAnuncianteId(usuarioSession.getUsuario().getId());
 	}
 }

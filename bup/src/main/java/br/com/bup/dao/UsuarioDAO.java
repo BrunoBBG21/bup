@@ -6,19 +6,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.Usuario;
 
 @RequestScoped
 public class UsuarioDAO extends BaseDAO<Usuario> {
-
+	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected UsuarioDAO() {
 		super(null, Usuario.class);
 	}
-
+	
 	/**
 	 * Construtor usado nos testes unitarios.
 	 * 
@@ -29,7 +28,7 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 	public UsuarioDAO(EntityManager manager) {
 		super(manager, Usuario.class);
 	}
-
+	
 	public Usuario buscarPorEmailSenha(String email, String password) {
 		Query query = manager.createNamedQuery("Usuario.buscarPorEmailSenha");
 		query.setParameter("email", email);
@@ -38,14 +37,17 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 		Object value = null;
 		try {
 			value = query.getSingleResult();
-		} catch(NoResultException ex){}
+		} catch (NoResultException ex) {
+		}
 		
 		return (Usuario) value;
 	}
 	
 	/**
 	 * Verifica se existe um Usuario com o email passado.
-	 * @param email String
+	 * 
+	 * @param email
+	 *            String
 	 * @return Boolean
 	 */
 	public boolean existeComEmail(String email) {
@@ -54,14 +56,16 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 		
 		return (Boolean) query.getSingleResult();
 	}
+	
 	/**
 	 * para garantir que o usuario apague o seu usuario.
+	 * 
 	 * @param id
 	 * @param usuario
 	 */
-	public void apagarLogado(Long id,Long usuario) {
+	public void apagarLogado(Long id, Long usuario) {
 		Usuario e = this.buscarPorId(id);
-		if(e!=null&&e.getId().equals(usuario)){
+		if (e != null && e.getId().equals(usuario)) {
 			manager.remove(e);
 		}
 	}
