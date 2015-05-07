@@ -9,28 +9,36 @@
 		</h3>
 	</div>
 	<div class="box-body table-responsive">
-		<c:forEach var="error" items="${errors}">
-			    ${error.category} - ${error.message}<br />
-		</c:forEach>
-		${success}
 		<table class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
-				<c:if test="${usuarioSession.isLogadoAnunciante() }">
+					<c:if test="${usuarioSession.isLogadoAnunciante() }">
 						<th>
-							<fmt:message key="btn.associar"/>
+							<fmt:message key="btn.associar" />
 						</th>
-						</c:if>
-					<th><fmt:message key="usuario.formulario.label.email" /></th>
+					</c:if>
+					<th>
+						<fmt:message key="usuario.formulario.label.email" />
+					</th>
 
-					<th><fmt:message key="usuario.formulario.label.nome" /></th>
+					<th>
+						<fmt:message key="usuario.formulario.label.nome" />
+					</th>
 
-					<th><fmt:message key="usuario.formulario.label.endereco" /></th>
+					<th>
+						<fmt:message key="usuario.formulario.label.endereco" />
+					</th>
 
-					<th><fmt:message key="usuario.formulario.label.cep" /></th>
+					<th>
+						<fmt:message key="usuario.formulario.label.cep" />
+					</th>
 
-					<th><fmt:message key="usuario.formulario.label.telefone" /></th>
-					<th><fmt:message key="usuario.formulario.label.cnpj" /></th>
+					<th>
+						<fmt:message key="usuario.formulario.label.telefone" />
+					</th>
+					<th>
+						<fmt:message key="usuario.formulario.label.cnpj" />
+					</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -39,8 +47,7 @@
 						<c:if test="${usuarioSession.isLogadoAnunciante() }">
 							<td>
 								<form>
-									<button type="submit"
-										formaction='<c:url value="/agencia/associar/${agencia.id}"/>'>
+									<button type="submit" formaction='<c:url value="/agencia/associar/${agencia.id}"/>'>
 										<fmt:message key="btn.associar" />
 									</button>
 								</form>

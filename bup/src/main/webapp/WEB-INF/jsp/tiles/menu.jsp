@@ -39,7 +39,7 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<li data-menu-map="/bup/leilao/listarEspacos,/bup/leilao/formulario">
+				<li data-menu-map="/bup/leilao/listarEspacos, /bup/leilao/formulario">
 					<a href="<c:url value='/leilao/listarEspacos'/>">
 						<fmt:message key="menu.leilao.criar" />
 					</a>
@@ -49,8 +49,8 @@
 						<fmt:message key="menu.leilao.listar" />
 					</a>
 				</li>
-				<li>
-					<a href="#" style="color: red;">
+				<li data-menu-map="/bup/leilao/inscrever">
+					<a href="<c:url value='/leilao/inscrever'/>">
 						<fmt:message key="menu.leilao.inscrever" />
 					</a>
 				</li>

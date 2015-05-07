@@ -25,6 +25,8 @@ public class PublicoAlvo {
 	@NotNull
 	private String nome;
 	
+	@Column(nullable=false)
+	@NotNull
 	private String descricao;
 	
 	@ManyToMany

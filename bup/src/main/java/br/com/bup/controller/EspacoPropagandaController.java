@@ -1,5 +1,6 @@
 package br.com.bup.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -40,8 +41,8 @@ public class EspacoPropagandaController {
 	private final UsuarioSession usuarioSession;
 	private final PublicoAlvoDAO publicoAlvoDAO;
 	private final ResourceBundle i18n;
+	
 	private final Comparator<PublicoAlvo> c = new Comparator<PublicoAlvo>() {
-		
 		public int compare(PublicoAlvo o1, PublicoAlvo o2) {
 			if (o1 == null && o2 == null)
 				return 0;
@@ -89,13 +90,27 @@ public class EspacoPropagandaController {
 	@ApenasAnunciante
 	@AnuncianteNaoGerenciado
 	public void formulario() {
-		// simples formulario... futuramente receendo id para editar... ou
-		// nao...
 		result.include("formatosEspaco", FormatoEspacoPropaganda.values());
 		result.include("midias", midiaDAO.buscarTodos());
 		List<PublicoAlvo> alvos = publicoAlvoDAO.buscarTodos();
 		Collections.sort(alvos, c);
-		result.include("publicosAlvos", alvos);
+//		result.include("publicosAlvos", alvos);
+		
+		List<List<PublicoAlvo>> categoriaAlvos = new ArrayList<List<PublicoAlvo>>();
+		List<PublicoAlvo> alvosAux = new ArrayList<PublicoAlvo>();
+		for (PublicoAlvo publicoAlvo : alvos) {
+			if (!alvosAux.isEmpty() 
+					&& !alvosAux.get(0).getDescricao().equals(publicoAlvo.getDescricao())) {
+				categoriaAlvos.add(alvosAux);
+				alvosAux = new ArrayList<PublicoAlvo>();
+			}
+			alvosAux.add(publicoAlvo);
+		}
+		if (!alvosAux.isEmpty()) {
+			categoriaAlvos.add(alvosAux);
+		}
+		
+		result.include("categoriaAlvos", categoriaAlvos);
 	}
 	
 	@OpenTransaction

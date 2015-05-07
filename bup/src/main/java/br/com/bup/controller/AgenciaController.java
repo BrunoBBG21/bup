@@ -29,20 +29,13 @@ import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
 @Named("agenciaController")
-public class AgenciaController {
+public class AgenciaController extends BaseController {
 	private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.class);
 	
-	private final Result result;
-	private final Validator validator;
-	private final UsuarioSession usuarioSession;
 	private final UsuarioDAO usuarioDAO;
-	
 	private final AgenciaDAO agenciaDAO;
-	
-	private final LanceLeilaoDAO lancesLeilaoDAO;
-	
 	private final AnuncianteDAO anuncianteDAO;
-	private final ResourceBundle i18n;
+	private final LanceLeilaoDAO lancesLeilaoDAO;
 	
 	/**
 	 * @deprecated CDI eyes only
@@ -54,14 +47,11 @@ public class AgenciaController {
 	@Inject
 	public AgenciaController(Result result, Validator validator, AgenciaDAO agenciaDAO, LanceLeilaoDAO lancesLeilaoDAO,
 			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession, UsuarioDAO usuarioDAO, ResourceBundle i18n) {
-		this.result = result;
-		this.validator = validator;
+		super(result, validator, usuarioSession, i18n);
 		this.agenciaDAO = agenciaDAO;
 		this.lancesLeilaoDAO = lancesLeilaoDAO;
 		this.anuncianteDAO = anuncianteDAO;
-		this.usuarioSession = usuarioSession;
 		this.usuarioDAO = usuarioDAO;
-		this.i18n = i18n;
 	}
 	
 	/**
@@ -85,10 +75,13 @@ public class AgenciaController {
 	@OpenTransaction
 	public void gerenciar(Long id) {
 		if (id != null && id > 0) {
-			usuarioSession.gerenciar((Anunciante) usuarioDAO.buscarPorId(id));
+			Anunciante anunciante = (Anunciante) usuarioDAO.buscarPorId(id);
+			usuarioSession.gerenciar(anunciante);
+			setSuccessMsg("msg.anunciante.gerenciar.success", anunciante.getNome());
 			
 		} else if (id != null && id < 0) {
 			usuarioSession.desGerenciar();
+			setSuccessMsg("msg.anunciante.desgerenciar.success");
 		}
 		result.redirectTo(IndexController.class).index();
 	}
@@ -121,7 +114,7 @@ public class AgenciaController {
 			// salva
 			agencia = agenciaDAO.salvar(agencia);
 			
-			result.include("success", "agencia criada com sucesso.");
+			setSuccessMsg("agencia criada com sucesso.");
 			result.redirectTo(IndexController.class).index();
 		}
 	}
@@ -148,6 +141,7 @@ public class AgenciaController {
 		a.setGerenciado(ag);
 		ag = agenciaDAO.salvar(ag);
 		
+		setSuccessMsg("msg.success.associar");
 		result.include("success", i18n.getString("msg.success.associar"));
 		result.redirectTo(this).listar();
 	}

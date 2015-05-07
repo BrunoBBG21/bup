@@ -42,4 +42,23 @@ public class LeilaoDAO extends BaseDAO<Leilao> {
 		
 		return value;
 	}
+	
+	/**
+	 * Busca todos os leiloes com estado ESPERANDO menos os leiloes que pertencem ou em que o Anunciante participa.
+	 * @param anuncianteId 
+	 * @return
+	 */
+	public List<Leilao> buscarTodosEsperandoMenosAnuncianteId(Long anuncianteId) {
+		List<Leilao> value = new ArrayList<Leilao>();
+		
+		Query query = manager.createNamedQuery("Leilao.buscarTodosEsperandoMenosAnuncianteId");
+		query.setParameter("anuncianteId", anuncianteId);
+		
+		try {
+			value = query.getResultList();
+		} catch (NoResultException ex) {
+		}
+		
+		return value;
+	}
 }

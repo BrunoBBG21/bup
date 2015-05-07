@@ -56,10 +56,6 @@
 	</div>
 
 	<div class="box-body">
-		<c:forEach var="error" items="${errors}">
-			    ${error.category} - ${error.message}<br />
-		</c:forEach>
-
 		<form method="post" role="form" style="width: 50%">
 			<input id="inpDataInicio" type="hidden" name="leilao.dataInicio" value="${leilao.dataInicio}" />
 			<input id="inpDataFim" type="hidden" name="leilao.dataFim" value="${leilao.dataFim}" />

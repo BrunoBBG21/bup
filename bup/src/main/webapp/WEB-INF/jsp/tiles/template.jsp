@@ -5,7 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title><tiles:getAsString name="title" /></title>
+<title>
+	<c:set var="titleKey">
+		<tiles:getAsString name="title" />
+	</c:set>
+	<fmt:message key="${titleKey}" />
+</title>
 <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
 <link href="/bup/tema/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -71,15 +76,56 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-					<c:set var="titleKey">
-						<tiles:getAsString name="title" />
-					</c:set>
 					<fmt:message key="${titleKey}" />
 				</h1>
 			</section>
 
 			<!-- Main content -->
 			<section class="content">
+				<c:forEach var="success" items="${vmessages.success}">
+					<div class="alert alert-success alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-check"></i>
+							Sucesso!
+						</h4>
+						${success.category} - ${success.message}.
+					</div>
+				</c:forEach>
+
+				<c:forEach var="info" items="${vmessages.info}">
+					<div class="alert alert-info alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-info"></i>
+							Info!
+						</h4>
+						${info.category} - ${info.message}.
+					</div>
+				</c:forEach>
+
+				<c:forEach var="warning" items="${vmessages.warnings}">
+					<div class="alert alert-warning alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-warning"></i>
+							Warning!
+						</h4>
+						${warning.category} - ${warning.message}.
+					</div>
+				</c:forEach>
+
+				<c:forEach var="error" items="${errors}">
+					<div class="alert alert-danger alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h4>
+							<i class="icon fa fa-ban"></i>
+							Erro!
+						</h4>
+						${error.category} - ${error.message}.
+					</div>
+				</c:forEach>
+
 				<tiles:insertAttribute name="body" />
 			</section>
 		</div>

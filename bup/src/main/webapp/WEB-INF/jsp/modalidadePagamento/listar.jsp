@@ -1,9 +1,5 @@
-<%@ taglib
-	uri="http://java.sun.com/jsp/jstl/core"
-	prefix="c"%>
-<%@ taglib
-	uri="http://java.sun.com/jsp/jstl/fmt"
-	prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!-- Default box -->
 <div class="box">
@@ -14,12 +10,6 @@
 	</div>
 
 	<div class="box-body table-responsive">
-		<c:forEach
-			var="error"
-			items="${errors}">
-			    ${error.category} - ${error.message}<br />
-		</c:forEach>
-		${success}
 		<table class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
@@ -43,21 +33,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach
-					var="modalidadePagamento"
-					items="${modalidadePagamentoList}">
+				<c:forEach var="modalidadePagamento" items="${modalidadePagamentoList}">
 					<tr>
 						<c:if test="${usuarioSession.isAdministrador() }">
 							<td>
 								<form>
-									<button
-										type="submit"
-										formaction='<c:url value="/modalidadePagamento/apagar/${modalidadePagamento.id}"/>'>
+									<button type="submit" formaction='<c:url value="/modalidadePagamento/apagar/${modalidadePagamento.id}"/>'>
 										<fmt:message key="btn.apagar" />
 									</button>
-									<button
-										type="submit"
-										formaction='<c:url value="/modalidadePagamento/formulario/${modalidadePagamento.id}"/>'>
+									<button type="submit" formaction='<c:url value="/modalidadePagamento/formulario/${modalidadePagamento.id}"/>'>
 										<fmt:message key="btn.editar" />
 									</button>
 								</form>

@@ -5,7 +5,7 @@
 <div class="box">
 	<div class="box-header with-border">
 		<h3 class="box-title">
-			<fmt:message key="leilao.listar.box_header" />
+			<fmt:message key="leilao.inscrever.box_header" />
 		</h3>
 	</div>
 
@@ -13,6 +13,9 @@
 		<table class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
+					<th>
+						<fmt:message key="btn.selecionar" />
+					</th>
 					<th>
 						<fmt:message key="leilao.listar.estado" />
 					</th>
@@ -39,6 +42,15 @@
 			<tbody>
 				<c:forEach var="leilao" items="${leilaoList}">
 					<tr>
+						<td>
+							<form>
+								<input type="hidden" name="leilaoId" value="${espaco.id}">
+								<button type="submit" formaction='<c:url value="/leilao/inscricao"/>'>
+									<fmt:message key="btn.selecionar" />
+								</button>
+							</form>
+						</td>
+						
 						<td>${leilao.estado.descricao}</td>
 						<td>${leilao.espacoPropaganda.descricao}</td>
 						<td>

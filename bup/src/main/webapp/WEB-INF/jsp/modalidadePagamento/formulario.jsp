@@ -1,13 +1,6 @@
-<%@ page
-	language="java"
-	contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib
-	uri="http://java.sun.com/jsp/jstl/core"
-	prefix="c"%>
-<%@ taglib
-	uri="http://java.sun.com/jsp/jstl/fmt"
-	prefix="fmt"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!-- Default box -->
 <div class="box">
@@ -18,38 +11,19 @@
 	</div>
 	<div class="box-body">
 		<div class="box-body">
-
-			<c:forEach
-				var="error"
-				items="${errors}">
-			    ${error.category} - ${error.message}<br />
-			</c:forEach>
-
-			<form
-				method="post"
-				role="form">
-
+			<form method="post" role="form">
 				<div class="form-group ${empty errors.from('tipo') ? '' : 'has-error'}">
 					<label for="inpTipo">
 						<fmt:message key="modalidade_pagamento.formulario.tipo" />
 					</label>
-					<input
-						id="inpTipo"
-						type="text"
-						class="form-control"
-						name="modalidadePagamento.tipo"
-						value="${modalidadePagamento.tipo}" />
+					<input id="inpTipo" type="text" class="form-control" name="modalidadePagamento.tipo" value="${modalidadePagamento.tipo}" />
 				</div>
 
 				<div class="form-group ${empty errors.from('valorMinParcela') ? '' : 'has-error'}">
 					<label for="inpValorMinParcela">
 						<fmt:message key="modalidade_pagamento.formulario.valorMinParcela" />
 					</label>
-					<input
-						id="inpValorMinParcela"
-						type="text"
-						class="form-control"
-						name="modalidadePagamento.valorMinParcela"
+					<input id="inpValorMinParcela" type="text" class="form-control" name="modalidadePagamento.valorMinParcela"
 						value="${modalidadePagamento.valorMinParcela}" />
 				</div>
 
@@ -57,11 +31,7 @@
 					<label for="inpMaxParcela">
 						<fmt:message key="modalidade_pagamento.formulario.maxParcela" />
 					</label>
-					<input
-						id="inpMaxParcela"
-						type="text"
-						class="form-control"
-						name="modalidadePagamento.maxParcela"
+					<input id="inpMaxParcela" type="text" class="form-control" name="modalidadePagamento.maxParcela"
 						value="${modalidadePagamento.maxParcela}" />
 				</div>
 
@@ -69,21 +39,13 @@
 					<label for="inpMidia">
 						<fmt:message key="modalidade_pagamento.formulario.midia" />
 					</label>
-					<select
-						id="inpMidia"
-						class="form-control"
-						name="modalidadePagamento.midia.id"
-						required>
+					<select id="inpMidia" class="form-control" name="modalidadePagamento.midia.id" required>
 						<option value="">
 							<fmt:message key="combo.selecione" />
 						</option>
 
-						<c:forEach
-							var="midia"
-							items="${listaMidias}">
-							<option
-								value="${midia.id}"
-								<c:if test="${modalidadePagamento.midia.id eq midia.id}">selected</c:if>>${midia.tipo}</option>
+						<c:forEach var="midia" items="${listaMidias}">
+							<option value="${midia.id}" <c:if test="${modalidadePagamento.midia.id eq midia.id}">selected</c:if>>${midia.tipo}</option>
 						</c:forEach>
 					</select>
 					<span class="error">${errors.from('espacoPropaganda.formatoEspacoPropaganda').join(' - ')}</span>
@@ -91,21 +53,12 @@
 
 				<br />
 				<c:if test="${modalidadePagamento.id == null}">
-					<input
-						type="submit"
-						formaction="<c:url value='/modalidadePagamento/criar'/>"
-						class="btn btn-primary"
+					<input type="submit" formaction="<c:url value='/modalidadePagamento/criar'/>" class="btn btn-primary"
 						value='<fmt:message key="btn.salvar"/>' />
 				</c:if>
 				<c:if test="${modalidadePagamento.id != null}">
-					<input
-						type="hidden"
-						name="modalidadePagamento.id"
-						value="${modalidadePagamento.id}">
-					<input
-						type="submit"
-						formaction="<c:url value='/modalidadePagamento/atualizar'/>"
-						class="btn btn-primary"
+					<input type="hidden" name="modalidadePagamento.id" value="${modalidadePagamento.id}">
+					<input type="submit" formaction="<c:url value='/modalidadePagamento/atualizar'/>" class="btn btn-primary"
 						value='<fmt:message key="btn.salvar"/>' />
 				</c:if>
 			</form>

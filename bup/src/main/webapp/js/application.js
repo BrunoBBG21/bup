@@ -22,7 +22,7 @@ function activeItemMenuPelaUrl() {
 			var menuSplit = jQuery(liItemAux).attr("data-menu-map").split(",");
 			
 			for (var u = 0; u < menuSplit.length; u++) {
-				if (url == menuSplit[u]) {
+				if (url == menuSplit[u].trim()) {
 					liItem = liItemAux;
 					break;
 				}
@@ -31,14 +31,11 @@ function activeItemMenuPelaUrl() {
 			if (liItem != null) {
 				break;
 			}
-			
 		}
 		
-		var liItem = document.querySelectorAll('[data-menu-map*="' + url + '"]');
-		
-		if (liItem.length == 1) {
-			jQuery(liItem[0]).addClass("active");
-			jQuery(liItem[0]).closest(".treeview").addClass("active");
+		if (liItem != null) {
+			jQuery(liItem).addClass("active");
+			jQuery(liItem).closest(".treeview").addClass("active");
 			break;
 		}
 	}

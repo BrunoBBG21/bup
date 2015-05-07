@@ -99,8 +99,16 @@ public class LeilaoController extends BaseController {
 	@OpenTransaction
 	@ApenasAnunciante
 	public List<Leilao> listar() {
-		LOGGER.debug("Listando os leiloes ");
+		LOGGER.debug("Listando os leiloes do anunciante");
 		
 		return leilaoDAO.buscarPorAnuncianteId(usuarioSession.getUsuario().getId());
+	}
+	
+	@OpenTransaction
+	@ApenasAnunciante
+	public List<Leilao> inscrever() {
+		LOGGER.debug("Listando os leiloes para inscrição");
+		
+		return leilaoDAO.buscarTodosEsperandoMenosAnuncianteId(usuarioSession.getUsuario().getId());
 	}
 }

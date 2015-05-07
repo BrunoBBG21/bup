@@ -10,10 +10,6 @@
 	</div>
 
 	<div class="box-body table-responsive">
-		<c:forEach var="error" items="${errors}">
-			    ${error.category} - ${error.message}<br />
-		</c:forEach>
-		${success}
 		<table class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>

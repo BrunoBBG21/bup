@@ -99,6 +99,10 @@
         <put-attribute name="title" value="leilao.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/leilao/listar.jsp" />
     </definition>
+    <definition name="leilao/inscrever" extends="commonPage">
+        <put-attribute name="title" value="leilao.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/leilao/inscrever.jsp" />
+    </definition>
     
     <!-- END -->
 </tiles-definitions>

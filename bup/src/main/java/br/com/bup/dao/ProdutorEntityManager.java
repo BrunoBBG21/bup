@@ -61,24 +61,6 @@ public class ProdutorEntityManager {
 		
 		a = (Agencia) u.salvar(a);
 		
-		ContaBancaria contaA = new ContaBancaria();
-		contaA.setAgencia("1");
-		contaA.setAtiva(Boolean.TRUE);
-		contaA.setBanco("1");
-		contaA.setConta("1");
-		contaA.setUsuario(a);
-		
-		contaA = contaDAO.salvar(contaA);
-		
-		ContaBancaria contaC = new ContaBancaria();
-		contaC.setAgencia("3");
-		contaC.setAtiva(Boolean.FALSE);
-		contaC.setBanco("3");
-		contaC.setConta("3");
-		contaC.setUsuario(a);
-		
-		contaC = contaDAO.salvar(contaC);
-		
 		Anunciante bup = new Anunciante();
 		bup.setCep("2");
 		bup.setCpf("1");
@@ -91,6 +73,27 @@ public class ProdutorEntityManager {
 		
 		bup = (Anunciante) u.salvar(bup);
 		
+		Anunciante bup2 = new Anunciante();
+		bup2.setCep("22");
+		bup2.setCpf("12");
+		bup2.setEmail("b2@b.b");
+		bup2.setEndereco("n2");
+		bup2.setNome("Anunciante do BUP2");
+		bup2.setPassword("b");
+		bup2.setTelefone("21");
+		bup2.setGerenciado(a);
+		
+		bup2 = (Anunciante) u.salvar(bup2);
+		
+		ContaBancaria contaA = new ContaBancaria();
+		contaA.setAgencia("1");
+		contaA.setAtiva(Boolean.TRUE);
+		contaA.setBanco("1");
+		contaA.setConta("1");
+		contaA.setUsuario(a);
+		
+		contaA = contaDAO.salvar(contaA);
+		
 		ContaBancaria contaB = new ContaBancaria();
 		contaB.setAgencia("2");
 		contaB.setAtiva(Boolean.TRUE);
@@ -100,6 +103,15 @@ public class ProdutorEntityManager {
 		
 		contaB = contaDAO.salvar(contaB);
 		
+		ContaBancaria contaC = new ContaBancaria();
+		contaC.setAgencia("3");
+		contaC.setAtiva(Boolean.FALSE);
+		contaC.setBanco("3");
+		contaC.setConta("3");
+		contaC.setUsuario(a);
+		
+		contaC = contaDAO.salvar(contaC);
+		
 		ContaBancaria contaD = new ContaBancaria();
 		contaD.setAgencia("4");
 		contaD.setAtiva(Boolean.FALSE);
@@ -108,6 +120,15 @@ public class ProdutorEntityManager {
 		contaD.setUsuario(bup);
 		
 		contaD = contaDAO.salvar(contaD);
+		
+		ContaBancaria contaE = new ContaBancaria();
+		contaE.setAgencia("5");
+		contaE.setAtiva(Boolean.TRUE);
+		contaE.setBanco("5");
+		contaE.setConta("5");
+		contaE.setUsuario(bup2);
+		
+		contaE = contaDAO.salvar(contaE);
 		
 		Midia m = new Midia();
 		m.setTipo("Banner");
@@ -246,6 +267,26 @@ public class ProdutorEntityManager {
 		
 		ep2 = epDAO.salvar(ep2);
 		
+		EspacoPropaganda ep3 = new EspacoPropaganda();
+		ep3.setUrl("http://b3.up");
+		ep3.setAltura(40.00);
+		ep3.setLargura(30.00);
+		ep3.setDescricao("site b3 do b2");
+		ep3.setFormatoEspacoPropaganda(FormatoEspacoPropaganda.IMAGEM);
+		ep3.setMidia(m);
+		ep3.setPeriodo(1);
+		ep3.setPageViews(1000000l);
+		ep3.setPosicaoTela("Topo");
+		ep3.setPesoMaximo(1000);
+		ep3.setPertence(bup2);
+		alvos = new ArrayList<PublicoAlvo>();
+		alvos.add(adolescente);
+		alvos.add(aposentado);
+		alvos.add(adulto);
+		ep3.setPublicosAlvos(alvos);
+		
+		ep3 = epDAO.salvar(ep3);
+		
 		Leilao leilao = new Leilao();
 		leilao.setAtivo(false);
 		leilao.setDataFim(parseDate("10/10/2010"));
@@ -269,6 +310,18 @@ public class ProdutorEntityManager {
 		leilao2.setReserva(BigDecimal.ZERO);
 		
 		leilao2 = lDAO.salvar(leilao2);
+		
+		Leilao leilao3 = new Leilao();
+		leilao3.setAtivo(true);
+		leilao3.setDataFim(parseDate("10/10/2020"));
+		leilao3.setDataInicio(parseDate("01/10/2015"));
+		leilao3.setEspacoPropaganda(ep3);
+		leilao3.setEstado(TipoEstadoLeilao.ESPERANDO);
+		leilao3.setInscricao(BigDecimal.ZERO);
+		leilao3.setModalidadePagamento(p2);
+		leilao3.setReserva(BigDecimal.ZERO);
+		
+		leilao3 = lDAO.salvar(leilao3);
 		
 		em.getTransaction().commit();
 		em.close();

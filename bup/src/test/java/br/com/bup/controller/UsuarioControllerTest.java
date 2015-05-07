@@ -5,8 +5,6 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.bup.dao.AgenciaDAO;
-import br.com.bup.dao.AnuncianteDAO;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.TipoUsuario;
 import br.com.bup.web.UsuarioSession;
@@ -28,11 +26,9 @@ public class UsuarioControllerTest extends AbstractControllerTest {
 		validator = new MeuMockValidator();
 		usuarioDAO = new UsuarioDAO(entityManager);
 		usuarioSession = new UsuarioSession();
-		AnuncianteDAO anuncianteDAO = new AnuncianteDAO(entityManager);
-		AgenciaDAO agenciaDAO = new AgenciaDAO(entityManager);
 		bundle = new MockResourceBundle();
 		
-		controller = new UsuarioController(result, validator, usuarioDAO, usuarioSession, anuncianteDAO, agenciaDAO, bundle);
+		controller = new UsuarioController(result, validator, usuarioDAO, usuarioSession, bundle);
 	}
 	
 	@Test
