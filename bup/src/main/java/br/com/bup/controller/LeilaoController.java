@@ -92,7 +92,7 @@ public class LeilaoController extends BaseController {
 		// salva
 		leilao = leilaoDAO.salvar(leilao);
 		
-		setSuccessMsg("leilao.criar.sucesso");
+		addSuccessMsg("leilao.criar.sucesso");
 		result.redirectTo(IndexController.class).index();
 	}
 	
@@ -109,6 +109,25 @@ public class LeilaoController extends BaseController {
 	public List<Leilao> inscrever() {
 		LOGGER.debug("Listando os leiloes para inscrição");
 		
+		return leilaoDAO.buscarTodosEsperandoMenosAnuncianteId(usuarioSession.getUsuario().getId());
+	}
+	
+	@OpenTransaction
+	@ApenasAnunciante
+	public void inscricao(Long leilaoId) {
+		LOGGER.debug("Se inscrevendo no leilao " + leilaoId);
+		
+		leilaoDAO.addInscritoNoLeilao(usuarioSession.getUsuario().getId(), leilaoId);
+		
+		addSuccessMsg("leilao.inscrever.msg.sucesso");
+		result.redirectTo(this).listar();
+	}
+	
+	@OpenTransaction
+	@ApenasAnunciante
+	public List<Leilao> inscritos() {
+		LOGGER.debug("Listando os leiloes inscritos");
+		//TODO falta a tela!!!
 		return leilaoDAO.buscarTodosEsperandoMenosAnuncianteId(usuarioSession.getUsuario().getId());
 	}
 }

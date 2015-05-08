@@ -46,17 +46,12 @@
 				</li>
 				<li data-menu-map="/bup/leilao/listar">
 					<a href="<c:url value='/leilao/listar'/>">
-						<fmt:message key="menu.leilao.listar" />
+						<fmt:message key="menu.leilao.meus_leiloes" />
 					</a>
 				</li>
 				<li data-menu-map="/bup/leilao/inscrever">
 					<a href="<c:url value='/leilao/inscrever'/>">
 						<fmt:message key="menu.leilao.inscrever" />
-					</a>
-				</li>
-				<li>
-					<a href="#" style="color: red;">
-						<fmt:message key="menu.leilao.meus_leiloes" />
 					</a>
 				</li>
 				<li>

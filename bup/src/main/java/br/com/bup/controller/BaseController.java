@@ -46,7 +46,7 @@ public abstract class BaseController {
 	 *            Key da msg no message.properties.
 	 * @param parametros P
 	 */
-	protected void setSuccessMsg(String keyMsg, Object... parametros) {
+	protected void addSuccessMsg(String keyMsg, Object... parametros) {
 		validator.add(new I18nMessage("success", keyMsg, Severity.SUCCESS, parametros));
 //		MessageFormat.format(bundle.getString(message), i18n(parameters));
 //		result.include("success", i18n.getString(keyMsg));

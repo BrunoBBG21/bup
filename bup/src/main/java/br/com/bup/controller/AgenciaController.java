@@ -77,11 +77,11 @@ public class AgenciaController extends BaseController {
 		if (id != null && id > 0) {
 			Anunciante anunciante = (Anunciante) usuarioDAO.buscarPorId(id);
 			usuarioSession.gerenciar(anunciante);
-			setSuccessMsg("msg.anunciante.gerenciar.success", anunciante.getNome());
+			addSuccessMsg("msg.anunciante.gerenciar.success", anunciante.getNome());
 			
 		} else if (id != null && id < 0) {
 			usuarioSession.desGerenciar();
-			setSuccessMsg("msg.anunciante.desgerenciar.success");
+			addSuccessMsg("msg.anunciante.desgerenciar.success");
 		}
 		result.redirectTo(IndexController.class).index();
 	}
@@ -114,7 +114,7 @@ public class AgenciaController extends BaseController {
 			// salva
 			agencia = agenciaDAO.salvar(agencia);
 			
-			setSuccessMsg("agencia criada com sucesso.");
+			addSuccessMsg("agencia criada com sucesso.");
 			result.redirectTo(IndexController.class).index();
 		}
 	}
@@ -141,7 +141,7 @@ public class AgenciaController extends BaseController {
 		a.setGerenciado(ag);
 		ag = agenciaDAO.salvar(ag);
 		
-		setSuccessMsg("msg.success.associar");
+		addSuccessMsg("msg.success.associar");
 		result.include("success", i18n.getString("msg.success.associar"));
 		result.redirectTo(this).listar();
 	}

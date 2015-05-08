@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -46,7 +47,7 @@ import br.com.bup.state.TipoEstadoLeilao;
 						+ "					JOIN l2.inscritos i "
 						+ "					WHERE "
 						+ "						l2.id = l.id "
-						+ "					AND i.id = :anuncianteId) ") 
+						+ "					AND i.id = :anuncianteId) ")
 })
 //@formatter:on
 @Entity
@@ -90,6 +91,9 @@ public class Leilao {
 	private List<LanceLeilao> lances = new ArrayList<LanceLeilao>();
 	
 	@ManyToMany
+	@JoinTable(name = "Inscritos_Leilao",
+			joinColumns = { @JoinColumn(name = "leilao_id") },
+			inverseJoinColumns = { @JoinColumn(name = "anunciante_id") })
 	private List<Anunciante> inscritos = new ArrayList<Anunciante>();
 	
 	// metodos----------------------------------------------------------------

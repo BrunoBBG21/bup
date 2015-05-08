@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -60,5 +61,37 @@ public class LeilaoDAO extends BaseDAO<Leilao> {
 		}
 		
 		return value;
+	}
+	
+	/**
+	 * Busca todos os leiloes inscritos por id.
+	 * @param anuncianteId 
+	 * @return
+	 */
+	public List<Leilao> buscarInscritoPorAnuncianteId(Long anuncianteId) {
+		List<Leilao> value = new ArrayList<Leilao>();
+		//TODO falta fazer a query
+		Query query = manager.createNamedQuery("Leilao.buscarInscritoPorAnuncianteId");
+		query.setParameter("anuncianteId", anuncianteId);
+		
+		try {
+			value = query.getResultList();
+		} catch (NoResultException ex) {
+		}
+		
+		return value;
+	}
+	
+	/**
+	 * Adiciona um novo registro na tabela de inscritos em leilao.
+	 * @param anuncianteId
+	 * @param leilaoId
+	 */
+	public void addInscritoNoLeilao(Long anuncianteId, Long leilaoId) {
+		Query query = manager.createNativeQuery("insert into Inscritos_Leilao (leilao_id, anunciante_id) values (:leilaoId, :anuncianteId)");
+		query.setParameter("anuncianteId", anuncianteId);
+		query.setParameter("leilaoId", leilaoId);
+		
+		query.executeUpdate();
 	}
 }
