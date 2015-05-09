@@ -55,26 +55,26 @@ public class PublicoAlvoController {
 	@Path("/publicoAlvo/editar/{id}")
 	public void editar(Long id) {
 		LOGGER.debug("carregando formulario de publico alvo com id: " + id);
-		PublicoAlvo pub = publicoAlvoDAO.buscarPorId(id);
+		PublicoAlvo publicoAlvo = publicoAlvoDAO.buscarPorId(id);
 		
-		result.include("publicoAlvo", pub);
+		result.include("publicoAlvo", publicoAlvo);
 		formulario();
 	}
 	@OpenTransaction
-	public void atualizar(@NotNull PublicoAlvo pub) {
+	public void atualizar(@NotNull PublicoAlvo publicoAlvo) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		
-		LOGGER.debug("atualizando publico alvo: " + pub);
+		LOGGER.debug("atualizando publico alvo: " + publicoAlvo);
 		
 		// validacoes...
-		validator.validate(pub);
-		validator.onErrorRedirectTo(this).formulario();
+		validator.validate(publicoAlvo);
+		validator.onErrorRedirectTo(this).editar(publicoAlvo.getId());
 		
 		// recupera os dados q nao estao no formulario
-		pub = atualizarEntidadeDoFormulario(pub);
+		publicoAlvo = atualizarEntidadeDoFormulario(publicoAlvo);
 		
 		// atualiza
-		pub = publicoAlvoDAO.salvar(pub);
+		publicoAlvo = publicoAlvoDAO.salvar(publicoAlvo);
 		
 		result.include("success", "Modalidade de pagamento atualizada com sucesso.");
 		result.redirectTo(IndexController.class).index();
