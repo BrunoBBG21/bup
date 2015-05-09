@@ -15,7 +15,7 @@
 				<tr>
 					<c:if test="${usuarioSession.isLogadoAnunciante() }">
 						<th>
-							<fmt:message key="btn.apagar" />
+							<fmt:message key="btn.acoes" />
 						</th>
 					</c:if>
 					<th>
@@ -62,6 +62,9 @@
 								<form>
 									<button type="submit" formaction='<c:url value="/espacoPropaganda/apagar/${espaco.id}"/>'>
 										<fmt:message key="btn.apagar" />
+									</button>
+									<button type="submit" formaction='<c:url value="/espacoPropaganda/editar/${espaco.id}"/>'>
+										<fmt:message key="btn.editar" />
 									</button>
 								</form>
 							</td>

@@ -105,8 +105,17 @@
 
 			<input type="hidden" name="leilao.espacoPropaganda.id" value="${leilao.espacoPropaganda.id}" />
 
-			<input type="submit" formaction="<c:url value='/leilao/criar'/>" class="btn btn-primary"
-				value='<fmt:message key="btn.salvar"/>' onclick="atualizarCampoData();" />
+			
+			<c:choose>
+			      <c:when test="${leilao.id != null}"><input type="hidden" name="leilao.id" value="${leilao.id}">
+					<input type="submit" formaction="<c:url value='/leilao/atualizar'/>" class="btn btn-primary"
+						value='<fmt:message key="btn.editar"/>' onclick="atualizarCampoData();"/>
+			      </c:when>
+			
+			      <c:otherwise><input type="submit" formaction="<c:url value='/leilao/criar'/>" class="btn btn-primary"
+						value='<fmt:message key="btn.salvar"/>' onclick="atualizarCampoData();"/>
+			      </c:otherwise>
+				</c:choose>	
 		</form>
 	</div>
 </div>

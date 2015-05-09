@@ -14,6 +14,9 @@
 			<thead>
 				<tr>
 					<th>
+						<fmt:message key="btn.acoes" />
+					</th>
+					<th>
 						<fmt:message key="leilao.listar.estado" />
 					</th>
 					<th>
@@ -39,6 +42,16 @@
 			<tbody>
 				<c:forEach var="leilao" items="${leilaoList}">
 					<tr>
+						<td>
+							<form>
+								<button type="submit" formaction='<c:url value="/leilao/apagar/${leilao.id}"/>'>
+									<fmt:message key="btn.apagar" />
+								</button>
+								<button type="submit" formaction='<c:url value="/leilao/editar/${leilao.id}"/>'>
+										<fmt:message key="btn.editar" />
+								</button>
+							</form>
+						</td>
 						<td>${leilao.estado.descricao}</td>
 						<td>${leilao.espacoPropaganda.descricao}</td>
 						<td>

@@ -14,7 +14,7 @@
 			<thead>
 				<tr>
 					<th>
-						<fmt:message key="btn.apagar" />
+						<fmt:message key="btn.acoes" />
 					</th>
 					<th>
 						<fmt:message key="conta_bancaria.formulario.label.agencia" />
@@ -40,6 +40,9 @@
 							<form>
 								<button type="submit" formaction='<c:url value="/contaBancaria/apagar/${contaBancaria.id}"/>'>
 									<fmt:message key="btn.apagar" />
+								</button>
+								<button type="submit" formaction='<c:url value="/contaBancaria/editar/${contaBancaria.id}"/>'>
+										<fmt:message key="btn.editar" />
 								</button>
 							</form>
 						</td>

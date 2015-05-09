@@ -13,7 +13,7 @@
 			<thead>
 				<tr>
 					<th>
-						<fmt:message key="btn.apagar" />
+						<fmt:message key="btn.acoes" />
 					</th>
 					<th>
 						<fmt:message key="usuario.formulario.label.id" />
@@ -48,6 +48,9 @@
 							<form>
 								<button type="submit" formaction='<c:url value="/usuario/apagar/${usuario.id}"/>'>
 									<fmt:message key="btn.apagar" />
+								</button>
+								<button type="submit" formaction='<c:url value="/usuario/editar/${usuario.id}"/>'>
+										<fmt:message key="btn.editar" />
 								</button>
 							</form>
 						</td>
