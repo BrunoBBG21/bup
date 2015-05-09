@@ -125,15 +125,6 @@ public class EspacoPropagandaController {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando espaco: " + espacoPropaganda);
 		
-		Usuario usuario = usuarioSession.getUsuario();
-		if (!(usuario instanceof Anunciante)) {
-			validator.add(new SimpleMessage("error", "Usuario deve ser do tipo Anunciante"));
-			validator.onErrorRedirectTo(this).formulario();
-			
-		} else {
-			espacoPropaganda.setPertence((Anunciante) usuario);
-		}
-		
 		// validacoes...
 		validar(espacoPropaganda);
 		validator.onErrorRedirectTo(this).formulario();
@@ -146,6 +137,14 @@ public class EspacoPropagandaController {
 	}
 	
 	private void validar(EspacoPropaganda espacoPropaganda) {
+		Usuario usuario = usuarioSession.getUsuario();
+		if (!(usuario instanceof Anunciante)) {
+			validator.add(new SimpleMessage("error", "Usuario deve ser do tipo Anunciante"));
+			validator.onErrorRedirectTo(this).formulario();
+			
+		} else {
+			espacoPropaganda.setPertence((Anunciante) usuario);
+		}
 		validator.validate(espacoPropaganda);
 		if (!espacoPropagandaDAO.unikConstraintValida(espacoPropaganda)) {
 			validator.add(new I18nMessage("Espaço Propaganda", "msg.error.salvar",Severity.ERROR));
@@ -184,7 +183,8 @@ public class EspacoPropagandaController {
 		LOGGER.debug("atualizando espaço de propaganda: " + espacoPropaganda);
 		
 		// validacoes...
-		validator.validate(espacoPropaganda);
+		
+		validar(espacoPropaganda);
 		validator.onErrorRedirectTo(this).editar(espacoPropaganda.getId());
 		
 		// recupera os dados q nao estao no formulario
