@@ -1,5 +1,6 @@
 package br.com.bup.controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -14,6 +15,7 @@ import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.PublicoAlvoDAO;
 import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.domain.PublicoAlvo;
+import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
@@ -69,7 +71,7 @@ public class PublicoAlvoController {
 		LOGGER.debug("atualizando publico alvo: " + publicoAlvo);
 		
 		// validacoes...
-		validator.validate(publicoAlvo);
+		validar(publicoAlvo);
 		validator.onErrorRedirectTo(this).editar(publicoAlvo.getId());
 		
 		// recupera os dados q nao estao no formulario
@@ -78,9 +80,7 @@ public class PublicoAlvoController {
 		// atualiza
 		publicoAlvo = publicoAlvoDAO.salvar(publicoAlvo);
 		
-//		result.include("success", "msg.success.publico_alvo");
 		validator.add(new I18nMessage("success", "msg.success.publico_alvo.atualizar", Severity.SUCCESS));
-//		result.redirectTo(IndexController.class).index();
 		result.redirectTo(this).listar();
 	}
 	
@@ -93,10 +93,13 @@ public class PublicoAlvoController {
 	 */
 	private PublicoAlvo atualizarEntidadeDoFormulario(PublicoAlvo pub) {
 		PublicoAlvo pubAtualizada = publicoAlvoDAO.buscarPorId(pub.getId());
-		
-		//TODO testar o BeanBuild... sl oq
-		pubAtualizada.setDescricao(pub.getDescricao());
-		pubAtualizada.setNome(pub.getNome());
+		try {
+			NotNullBeanUtilsBean.getInstance().copyProperties(pubAtualizada, pub);
+		} catch (IllegalAccessException e) {
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (InvocationTargetException e) {
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		}
 		
 		return pubAtualizada;
 	}
@@ -113,20 +116,21 @@ public class PublicoAlvoController {
 		LOGGER.debug("criando publico alvo: " + publicoAlvo);
 		
 		// validacoes...
-		validarCriar(publicoAlvo);
+		validar(publicoAlvo);
 		validator.onErrorRedirectTo(this).formulario();
 		
 		// salva
 		publicoAlvo = publicoAlvoDAO.salvar(publicoAlvo);
 		
-//		result.include("success", "msg.success.publico_alvo.criar");
 		validator.add(new I18nMessage("success", "msg.success.publico_alvo.criar", Severity.SUCCESS));
-//		result.redirectTo(IndexController.class).index();
 		result.redirectTo(this).listar();
 	}
 	
-	private void validarCriar(PublicoAlvo publicoAlvo) {
+	private void validar(PublicoAlvo publicoAlvo) {
 		validator.validate(publicoAlvo);
+		if (!publicoAlvoDAO.unikConstraintValida(publicoAlvo)) {
+			validator.add(new I18nMessage("Publico Alvo", "msg.error.salvar",Severity.ERROR));
+		}
 	}
 	
 	@Path("/publicoAlvo/apagar/{id}")
@@ -135,7 +139,6 @@ public class PublicoAlvoController {
 	public void apagar(Long id) {
 		publicoAlvoDAO.apagarPorId(id);
 		
-//		result.include("success", i18n.getString("msg.success.apagar"));
 		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
 		result.redirectTo(this).listar();
 	}
