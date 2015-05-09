@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
 							+ "	AND m.entrada = :entrada "
 							+ "	AND m.primeiroPagamento = :primeiroPagamento "
 							+ "	AND m.valorMinParcela = :valorMinParcela "
-							+ " AND m.midia_id = :midia_id ")
+							+ " AND m.midia.id = :midia ")
 		}) 
 
 @Entity

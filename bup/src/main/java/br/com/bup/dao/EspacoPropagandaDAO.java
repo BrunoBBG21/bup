@@ -89,7 +89,7 @@ public class EspacoPropagandaDAO extends BaseDAO<EspacoPropaganda> {
 			query.setParameter("posicaoTela", espacoPropaganda.getPosicaoTela());
 			query.setParameter("largura", espacoPropaganda.getLargura());
 			query.setParameter("altura", espacoPropaganda.getAltura());
-			query.setParameter("midia_id", espacoPropaganda.getMidia().getId());
+			query.setParameter("midia", espacoPropaganda.getMidia().getId());
 
 			return (Long.valueOf(0)).equals((Long) query.getSingleResult());
 		} else {

@@ -37,7 +37,7 @@ import javax.validation.constraints.NotNull;
 								+ " AND e.posicaoTela = :posicaoTela "
 								+ " AND e.largura = :largura "
 								+ " AND e.altura = :altura "
-								+ " AND e.midia_id = :midia_id "
+								+ " AND e.midia.id = :midia "
 						)				})
 
 @Entity

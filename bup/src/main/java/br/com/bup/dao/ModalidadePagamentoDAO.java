@@ -47,7 +47,7 @@ public class ModalidadePagamentoDAO extends BaseDAO<ModalidadePagamento> {
 					modalidadePagamento.getPrimeiroPagamento());
 			query.setParameter("valorMinParcela",
 					modalidadePagamento.getValorMinParcela());
-			query.setParameter("midia_id", modalidadePagamento.getMidia()
+			query.setParameter("midia", modalidadePagamento.getMidia()
 					.getId());
 
 			return (Long.valueOf(0)).equals((Long) query.getSingleResult());
