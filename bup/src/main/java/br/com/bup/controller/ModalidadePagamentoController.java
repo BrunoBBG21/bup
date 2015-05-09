@@ -1,5 +1,6 @@
 package br.com.bup.controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -14,10 +15,14 @@ import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.MidiaDAO;
 import br.com.bup.dao.ModalidadePagamentoDAO;
 import br.com.bup.domain.ModalidadePagamento;
+import br.com.bup.domain.PublicoAlvo;
+import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
+import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -78,14 +83,14 @@ public class ModalidadePagamentoController {
 		LOGGER.debug("criando modalidade de pagamento: " + modalidadePagamento);
 		
 		// validacoes...
-		validator.validate(modalidadePagamento);
+		validar(modalidadePagamento);
 		validator.onErrorRedirectTo(this).formulario();
 		
 		// salva
 		modalidadePagamento = modalidadePagamentoDAO.salvar(modalidadePagamento);
 		
-		result.include("success", "Modalidade de pagamento criada com sucesso.");
-		result.redirectTo(IndexController.class).index();
+		validator.add(new I18nMessage("success", "msg.success.modalidade_pagamento.criar", Severity.SUCCESS));
+		result.redirectTo(this).listar();
 	}
 	
 	@Path("/modalidadePagamento/apagar/{id}")
@@ -94,7 +99,7 @@ public class ModalidadePagamentoController {
 	public void apagar(Long id) {
 		modalidadePagamentoDAO.apagarPorId(id);
 		
-		result.include("success", i18n.getString("msg.success.apagar"));
+		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
 		result.redirectTo(this).listar();
 	}
 	
@@ -105,7 +110,7 @@ public class ModalidadePagamentoController {
 		LOGGER.debug("atualizando modalidade de pagamento: " + modalidadePagamento);
 		
 		// validacoes...
-		validator.validate(modalidadePagamento);
+		validar(modalidadePagamento);
 		validator.onErrorRedirectTo(this).editar(modalidadePagamento.getId());
 		
 		// recupera os dados q nao estao no formulario
@@ -114,10 +119,15 @@ public class ModalidadePagamentoController {
 		// atualiza
 		modalidadePagamento = modalidadePagamentoDAO.salvar(modalidadePagamento);
 		
-		result.include("success", "Modalidade de pagamento atualizada com sucesso.");
-		result.redirectTo(IndexController.class).index();
+		validator.add(new I18nMessage("success", "msg.success.modalidade_pagamento.atualizar", Severity.SUCCESS));
+		result.redirectTo(this).listar();
 	}
-	
+	private void validar(ModalidadePagamento modalidadePagamento) {
+		validator.validate(modalidadePagamento);
+		if (!modalidadePagamentoDAO.unikConstraintValida(modalidadePagamento)) {
+			validator.add(new I18nMessage("Modalidade Pagamento", "msg.error.salvar",Severity.ERROR));
+		}
+	}
 	/**
 	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
 	 * mantendo os atributos do formulario da entidade passada.
@@ -127,12 +137,13 @@ public class ModalidadePagamentoController {
 	 */
 	private ModalidadePagamento atualizarEntidadeDoFormulario(ModalidadePagamento modalidadePagamento) {
 		ModalidadePagamento modalidadeAtualizada = modalidadePagamentoDAO.buscarPorId(modalidadePagamento.getId());
-		
-		//TODO testar o BeanBuild... sl oq
-		modalidadeAtualizada.setMaxParcela(modalidadePagamento.getMaxParcela());
-		modalidadeAtualizada.setMidia(modalidadePagamento.getMidia());
-		modalidadeAtualizada.setTipo(modalidadePagamento.getTipo());
-		modalidadeAtualizada.setValorMinParcela(modalidadePagamento.getValorMinParcela());
+		try {
+			NotNullBeanUtilsBean.getInstance().copyProperties(modalidadeAtualizada, modalidadePagamento);
+		} catch (IllegalAccessException e) {
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (InvocationTargetException e) {
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		}
 		
 		return modalidadeAtualizada;
 	}
