@@ -7,10 +7,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-
+@NamedQueries(value={
+		@NamedQuery(
+					name = "Midia.unikConstraintValida",
+					query="select count(m) "
+							+ " from Midia m "
+							+ " where "
+							+ "		m.tipo = :tipo "
+							)
+		}) 
 @Entity
 @Table
 public class Midia {

@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 				      name = "ContaBancaria.buscarPorUsuarioId",
 				      query="select c from ContaBancaria c where c.usuario.id = :id"),
 	    @NamedQuery(
-					name = "ContaBancaria.unicContrantValida",
+					name = "ContaBancaria.unikConstraintValida",
 					query="select count(c) "
 							+ " from ContaBancaria c "
 							+ " where "

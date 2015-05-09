@@ -18,6 +18,8 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
+import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -76,8 +78,10 @@ public class PublicoAlvoController {
 		// atualiza
 		publicoAlvo = publicoAlvoDAO.salvar(publicoAlvo);
 		
-		result.include("success", "Modalidade de pagamento atualizada com sucesso.");
-		result.redirectTo(IndexController.class).index();
+//		result.include("success", "msg.success.publico_alvo");
+		validator.add(new I18nMessage("success", "msg.success.publico_alvo.atualizar", Severity.SUCCESS));
+//		result.redirectTo(IndexController.class).index();
+		result.redirectTo(this).listar();
 	}
 	
 	/**
@@ -115,8 +119,10 @@ public class PublicoAlvoController {
 		// salva
 		publicoAlvo = publicoAlvoDAO.salvar(publicoAlvo);
 		
-		result.include("success", "Publico alvo criado com sucesso.");
-		result.redirectTo(IndexController.class).index();
+//		result.include("success", "msg.success.publico_alvo.criar");
+		validator.add(new I18nMessage("success", "msg.success.publico_alvo.criar", Severity.SUCCESS));
+//		result.redirectTo(IndexController.class).index();
+		result.redirectTo(this).listar();
 	}
 	
 	private void validarCriar(PublicoAlvo publicoAlvo) {
@@ -129,7 +135,8 @@ public class PublicoAlvoController {
 	public void apagar(Long id) {
 		publicoAlvoDAO.apagarPorId(id);
 		
-		result.include("success", i18n.getString("msg.success.apagar"));
+//		result.include("success", i18n.getString("msg.success.apagar"));
+		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
 		result.redirectTo(this).listar();
 	}
 }

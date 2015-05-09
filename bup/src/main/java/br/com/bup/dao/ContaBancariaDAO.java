@@ -56,12 +56,12 @@ public class ContaBancariaDAO extends BaseDAO<ContaBancaria> {
 	}
 
 	/**
-	 * Valida a unicConstrant anotada na classe... @UniqueConstraint(columnNames={"agencia","conta","banco"}). 
+	 * Valida a unikConstraintValida anotada na classe... @UniqueConstraint(columnNames={"agencia","conta","banco"}). 
 	 * @param contaBancaria
 	 * @return Boolean
 	 */
-	public Boolean unicContrantValida(ContaBancaria contaBancaria) {
-		Query query = manager.createNamedQuery("ContaBancaria.unicContrantValida");
+	public Boolean unikConstraintValida(ContaBancaria contaBancaria) {
+		Query query = manager.createNamedQuery("ContaBancaria.unikConstraintValida");
 		
 		query.setParameter("agencia", contaBancaria.getAgencia());
 		query.setParameter("conta", contaBancaria.getConta());

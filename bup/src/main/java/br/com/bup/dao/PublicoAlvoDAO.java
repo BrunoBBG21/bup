@@ -3,7 +3,9 @@ package br.com.bup.dao;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
+import br.com.bup.domain.ContaBancaria;
 import br.com.bup.domain.PublicoAlvo;
 
 @RequestScoped
@@ -22,5 +24,17 @@ public class PublicoAlvoDAO extends BaseDAO<PublicoAlvo> {
 	@Inject
 	public PublicoAlvoDAO(EntityManager manager) {
 		super(manager, PublicoAlvo.class);
+	}
+	/**
+	 * Valida a unikConstraintValida anotada na classe... @UniqueConstraint(columnNames={"agencia","conta","banco"}). 
+	 * @param contaBancaria
+	 * @return Boolean
+	 */
+	public Boolean unikConstraintValida(PublicoAlvo publicoAlvo) {
+		Query query = manager.createNamedQuery("PublicoAlvo.unikConstraintValida");
+		query.setParameter("nome", publicoAlvo.getNome());
+		query.setParameter("descricao", publicoAlvo.getDescricao());
+		
+		return (Long.valueOf(0)).equals((Long)query.getSingleResult());
 	}
 }

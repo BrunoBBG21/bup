@@ -79,7 +79,7 @@ public class ContaBancariaController {
 	private void validarCriar(ContaBancaria contaBancaria) {
 		validator.validate(contaBancaria);
 		
-		if (!contaBancariaDAO.unicContrantValida(contaBancaria)) {
+		if (!contaBancariaDAO.unikConstraintValida(contaBancaria)) {
 			validator.add(new I18nMessage("Conta", "msg.error.salvar"));
 		}
 	}

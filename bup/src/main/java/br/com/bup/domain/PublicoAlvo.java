@@ -8,12 +8,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.WordUtils;
 
+@NamedQueries(value={
+	    @NamedQuery(
+					name = "PublicoAlvo.unikConstraintValida",
+					query="select count(p) "
+							+ " from PublicoAlvo p "
+							+ " where "
+							+ "		p.nome = :nome "
+							+ " AND p.descricao = :descricao ")
+		}) 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"nome","descricao"}))
 public class PublicoAlvo {
