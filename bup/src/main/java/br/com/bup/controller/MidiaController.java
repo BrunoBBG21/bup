@@ -13,6 +13,7 @@ import br.com.bup.annotation.ApenasAdministrador;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.MidiaDAO;
 import br.com.bup.domain.Midia;
+import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
@@ -52,15 +53,57 @@ public class MidiaController {
 		// simples formulario... futuramente receendo id para editar... ou
 		// nao...
 	}
+	@OpenTransaction
+	@Path("/midia/editar/{id}")
+	public void editar(Long id) {
+		LOGGER.debug("carregando formulario de midia com id: " + id);
+		Midia midia = midiaDAO.buscarPorId(id);
+		
+		result.include("midia", midia);
+		formulario();
+	}
+	@OpenTransaction
+	public void atualizar(@NotNull Midia midia) {
+		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
+		
+		LOGGER.debug("atualizando modalidade de pagamento: " + midia);
+		
+		// validacoes...
+		validator.validate(midia);
+		validator.onErrorRedirectTo(this).formulario();
+		
+		// recupera os dados q nao estao no formulario
+		midia = atualizarEntidadeDoFormulario(midia);
+		
+		// atualiza
+		midia = midiaDAO.salvar(midia);
+		
+		result.include("success", "midia atualizada com sucesso.");
+		result.redirectTo(IndexController.class).index();
+	}
 	
+	/**
+	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
+	 * mantendo os atributos do formulario da entidade passada.
+	 * 
+	 * @param modalidadePagamento
+	 * @return Entidade atualizada.
+	 */
+	private Midia atualizarEntidadeDoFormulario(Midia midia) {
+		Midia midiaAtualizada = midiaDAO.buscarPorId(midia.getId());
+		
+		//TODO testar o BeanBuild... sl oq
+		midiaAtualizada.setTipo(midia.getTipo());
+		
+		return midiaAtualizada;
+	}
 	@OpenTransaction
 	@ApenasAdministrador
-	public void criar(@NotNull String tipo) {
+	public void criar(@NotNull Midia midia) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
-		LOGGER.debug("criando midia: " + tipo);
+		LOGGER.debug("criando midia: " + midia);
 		
-		Midia midia = new Midia();
-		midia.setTipo(tipo);
+		
 		
 		// validacoes...
 		validarCriar(midia);

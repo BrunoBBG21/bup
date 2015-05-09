@@ -11,14 +11,24 @@
 	</div>
 
 	<div class="box-body">
-		<form action="<c:url value='/midia/criar'/>" method="post">
+		<form  method="post" role="form">
 			<div class="form-group ${empty errors.from('tipo') ? '' : 'has-error'}">
 				<label for="inpTipo">
 					<fmt:message key="midia.formulario.tipo" />
 				</label>
-				<input id="inpTipo" type="text" class="form-control" name="tipo" value="${tipo}" placeholder="Mídia" required />
+				<input id="inpTipo" type="text" class="form-control" name="midia.tipo" value="${midia.tipo}" placeholder="Mídia" required />
 			</div>
-			<input type="submit" class="btn btn-primary" value='<fmt:message key="btn.salvar"/>' />
+			
+			<c:choose>
+			      <c:when test="${midia.id != null}"><input type="hidden" name="midia.id" value="${midia.id}">
+					<input type="submit" formaction="<c:url value='/midia/atualizar'/>" class="btn btn-primary"
+						value='<fmt:message key="btn.editar"/>' />
+			      </c:when>
+			
+			      <c:otherwise><input type="submit" formaction="<c:url value='/midia/criar'/>" class="btn btn-primary"
+						value='<fmt:message key="btn.salvar"/>' />
+			      </c:otherwise>
+				</c:choose>
 		</form>
 	</div>
 </div>

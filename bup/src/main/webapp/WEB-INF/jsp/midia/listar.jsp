@@ -14,7 +14,7 @@
 			<thead>
 				<tr>
 					<th>
-						<fmt:message key="btn.apagar" />
+						<fmt:message key="btn.acoes" />
 					</th>
 					<th>
 						<fmt:message key="midia.formulario.tipo" />
@@ -28,6 +28,9 @@
 							<form>
 								<button type="submit" formaction='<c:url value="/midia/apagar/${midia.id}"/>'>
 									<fmt:message key="btn.apagar" />
+								</button>
+								<button type="submit" formaction='<c:url value="/midia/editar/${midia.id}"/>'>
+										<fmt:message key="btn.editar" />
 								</button>
 							</form>
 						</td>

@@ -24,7 +24,10 @@
         <put-attribute name="title" value="index.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/index/index.jsp" />
     </definition>
-    
+    <definition name="midia/editar" extends="commonPage">
+        <put-attribute name="title" value="midia.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/midia/formulario.jsp" />
+    </definition>
     <definition name="midia/formulario" extends="commonPage">
         <put-attribute name="title" value="midia.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/midia/formulario.jsp" />
