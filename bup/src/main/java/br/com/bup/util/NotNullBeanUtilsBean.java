@@ -53,6 +53,6 @@ public class NotNullBeanUtilsBean extends BeanUtilsBean {
      * @return The (pseudo-singleton) BeanUtils bean instance
      */
     public static NotNullBeanUtilsBean getInstance() {
-        return (NotNullBeanUtilsBean) BeanUtilsBean.getInstance();
+        return new NotNullBeanUtilsBean();
     }
 }
