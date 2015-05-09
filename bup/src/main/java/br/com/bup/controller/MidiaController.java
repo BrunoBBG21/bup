@@ -145,7 +145,7 @@ public class MidiaController {
 	public void apagar(Long id) {
 		midiaDAO.apagarPorId(id);
 		
-		result.include("success", i18n.getString("msg.success.apagar"));
+		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
 		result.redirectTo(this).listar();
 	}
 }

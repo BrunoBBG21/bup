@@ -27,7 +27,19 @@ import javax.validation.constraints.NotNull;
 				query = "select e from EspacoPropaganda e where e.pertence.id = :id"),
 		
 		@NamedQuery(name = "EspacoPropaganda.buscarLivresPorAnuncianteId",
-				query = "select e from EspacoPropaganda e where not exists (select l.espacoPropaganda.id from Leilao l where l.estado not in ('CANCELADO', 'FINALIZADO') AND l.espacoPropaganda.id = e.id) AND e.pertence.id = :id ") })
+				query = "select e from EspacoPropaganda e where not exists (select l.espacoPropaganda.id from Leilao l where l.estado not in ('CANCELADO', 'FINALIZADO') AND l.espacoPropaganda.id = e.id) AND e.pertence.id = :id "),
+				@NamedQuery(
+						name = "EspacoPropaganda.unikConstraintValida",
+						query="select count(e) "
+								+ " from EspacoPropaganda e "
+								+ " where "
+								+ "		e.url = :url "
+								+ " AND e.posicaoTela = :posicaoTela "
+								+ " AND e.largura = :largura "
+								+ " AND e.altura = :altura "
+								+ " AND e.midia_id = :midia_id "
+						)				})
+
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "url", "posicaoTela", "largura", "altura", "midia_id" }))
 public class EspacoPropaganda {

@@ -16,25 +16,35 @@ public class PublicoAlvoDAO extends BaseDAO<PublicoAlvo> {
 	protected PublicoAlvoDAO() {
 		super(null, PublicoAlvo.class);
 	}
-	
+
 	/**
 	 * Construtor usado nos testes unitarios.
-	 * @param manager EntityManager
+	 * 
+	 * @param manager
+	 *            EntityManager
 	 */
 	@Inject
 	public PublicoAlvoDAO(EntityManager manager) {
 		super(manager, PublicoAlvo.class);
 	}
+
 	/**
-	 * Valida a unikConstraintValida anotada na classe... @UniqueConstraint(columnNames={"agencia","conta","banco"}). 
+	 * Valida a unikConstraintValida anotada na classe...
+	 * @UniqueConstraint(columnNames={"agencia","conta","banco"}).
+	 * 
 	 * @param contaBancaria
 	 * @return Boolean
 	 */
 	public Boolean unikConstraintValida(PublicoAlvo publicoAlvo) {
-		Query query = manager.createNamedQuery("PublicoAlvo.unikConstraintValida");
-		query.setParameter("nome", publicoAlvo.getNome());
-		query.setParameter("descricao", publicoAlvo.getDescricao());
-		
-		return (Long.valueOf(0)).equals((Long)query.getSingleResult());
+		if (publicoAlvo != null) {
+			Query query = manager
+					.createNamedQuery("PublicoAlvo.unikConstraintValida");
+			query.setParameter("nome", publicoAlvo.getNome());
+			query.setParameter("descricao", publicoAlvo.getDescricao());
+
+			return (Long.valueOf(0)).equals((Long) query.getSingleResult());
+		} else {
+			return false;
+		}
 	}
 }

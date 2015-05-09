@@ -30,6 +30,8 @@ import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
+import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -133,7 +135,7 @@ public class EspacoPropagandaController {
 		}
 		
 		// validacoes...
-		validarCriar(espacoPropaganda);
+		validar(espacoPropaganda);
 		validator.onErrorRedirectTo(this).formulario();
 		
 		// salva
@@ -143,12 +145,13 @@ public class EspacoPropagandaController {
 		result.redirectTo(this).listar();
 	}
 	
-	private void validarCriar(EspacoPropaganda espacoPropaganda) {
+	private void validar(EspacoPropaganda espacoPropaganda) {
 		validator.validate(espacoPropaganda);
-		
-		// TODO validar inclusao repetida
+		if (!espacoPropagandaDAO.unikConstraintValida(espacoPropaganda)) {
+			validator.add(new I18nMessage("Espaço Propaganda", "msg.error.salvar",Severity.ERROR));
+		}
 	}
-	
+
 	@OpenTransaction
 	public List<EspacoPropaganda> listar() {
 		LOGGER.debug("Listando os espacos ");
@@ -162,7 +165,7 @@ public class EspacoPropagandaController {
 	public void apagar(Long id) {
 		espacoPropagandaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
 		
-		result.include("success", i18n.getString("msg.success.apagar"));
+		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
 		result.redirectTo(this).listar();
 	}
 	@OpenTransaction
@@ -204,15 +207,12 @@ public class EspacoPropagandaController {
 	private EspacoPropaganda atualizarEntidadeDoFormulario(EspacoPropaganda espacoPropaganda) {
 		EspacoPropaganda espacoPropagandaAtualizado = espacoPropagandaDAO.buscarPorId(espacoPropaganda.getId());
 		
-		//TODO testar o BeanBuild... sl oq
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(espacoPropagandaAtualizado, espacoPropaganda);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
 		}
 		
 		return espacoPropagandaAtualizado;

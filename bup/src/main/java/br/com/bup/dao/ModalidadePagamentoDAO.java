@@ -16,29 +16,43 @@ public class ModalidadePagamentoDAO extends BaseDAO<ModalidadePagamento> {
 	protected ModalidadePagamentoDAO() {
 		super(null, ModalidadePagamento.class);
 	}
-	
+
 	/**
 	 * Construtor usado nos testes unitarios.
-	 * @param manager EntityManager
+	 * 
+	 * @param manager
+	 *            EntityManager
 	 */
 	@Inject
 	public ModalidadePagamentoDAO(EntityManager manager) {
 		super(manager, ModalidadePagamento.class);
 	}
+
 	/**
-	 * Valida a unikConstraintValida anotada na classe... @UniqueConstraint(columnNames={"agencia","conta","banco"}). 
+	 * Valida a unikConstraintValida anotada na classe...
+	 * @UniqueConstraint(columnNames={"agencia","conta","banco"}).
+	 * 
 	 * @param contaBancaria
 	 * @return Boolean
 	 */
 	public Boolean unikConstraintValida(ModalidadePagamento modalidadePagamento) {
-		Query query = manager.createNamedQuery("ModalidadePagamento.unikConstraintValida");
-		
-		query.setParameter("maxParcela", modalidadePagamento.getMaxParcela());
-		query.setParameter("entrada", modalidadePagamento.getEntrada());
-		query.setParameter("primeiroPagamento", modalidadePagamento.getPrimeiroPagamento());
-		query.setParameter("valorMinParcela", modalidadePagamento.getValorMinParcela());
-		query.setParameter("midia_id", modalidadePagamento.getMidia().getId());
-		
-		return (Long.valueOf(0)).equals((Long)query.getSingleResult());
+		if (modalidadePagamento != null && modalidadePagamento.getMidia()!=null) {
+			Query query = manager
+					.createNamedQuery("ModalidadePagamento.unikConstraintValida");
+
+			query.setParameter("maxParcela",
+					modalidadePagamento.getMaxParcela());
+			query.setParameter("entrada", modalidadePagamento.getEntrada());
+			query.setParameter("primeiroPagamento",
+					modalidadePagamento.getPrimeiroPagamento());
+			query.setParameter("valorMinParcela",
+					modalidadePagamento.getValorMinParcela());
+			query.setParameter("midia_id", modalidadePagamento.getMidia()
+					.getId());
+
+			return (Long.valueOf(0)).equals((Long) query.getSingleResult());
+		} else {
+			return false;
+		}
 	}
 }
