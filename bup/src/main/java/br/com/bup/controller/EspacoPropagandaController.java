@@ -141,7 +141,7 @@ public class EspacoPropagandaController {
 		// salva
 		espacoPropaganda = espacoPropagandaDAO.salvar(espacoPropaganda);
 		
-		result.include("success", "Espaco criado com sucesso.");
+		validator.add(new I18nMessage("success", "msg.success.espaco_propaganda.criar", Severity.SUCCESS));
 		result.redirectTo(this).listar();
 	}
 	
@@ -193,8 +193,8 @@ public class EspacoPropagandaController {
 		// atualiza
 		espacoPropaganda = espacoPropagandaDAO.salvar(espacoPropaganda);
 		
-		result.include("success", "midia atualizada com sucesso.");
-		result.redirectTo(IndexController.class).index();
+		validator.add(new I18nMessage("success", "msg.success.espaco_propaganda.atualizar", Severity.SUCCESS));
+		result.redirectTo(this).listar();
 	}
 	
 	/**
