@@ -46,7 +46,14 @@
         <put-attribute name="title" value="espaco_propaganda.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/espacoPropaganda/formulario.jsp" />
     </definition>
-    
+    <definition name="espacoPropaganda/editar" extends="commonPage">
+        <put-attribute name="title" value="espaco_propaganda.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/espacoPropaganda/formulario.jsp" />
+    </definition>
+    <definition name="usuario/editar" extends="commonPage">
+        <put-attribute name="title" value="usuario.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/usuario/formulario.jsp" />
+    </definition>
     <definition name="usuario/formulario" extends="commonPage">
         <put-attribute name="title" value="usuario.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/usuario/formulario.jsp" />
@@ -54,6 +61,10 @@
     <definition name="usuario/listar" extends="commonPage">
         <put-attribute name="title" value="usuario.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/usuario/listar.jsp" />
+    </definition>
+    <definition name="contaBancaria/editar" extends="commonPage">
+        <put-attribute name="title" value="conta_bancaria.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/contaBancaria/formulario.jsp" />
     </definition>
     <definition name="contaBancaria/formulario" extends="commonPage">
         <put-attribute name="title" value="conta_bancaria.header" />
@@ -101,6 +112,10 @@
     <definition name="leilao/listarEspacos" extends="commonPage">
         <put-attribute name="title" value="leilao.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/leilao/listarEspacos.jsp" />
+    </definition>
+    <definition name="leilao/editar" extends="commonPage">
+        <put-attribute name="title" value="leilao.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/leilao/formulario.jsp" />
     </definition>
     <definition name="leilao/formulario" extends="commonPage">
         <put-attribute name="title" value="leilao.header" />

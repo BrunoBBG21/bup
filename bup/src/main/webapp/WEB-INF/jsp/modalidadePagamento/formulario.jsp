@@ -16,7 +16,7 @@
 					<label for="inpTipo">
 						<fmt:message key="modalidade_pagamento.formulario.tipo" />
 					</label>
-					<input id="inpTipo" type="text" class="form-control" name="modalidadePagamento.tipo" value="${modalidadePagamento.tipo}" />
+					<input id="inpTipo" type="text" class="form-control" name="modalidadePagamento.tipo" value="${modalidadePagamento.tipo}" required/>
 				</div>
 
 				<div class="form-group ${empty errors.from('valorMinParcela') ? '' : 'has-error'}">
@@ -24,7 +24,7 @@
 						<fmt:message key="modalidade_pagamento.formulario.valorMinParcela" />
 					</label>
 					<input id="inpValorMinParcela" type="text" class="form-control" name="modalidadePagamento.valorMinParcela"
-						value="${modalidadePagamento.valorMinParcela}" />
+						value="${modalidadePagamento.valorMinParcela}" required />
 				</div>
 
 				<div class="form-group ${empty errors.from('maxParcela') ? '' : 'has-error'}">
@@ -32,7 +32,7 @@
 						<fmt:message key="modalidade_pagamento.formulario.maxParcela" />
 					</label>
 					<input id="inpMaxParcela" type="text" class="form-control" name="modalidadePagamento.maxParcela"
-						value="${modalidadePagamento.maxParcela}" />
+						value="${modalidadePagamento.maxParcela}" required />
 				</div>
 
 				<div class="form-group ${empty errors.from('midia.id') ? '' : 'has-error'}">

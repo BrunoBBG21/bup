@@ -1,5 +1,6 @@
 package br.com.bup.controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -13,11 +14,14 @@ import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.ContaBancariaDAO;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.ContaBancaria;
+import br.com.bup.domain.EspacoPropaganda;
+import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.I18nMessage;
+import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -66,17 +70,16 @@ public class ContaBancariaController {
 		LOGGER.debug("criando conta bancaria");
 		contaBancaria.setUsuario(usuarioSession.getUsuarioLogado());
 		// validacoes...
-		validarCriar(contaBancaria);
+		validar(contaBancaria);
 		validator.onErrorRedirectTo(this).formulario();
 		
 		// salva
 		contaBancaria = contaBancariaDAO.salvar(contaBancaria);
 		
-		result.include("success", "conta bancaria criada com sucesso.");
-		result.redirectTo(IndexController.class).index();
+		validator.add(new I18nMessage("success", "msg.success.conta_bancaria.criar", Severity.SUCCESS));
+		result.redirectTo(this).listar();
 	}
-	
-	private void validarCriar(ContaBancaria contaBancaria) {
+	private void validar(ContaBancaria contaBancaria) {
 		validator.validate(contaBancaria);
 		
 		if (!contaBancariaDAO.unikConstraintValida(contaBancaria)) {
@@ -95,7 +98,55 @@ public class ContaBancariaController {
 	public void apagar(Long id) {
 		contaBancariaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
 		
-		result.include("success", i18n.getString("msg.success.apagar"));
+		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
 		result.redirectTo(this).listar();
+	}
+	@OpenTransaction
+	public void atualizar(@NotNull ContaBancaria contaBancaria) {
+		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
+		
+		LOGGER.debug("atualizando espaço de propaganda: " + contaBancaria);
+		
+		// validacoes...
+		validar(contaBancaria);
+		validator.onErrorRedirectTo(this).editar(contaBancaria.getId());
+		
+		// recupera os dados q nao estao no formulario
+		contaBancaria = atualizarEntidadeDoFormulario(contaBancaria);
+		
+		// atualiza
+		contaBancaria = contaBancariaDAO.salvar(contaBancaria);
+		
+		validator.add(new I18nMessage("success", "msg.success.conta_bancaria.atualizar", Severity.SUCCESS));
+		result.redirectTo(this).listar();
+	}
+	/**
+	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
+	 * mantendo os atributos do formulario da entidade passada.
+	 * 
+	 * @param modalidadePagamento
+	 * @return Entidade atualizada.
+	 */
+	private ContaBancaria atualizarEntidadeDoFormulario(ContaBancaria contaBancaria) {
+		ContaBancaria contaBancariaAtualizada = contaBancariaDAO.buscarPorId(contaBancaria.getId());
+		
+		try {
+			NotNullBeanUtilsBean.getInstance().copyProperties(contaBancariaAtualizada, contaBancaria);
+		} catch (IllegalAccessException e) {
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (InvocationTargetException e) {
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		}
+		
+		return contaBancariaAtualizada;
+	}
+	@OpenTransaction
+	@Path("/contaBancaria/editar/{id}")
+	public void editar(Long id) {
+		LOGGER.debug("carregando formulario de conta bancaria com id: " + id);
+		ContaBancaria contaBancaria = contaBancariaDAO.buscarPorId(id);
+		
+		result.include("contaBancaria", contaBancaria);
+		formulario();
 	}
 }

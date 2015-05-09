@@ -171,7 +171,7 @@ public class EspacoPropagandaController {
 	@OpenTransaction
 	@Path("/espacoPropaganda/editar/{id}")
 	public void editar(Long id) {
-		LOGGER.debug("carregando formulario de midia com id: " + id);
+		LOGGER.debug("carregando formulario de espaco propaganda com id: " + id);
 		EspacoPropaganda espacoPropaganda = espacoPropagandaDAO.buscarPorId(id);
 		
 		result.include("espacoPropaganda", espacoPropaganda);

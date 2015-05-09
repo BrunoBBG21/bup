@@ -75,7 +75,16 @@
 					<input id="inpCpfCnpj" type="text" class="form-control" name="cpfCnpj" value="${cpfCnpj}" />
 				</div>
 
-				<input type="submit" class="btn btn-primary" value='<fmt:message key="btn.salvar"/>' />
+				<c:choose>
+			      <c:when test="${id != null}"><input type="hidden" name="id" value="${id}">
+					<input type="submit" formaction="<c:url value='/usuario/atualizar'/>" class="btn btn-primary"
+						value='<fmt:message key="btn.editar"/>' />
+			      </c:when>
+			
+			      <c:otherwise><input type="submit" formaction="<c:url value='/usuario/criar'/>" class="btn btn-primary"
+						value='<fmt:message key="btn.salvar"/>' />
+			      </c:otherwise>
+				</c:choose>
 			</form>
 		</div>
 	</div>

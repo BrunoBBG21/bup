@@ -11,7 +11,7 @@
 	</div>
 	<div class="box-body">
 		<div class="box-body">
-			<form action="<c:url value='/espacoPropaganda/criar'/>" method="post" role="form">
+			<form method="post" role="form">
 				<div class="form-group ${empty errors.from('url') ? '' : 'has-error'}">
 					<label for="inpUrl">
 						<fmt:message key="espaco_propaganda.formulario.url" />
@@ -25,7 +25,7 @@
 						<fmt:message key="espaco_propaganda.formulario.posicaoTela" />
 					</label>
 					<input id="inpPosicaoTela" type="text" class="form-control" name="espacoPropaganda.posicaoTela"
-						value="${espacoPropaganda.posicaoTela}" />
+						value="${espacoPropaganda.posicaoTela}" required />
 					<span class="error">${errors.from('espacoPropaganda.posicaoTela').join(' - ')}</span>
 				</div>
 
@@ -42,7 +42,7 @@
 					<label for="inpLargura">
 						<fmt:message key="espaco_propaganda.formulario.largura" />
 					</label>
-					<input id="inpLargura" type="text" class="form-control" name="espacoPropaganda.largura" value="${espacoPropaganda.largura}" />
+					<input id="inpLargura" type="text" class="form-control" name="espacoPropaganda.largura" value="${espacoPropaganda.largura}" required/>
 					<span class="error">${errors.from('espacoPropaganda.largura').join(' - ')}</span>
 				</div>
 
@@ -50,7 +50,7 @@
 					<label for="inpAltura">
 						<fmt:message key="espaco_propaganda.formulario.altura" />
 					</label>
-					<input id="inpAltura" type="text" class="form-control" name="espacoPropaganda.altura" value="${espacoPropaganda.altura}" />
+					<input id="inpAltura" type="text" class="form-control" name="espacoPropaganda.altura" value="${espacoPropaganda.altura}" required/>
 					<span class="error">${errors.from('espacoPropaganda.altura').join(' - ')}</span>
 				</div>
 
@@ -58,7 +58,7 @@
 					<label for="inpPeriodo">
 						<fmt:message key="espaco_propaganda.formulario.periodo" />
 					</label>
-					<input id="inpPeriodo" type="text" class="form-control" name="espacoPropaganda.periodo" value="${espacoPropaganda.periodo}" />
+					<input id="inpPeriodo" type="text" class="form-control" name="espacoPropaganda.periodo" value="${espacoPropaganda.periodo}" required/>
 					<span class="error">${errors.from('espacoPropaganda.periodo').join(' - ')}</span>
 				</div>
 
@@ -146,58 +146,19 @@
 					</div>
 				</div>
 
-				<input type="submit" class="btn btn-primary" value='<fmt:message key="btn.salvar"/>' />
+				
+				<c:choose>
+			      <c:when test="${espacoPropaganda.id != null}"><input type="hidden" name="espacoPropaganda.id" value="${espacoPropaganda.id}">
+					<input type="submit" formaction="<c:url value='/espacoPropaganda/atualizar'/>" class="btn btn-primary"
+						value='<fmt:message key="btn.editar"/>' />
+			      </c:when>
+			
+			      <c:otherwise><input type="submit" formaction="<c:url value='/espacoPropaganda/criar'/>" class="btn btn-primary"
+						value='<fmt:message key="btn.salvar"/>' />
+			      </c:otherwise>
+				</c:choose>
 			</form>
 		</div>
 	</div>
 </div>
 
-<!-- 
-						<c:set var="auxiliar" />
-						<c:forEach items="${publicosAlvos}" var="publico" varStatus="i">
-
-							<c:set var="categoria">
-								${publico.descricao}
-							</c:set>
-
-							<c:if test="${!(categoria eq auxiliar)}">
-								<c:if test="${not empty auxiliar}">
-					</div>
-				</div>
-		</div>
-		</c:if>
-
-		<c:set var="auxiliar">${categoria}</c:set>
-
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">${categoria}:</h3>
-			</div>
-			<div class="box-body">
-				<div class="checkbox">
-					</c:if>
-					<label>
-						<input type="checkbox" name="espacoPropaganda.publicosAlvos.id" value="${publico.id}"
-							<c:forEach items="${espacoPropaganda.publicosAlvos}" var="alvo">
-        					 <c:if test="${publico.id eq alvo.id}">checked</c:if>
-        				</c:forEach> />${publico.nome}
-					</label>
-
-					</c:forEach>
-					<c:if test="${not empty publicosAlvos}">
-				</div>
-
-			</div>
-
-		</div>
-		</c:if>
-	</div>
-</div>
-
-
-<input type="submit" class="btn btn-primary" value='<fmt:message key="btn.salvar"/>' />
-</form>
-</div>
-</div>
-</div>
- -->

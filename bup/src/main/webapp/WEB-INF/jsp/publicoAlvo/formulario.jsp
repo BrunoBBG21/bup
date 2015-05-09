@@ -14,7 +14,7 @@
 					<label for="inpNome">
 						<fmt:message key="publico_alvo.formulario.label.nome" />
 					</label>
-					<input id="inpNome" type="text" class="form-control" name="publicoAlvo.nome" value="${publicoAlvo.nome}" />
+					<input id="inpNome" type="text" class="form-control" name="publicoAlvo.nome" value="${publicoAlvo.nome}" required/>
 				</div>
 				
 				<div class="form-group ${empty errors.from('descricao') ? '' : 'has-error'}">
