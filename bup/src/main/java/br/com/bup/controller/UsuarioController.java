@@ -1,8 +1,10 @@
 package br.com.bup.controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
@@ -15,13 +17,16 @@ import br.com.bup.annotation.Telefone;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
+import br.com.bup.domain.ContaBancaria;
 import br.com.bup.domain.TipoUsuario;
 import br.com.bup.domain.Usuario;
+import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.I18nMessage;
+import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -69,7 +74,7 @@ public class UsuarioController {
 		Usuario usuario = montarUsuario(tipoUsuario, email, password, nome, endereco, cep, telefone, cpfCnpj);
 		
 		// validacoes...
-		validarInclusaoUsuario(usuario);
+		validar(usuario);
 		validator.onErrorRedirectTo(this).formulario();
 		
 		// salva
@@ -115,13 +120,16 @@ public class UsuarioController {
 	 * @param usuario
 	 *            Usuario
 	 */
-	private void validarInclusaoUsuario(Usuario usuario) {
+	private void validar(Usuario usuario) {
 		if (usuario == null) {
-			validator.add(new I18nMessage("tipoUsuario", "msg.error.apagar"));
+			validator.add(new I18nMessage("Usuario", "msg.error.apagar"));
 			return;
 		}
 		
 		validator.validate(usuario);
+		if (usuarioDAO.existeComEmail(usuario.getEmail())) {
+			validator.add(new I18nMessage("Usuario", "msg.error.salvar"));
+		}
 	}
 	
 	@OpenTransaction
@@ -140,5 +148,63 @@ public class UsuarioController {
 		result.include("success", i18n.getString("msg.success.apagar"));
 		result.redirectTo(this).listar();
 	}
-	
+	@OpenTransaction
+	public void atualizar(Long id,TipoUsuario tipoUsuario, String email, String password, String nome, String endereco,
+			String cep, String telefone, String cpfCnpj) {
+		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
+		
+		LOGGER.debug("atualizando usuario: " + email);
+		Usuario usuario = montarUsuario(tipoUsuario, email, password, nome, endereco, cep, telefone, cpfCnpj);
+		usuario.setId(id);
+		
+		// validacoes...
+		validar(usuario);
+		validator.onErrorRedirectTo(this).editar(id);
+		
+		// recupera os dados q nao estao no formulario
+		usuario = atualizarEntidadeDoFormulario(usuario);
+		
+		// atualiza
+		usuario = usuarioDAO.salvar(usuario);
+		
+		validator.add(new I18nMessage("success", "msg.success.conta_bancaria.atualizar", Severity.SUCCESS));
+		result.redirectTo(this).listar();
+	}
+	/**
+	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
+	 * mantendo os atributos do formulario da entidade passada.
+	 * 
+	 * @param modalidadePagamento
+	 * @return Entidade atualizada.
+	 */
+	private Usuario atualizarEntidadeDoFormulario(Usuario usuario) {
+		Usuario usuarioAtualizado = usuarioDAO.buscarPorId(usuario.getId());
+		
+		try {
+			NotNullBeanUtilsBean.getInstance().copyProperties(usuarioAtualizado, usuario);
+		} catch (IllegalAccessException e) {
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (InvocationTargetException e) {
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		}
+		
+		return usuarioAtualizado;
+	}
+	@OpenTransaction
+	@Path("/usuario/editar/{id}")
+	public void editar(Long id) {
+		LOGGER.debug("carregando formulario de usuario com id: " + id);
+		Usuario usuario = usuarioDAO.buscarPorId(id);
+		
+		result.include("id", usuario.getId());
+//		result.include("tipoUsuario", usuario.gett);
+		result.include("email", usuario.getEmail());
+		result.include("password", usuario.getPassword());
+		result.include("nome", usuario.getNome());
+		result.include("endereco", usuario.getEndereco());
+		result.include("cep", usuario.getCep());
+		result.include("telefone", usuario.getTelefone());
+//		result.include("cpfCnpj", usuario);
+		formulario();
+	}
 }

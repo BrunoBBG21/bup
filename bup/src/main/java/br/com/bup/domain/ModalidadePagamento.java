@@ -26,14 +26,12 @@ import javax.validation.constraints.NotNull;
 							+ " from ModalidadePagamento m "
 							+ " where "
 							+ "		m.maxParcela = :maxParcela "
-							+ "	AND m.entrada = :entrada "
-							+ "	AND m.primeiroPagamento = :primeiroPagamento "
 							+ "	AND m.valorMinParcela = :valorMinParcela "
 							+ " AND m.midia.id = :midia ")
 		}) 
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames={"entrada","primeiroPagamento","maxParcela","valorMinParcela","midia_id"}))
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"maxParcela","valorMinParcela","midia_id"}))
 public class ModalidadePagamento {
 	@Id
 	@GeneratedValue
@@ -50,13 +48,7 @@ public class ModalidadePagamento {
 	@Column(nullable=false)
 	@NotNull
 	private BigDecimal valorMinParcela;
-	
-	@Column(nullable=true)
-	private BigDecimal entrada;
-	
-	@Column(nullable=true)
-	@Temporal(TemporalType.DATE)
-	private Date primeiroPagamento;
+
 	
 	@ManyToOne
 	@JoinColumn(name="midia_id",nullable=false)
@@ -104,28 +96,5 @@ public class ModalidadePagamento {
 	public void setLeiloes(List<Leilao> leiloes) {
 		this.leiloes = leiloes;
 	}
-	/**
-	 * @return the entrada
-	 */
-	public BigDecimal getEntrada() {
-		return entrada;
-	}
-	/**
-	 * @param entrada the entrada to set
-	 */
-	public void setEntrada(BigDecimal entrada) {
-		this.entrada = entrada;
-	}
-	/**
-	 * @return the primeiroPagamento
-	 */
-	public Date getPrimeiroPagamento() {
-		return primeiroPagamento;
-	}
-	/**
-	 * @param primeiroPagamento the primeiroPagamento to set
-	 */
-	public void setPrimeiroPagamento(Date primeiroPagamento) {
-		this.primeiroPagamento = primeiroPagamento;
-	}
+	
 }
