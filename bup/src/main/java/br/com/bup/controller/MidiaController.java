@@ -1,5 +1,6 @@
 package br.com.bup.controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -14,10 +15,14 @@ import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.MidiaDAO;
 import br.com.bup.domain.Midia;
 import br.com.bup.domain.ModalidadePagamento;
+import br.com.bup.domain.PublicoAlvo;
+import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.validator.I18nMessage;
+import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
@@ -69,7 +74,7 @@ public class MidiaController {
 		LOGGER.debug("atualizando modalidade de pagamento: " + midia);
 		
 		// validacoes...
-		validator.validate(midia);
+		validar(midia);
 		validator.onErrorRedirectTo(this).editar(midia.getId());
 		
 		// recupera os dados q nao estao no formulario
@@ -78,8 +83,9 @@ public class MidiaController {
 		// atualiza
 		midia = midiaDAO.salvar(midia);
 		
-		result.include("success", "midia atualizada com sucesso.");
-		result.redirectTo(IndexController.class).index();
+		validator.add(new I18nMessage("success", "msg.success.midia.atualizar", Severity.SUCCESS));
+		result.redirectTo(this).listar();
+	
 	}
 	
 	/**
@@ -91,11 +97,20 @@ public class MidiaController {
 	 */
 	private Midia atualizarEntidadeDoFormulario(Midia midia) {
 		Midia midiaAtualizada = midiaDAO.buscarPorId(midia.getId());
-		
-		//TODO testar o BeanBuild... sl oq
-		midiaAtualizada.setTipo(midia.getTipo());
-		
+		try {
+			NotNullBeanUtilsBean.getInstance().copyProperties(midiaAtualizada, midia);
+		} catch (IllegalAccessException e) {
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (InvocationTargetException e) {
+			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		}
 		return midiaAtualizada;
+	}
+	private void validar(Midia midia) {
+		validator.validate(midia);
+		if (!midiaDAO.unikConstraintValida(midia)) {
+			validator.add(new I18nMessage("Midia", "msg.error.salvar",Severity.ERROR));
+		}
 	}
 	@OpenTransaction
 	@ApenasAdministrador
@@ -103,24 +118,18 @@ public class MidiaController {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		LOGGER.debug("criando midia: " + midia);
 		
-		
-		
 		// validacoes...
-		validarCriar(midia);
+		validar(midia);
 		validator.onErrorRedirectTo(this).formulario();
 		
 		// salva
 		midia = midiaDAO.salvar(midia);
 		
-		result.include("success", "Midia criado com sucesso.");
-		result.redirectTo(IndexController.class).index();
+		validator.add(new I18nMessage("success", "msg.success.midia.criar", Severity.SUCCESS));
+		result.redirectTo(this).listar();
+	
 	}
 	
-	private void validarCriar(Midia midia) {
-		validator.validate(midia);
-		
-		// TODO validar inclusao repetida
-	}
 	
 	@OpenTransaction
 	@ApenasAdministrador
