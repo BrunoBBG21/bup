@@ -52,15 +52,17 @@
 				</div>
 
 				<br />
-				<c:if test="${modalidadePagamento.id == null}">
-					<input type="submit" formaction="<c:url value='/modalidadePagamento/criar'/>" class="btn btn-primary"
-						value='<fmt:message key="btn.salvar"/>' />
-				</c:if>
-				<c:if test="${modalidadePagamento.id != null}">
-					<input type="hidden" name="modalidadePagamento.id" value="${modalidadePagamento.id}">
+				
+				<c:choose>
+			      <c:when test="${modalidadePagamento.id != null}"><input type="hidden" name="modalidadePagamento.id" value="${modalidadePagamento.id}">
 					<input type="submit" formaction="<c:url value='/modalidadePagamento/atualizar'/>" class="btn btn-primary"
+						value='<fmt:message key="btn.editar"/>' />
+			      </c:when>
+			
+			      <c:otherwise><input type="submit" formaction="<c:url value='/modalidadePagamento/criar'/>" class="btn btn-primary"
 						value='<fmt:message key="btn.salvar"/>' />
-				</c:if>
+			      </c:otherwise>
+				</c:choose>
 			</form>
 		</div>
 	</div>

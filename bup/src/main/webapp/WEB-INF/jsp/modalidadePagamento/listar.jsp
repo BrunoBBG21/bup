@@ -41,7 +41,7 @@
 									<button type="submit" formaction='<c:url value="/modalidadePagamento/apagar/${modalidadePagamento.id}"/>'>
 										<fmt:message key="btn.apagar" />
 									</button>
-									<button type="submit" formaction='<c:url value="/modalidadePagamento/formulario/${modalidadePagamento.id}"/>'>
+									<button type="submit" formaction='<c:url value="/modalidadePagamento/editar/${modalidadePagamento.id}"/>'>
 										<fmt:message key="btn.editar" />
 									</button>
 								</form>

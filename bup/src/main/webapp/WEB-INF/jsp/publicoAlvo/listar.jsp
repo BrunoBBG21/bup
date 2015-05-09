@@ -14,7 +14,7 @@
 				<tr>
 					<c:if test="${usuarioSession.isAdministrador() }">
 						<th>
-							<fmt:message key="btn.apagar" />
+							<fmt:message key="btn.acoes" />
 						</th>
 					</c:if>
 					<th>
@@ -34,6 +34,9 @@
 								<form>
 									<button type="submit" formaction='<c:url value="/publicoAlvo/apagar/${publicoAlvo.id}"/>'>
 										<fmt:message key="btn.apagar" />
+									</button>
+									<button type="submit" formaction='<c:url value="/publicoAlvo/editar/${publicoAlvo.id}"/>'>
+										<fmt:message key="btn.editar" />
 									</button>
 								</form>
 							</td>

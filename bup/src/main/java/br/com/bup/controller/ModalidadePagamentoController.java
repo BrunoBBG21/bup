@@ -56,8 +56,8 @@ public class ModalidadePagamentoController {
 	}
 	
 	@OpenTransaction
-	@Path("/modalidadePagamento/formulario/{id}")
-	public void formulario(Long id) {
+	@Path("/modalidadePagamento/editar/{id}")
+	public void editar(Long id) {
 		LOGGER.debug("carregando formulario de modalidade de pagamento com id: " + id);
 		ModalidadePagamento modPag = modalidadePagamentoDAO.buscarPorId(id);
 		

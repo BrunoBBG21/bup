@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import br.com.bup.annotation.ApenasAdministrador;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.PublicoAlvoDAO;
+import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.domain.PublicoAlvo;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
@@ -50,7 +51,51 @@ public class PublicoAlvoController {
 	public void formulario() {
 		LOGGER.debug("carregando formulario de publico alvo.");
 	}
+	@OpenTransaction
+	@Path("/publicoAlvo/editar/{id}")
+	public void editar(Long id) {
+		LOGGER.debug("carregando formulario de publico alvo com id: " + id);
+		PublicoAlvo pub = publicoAlvoDAO.buscarPorId(id);
+		
+		result.include("publicoAlvo", pub);
+		formulario();
+	}
+	@OpenTransaction
+	public void atualizar(@NotNull PublicoAlvo pub) {
+		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
+		
+		LOGGER.debug("atualizando publico alvo: " + pub);
+		
+		// validacoes...
+		validator.validate(pub);
+		validator.onErrorRedirectTo(this).formulario();
+		
+		// recupera os dados q nao estao no formulario
+		pub = atualizarEntidadeDoFormulario(pub);
+		
+		// atualiza
+		pub = publicoAlvoDAO.salvar(pub);
+		
+		result.include("success", "Modalidade de pagamento atualizada com sucesso.");
+		result.redirectTo(IndexController.class).index();
+	}
 	
+	/**
+	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
+	 * mantendo os atributos do formulario da entidade passada.
+	 * 
+	 * @param modalidadePagamento
+	 * @return Entidade atualizada.
+	 */
+	private PublicoAlvo atualizarEntidadeDoFormulario(PublicoAlvo pub) {
+		PublicoAlvo pubAtualizada = publicoAlvoDAO.buscarPorId(pub.getId());
+		
+		//TODO testar o BeanBuild... sl oq
+		pubAtualizada.setDescricao(pub.getDescricao());
+		pubAtualizada.setNome(pub.getNome());
+		
+		return pubAtualizada;
+	}
 	@OpenTransaction
 	public List<PublicoAlvo> listar() {
 		LOGGER.debug("Listando os publicos alvos. ");
