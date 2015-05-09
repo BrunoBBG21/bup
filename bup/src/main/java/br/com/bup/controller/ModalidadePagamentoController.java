@@ -106,7 +106,7 @@ public class ModalidadePagamentoController {
 		
 		// validacoes...
 		validator.validate(modalidadePagamento);
-		validator.onErrorRedirectTo(this).formulario();
+		validator.onErrorRedirectTo(this).editar(modalidadePagamento.getId());
 		
 		// recupera os dados q nao estao no formulario
 		modalidadePagamento = atualizarEntidadeDoFormulario(modalidadePagamento);

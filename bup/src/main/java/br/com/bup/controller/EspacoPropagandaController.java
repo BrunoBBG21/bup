@@ -1,5 +1,6 @@
 package br.com.bup.controller;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,8 +22,10 @@ import br.com.bup.dao.PublicoAlvoDAO;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.FormatoEspacoPropaganda;
+import br.com.bup.domain.Midia;
 import br.com.bup.domain.PublicoAlvo;
 import br.com.bup.domain.Usuario;
+import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
@@ -161,5 +164,57 @@ public class EspacoPropagandaController {
 		
 		result.include("success", i18n.getString("msg.success.apagar"));
 		result.redirectTo(this).listar();
+	}
+	@OpenTransaction
+	@Path("/espacoPropaganda/editar/{id}")
+	public void editar(Long id) {
+		LOGGER.debug("carregando formulario de midia com id: " + id);
+		EspacoPropaganda espacoPropaganda = espacoPropagandaDAO.buscarPorId(id);
+		
+		result.include("espacoPropaganda", espacoPropaganda);
+		formulario();
+	}
+	@OpenTransaction
+	public void atualizar(@NotNull EspacoPropaganda espacoPropaganda) {
+		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
+		
+		LOGGER.debug("atualizando espaço de propaganda: " + espacoPropaganda);
+		
+		// validacoes...
+		validator.validate(espacoPropaganda);
+		validator.onErrorRedirectTo(this).editar(espacoPropaganda.getId());
+		
+		// recupera os dados q nao estao no formulario
+		espacoPropaganda = atualizarEntidadeDoFormulario(espacoPropaganda);
+		
+		// atualiza
+		espacoPropaganda = espacoPropagandaDAO.salvar(espacoPropaganda);
+		
+		result.include("success", "midia atualizada com sucesso.");
+		result.redirectTo(IndexController.class).index();
+	}
+	
+	/**
+	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
+	 * mantendo os atributos do formulario da entidade passada.
+	 * 
+	 * @param modalidadePagamento
+	 * @return Entidade atualizada.
+	 */
+	private EspacoPropaganda atualizarEntidadeDoFormulario(EspacoPropaganda espacoPropaganda) {
+		EspacoPropaganda espacoPropagandaAtualizado = espacoPropagandaDAO.buscarPorId(espacoPropaganda.getId());
+		
+		//TODO testar o BeanBuild... sl oq
+		try {
+			NotNullBeanUtilsBean.getInstance().copyProperties(espacoPropagandaAtualizado, espacoPropaganda);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return espacoPropagandaAtualizado;
 	}
 }

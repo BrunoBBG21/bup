@@ -70,7 +70,7 @@ public class MidiaController {
 		
 		// validacoes...
 		validator.validate(midia);
-		validator.onErrorRedirectTo(this).formulario();
+		validator.onErrorRedirectTo(this).editar(midia.getId());
 		
 		// recupera os dados q nao estao no formulario
 		midia = atualizarEntidadeDoFormulario(midia);
