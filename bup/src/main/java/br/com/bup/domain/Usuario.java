@@ -15,16 +15,29 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 /**
  * Classe base para todos os usuarios no projeto.
  */
+//@formatter:off
 @NamedQueries(value = {
 		@NamedQuery(name = "Usuario.buscarPorEmailSenha",
 				query = "select u from Usuario u where u.email = :email AND u.password = :password"),
-		@NamedQuery(name = "Usuario.existeComEmail", query = "select case when (count(u) > 0) then true else false end "
-				+ "from Usuario u " + "where u.email = :email") })
+		@NamedQuery(name = "Usuario.existeComEmail", 
+		        query = "select case when (count(u) > 0) then true else false end "
+				+ "from Usuario u " + "where u.email = :email"), 
+		@NamedQuery(name = "Usuario.existeComEmailDiferenteId",
+				query = "select case when (count(u) > 0) then true else false end from Usuario u "+
+		"where u.email = :email "+
+		"and u.id <> :id"),
+		@NamedQuery(name = "Usuario.existeComCpfCnpjDiferenteId",
+				query = "select case when (count(u) > 0) then true else false end from Usuario u "+
+				"where (u.cpf = :cpfcnpj or  u.cnpj = :cpfcnpj) "+
+				"and u.id <> :id")
+})
+//@formatter:on
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -69,6 +82,10 @@ public abstract class Usuario implements Serializable {
 	
 	public TipoUsuario getTipoUsuario() {
 		return (this instanceof Agencia) ? TipoUsuario.AGENCIA : TipoUsuario.ANUNCIANTE;
+	}
+	
+	public String getCpfCnpj() {
+		return (this instanceof Agencia) ? ((Agencia) this).getCnpj() : ((Anunciante) this).getCpf();
 	}
 	
 	// get-set-gerados-------------------------------------------------------

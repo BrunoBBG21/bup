@@ -27,7 +27,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class UsuarioController extends BaseWeb{
+public class UsuarioController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(UsuarioController.class);
 	
 	private final UsuarioDAO usuarioDAO;
@@ -115,18 +115,26 @@ public class UsuarioController extends BaseWeb{
 			addErrorMsg("msg.error.apagar");
 			return;
 		}
-		
-		validator.validate(usuario);
-		if (usuarioDAO.existeComEmail(usuario.getEmail())) {
-			addErrorMsg("msg.error.salvar");
+		if (usuario.getId() != null && usuarioDAO.existeComEmailDiferenteId(usuario.getEmail(), usuario.getId())) {
+			addErrorMsg("email.ja.existe");
+			return;
 		}
+		if (usuario.getId() != null && usuarioDAO.existeComCpfCnpjDiferenteId(usuario.getCpfCnpj(), usuario.getId())) {
+			if (TipoUsuario.AGENCIA.equals(usuario.getTipoUsuario())) {
+				addErrorMsg("cnpj.ja.existe");
+			} else {
+				addErrorMsg("cpf.ja.existe");
+			}
+			return;
+		}
+		validator.validate(usuario);
 	}
 	
 	@OpenTransaction
 	public Usuario listar() {
 		LOGGER.debug("Listando os usuários. ");
 		
-		return usuarioSession.getUsuarioLogado();
+		return usuarioDAO.buscarPorId(usuarioSession.getUsuarioLogado().getId());
 	}
 	
 	@Path("/usuario/apagar/{id}")
@@ -138,8 +146,9 @@ public class UsuarioController extends BaseWeb{
 		result.include("success", i18n.getString("msg.success.apagar"));
 		result.redirectTo(this).listar();
 	}
+	
 	@OpenTransaction
-	public void atualizar(Long id,TipoUsuario tipoUsuario, String email, String password, String nome, String endereco,
+	public void atualizar(Long id, TipoUsuario tipoUsuario, String email, String password, String nome, String endereco,
 			String cep, String telefone, String cpfCnpj) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
 		
@@ -149,7 +158,7 @@ public class UsuarioController extends BaseWeb{
 		
 		// validacoes...
 		validar(usuario);
-		validator.onErrorRedirectTo(this).editar(id);
+		validator.onErrorRedirectTo(this).formulario();
 		
 		// recupera os dados q nao estao no formulario
 		usuario = atualizarEntidadeDoFormulario(usuario);
@@ -160,6 +169,7 @@ public class UsuarioController extends BaseWeb{
 		addSuccessMsg("msg.success.conta_bancaria.atualizar");
 		result.redirectTo(this).listar();
 	}
+	
 	/**
 	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
 	 * mantendo os atributos do formulario da entidade passada.
@@ -172,12 +182,13 @@ public class UsuarioController extends BaseWeb{
 		
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(usuarioAtualizado, usuario);
-		} catch (IllegalAccessException|InvocationTargetException e) {
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			addErrorMsg("msg.error.editar");
 		}
 		
 		return usuarioAtualizado;
 	}
+	
 	@OpenTransaction
 	@Path("/usuario/editar/{id}")
 	public void editar(Long id) {
@@ -192,10 +203,10 @@ public class UsuarioController extends BaseWeb{
 		result.include("endereco", usuario.getEndereco());
 		result.include("cep", usuario.getCep());
 		result.include("telefone", usuario.getTelefone());
-		if(TipoUsuario.AGENCIA.equals(usuario.getTipoUsuario())){
-			result.include("cpfCnpj", ((Agencia)usuario).getCnpj());
-		}else{
-			result.include("cpfCnpj", ((Anunciante)usuario).getCpf());
+		if (TipoUsuario.AGENCIA.equals(usuario.getTipoUsuario())) {
+			result.include("cpfCnpj", ((Agencia) usuario).getCnpj());
+		} else {
+			result.include("cpfCnpj", ((Anunciante) usuario).getCpf());
 		}
 		
 		formulario();

@@ -122,6 +122,10 @@ public class PublicoAlvoController extends BaseWeb {
 		if (!publicoAlvoDAO.unikConstraintValida(publicoAlvo)) {
 			addErrorMsg("msg.error.salvar");
 		}
+//		if(usuario.getId()!=null&&usuarioDAO.existeComEmailDiferenteId(usuario.getEmail(), usuario.getId())){
+//			addErrorMsg("email.ja.existe");
+//			return;
+//		}
 	}
 	
 	@Path("/publicoAlvo/apagar/{id}")
