@@ -20,16 +20,16 @@ import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.Usuario;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
 @Named("agenciaController")
-public class AgenciaController extends BaseController {
+public class AgenciaController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.class);
 	
 	private final UsuarioDAO usuarioDAO;

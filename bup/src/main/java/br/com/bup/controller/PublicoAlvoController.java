@@ -13,19 +13,17 @@ import org.slf4j.LoggerFactory;
 import br.com.bup.annotation.ApenasAdministrador;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.PublicoAlvoDAO;
-import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.domain.PublicoAlvo;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.I18nMessage;
-import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class PublicoAlvoController extends BaseController{
+public class PublicoAlvoController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(PublicoAlvoController.class);
 	
 	private final PublicoAlvoDAO publicoAlvoDAO;
@@ -48,6 +46,7 @@ public class PublicoAlvoController extends BaseController{
 	public void formulario() {
 		LOGGER.debug("carregando formulario de publico alvo.");
 	}
+	
 	@OpenTransaction
 	@Path("/publicoAlvo/editar/{id}")
 	public void editar(Long id) {
@@ -57,6 +56,7 @@ public class PublicoAlvoController extends BaseController{
 		result.include("publicoAlvo", publicoAlvo);
 		formulario();
 	}
+	
 	@OpenTransaction
 	public void atualizar(@NotNull PublicoAlvo publicoAlvo) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
@@ -88,12 +88,13 @@ public class PublicoAlvoController extends BaseController{
 		PublicoAlvo pubAtualizada = publicoAlvoDAO.buscarPorId(pub.getId());
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(pubAtualizada, pub);
-		} catch (InvocationTargetException|IllegalAccessException e) {
+		} catch (InvocationTargetException | IllegalAccessException e) {
 			addErrorMsg("msg.error.editar");
 		}
 		
 		return pubAtualizada;
 	}
+	
 	@OpenTransaction
 	public List<PublicoAlvo> listar() {
 		LOGGER.debug("Listando os publicos alvos. ");

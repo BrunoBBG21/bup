@@ -18,13 +18,14 @@ import br.com.bup.dao.ModalidadePagamentoDAO;
 import br.com.bup.dao.PublicoAlvoDAO;
 import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.Leilao;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class LeilaoController extends BaseController {
+public class LeilaoController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.class);
 	
 	private final EspacoPropagandaDAO espacoPropagandaDAO;

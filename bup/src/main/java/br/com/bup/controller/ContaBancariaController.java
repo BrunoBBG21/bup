@@ -14,18 +14,16 @@ import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.ContaBancariaDAO;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.ContaBancaria;
-import br.com.bup.domain.EspacoPropaganda;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.I18nMessage;
-import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class ContaBancariaController extends BaseController{
+public class ContaBancariaController extends BaseWeb {
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(ContaBancariaController.class);
 	
@@ -71,6 +69,7 @@ public class ContaBancariaController extends BaseController{
 		addSuccessMsg("msg.success.conta_bancaria.criar");
 		result.redirectTo(this).listar();
 	}
+	
 	private void validar(ContaBancaria contaBancaria) {
 		validator.validate(contaBancaria);
 		
@@ -92,6 +91,7 @@ public class ContaBancariaController extends BaseController{
 		addSuccessMsg("msg.success.apagar");
 		result.redirectTo(this).listar();
 	}
+	
 	@OpenTransaction
 	public void atualizar(@NotNull ContaBancaria contaBancaria) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
@@ -110,6 +110,7 @@ public class ContaBancariaController extends BaseController{
 		addSuccessMsg("msg.success.conta_bancaria.atualizar");
 		result.redirectTo(this).listar();
 	}
+	
 	/**
 	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
 	 * mantendo os atributos do formulario da entidade passada.
@@ -122,12 +123,13 @@ public class ContaBancariaController extends BaseController{
 		
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(contaBancariaAtualizada, contaBancaria);
-		} catch (InvocationTargetException|IllegalAccessException e) {
+		} catch (InvocationTargetException | IllegalAccessException e) {
 			addErrorMsg("msg.error.editar");
 		}
 		
 		return contaBancariaAtualizada;
 	}
+	
 	@OpenTransaction
 	@Path("/contaBancaria/editar/{id}")
 	public void editar(Long id) {

@@ -14,19 +14,16 @@ import br.com.bup.annotation.ApenasAdministrador;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.MidiaDAO;
 import br.com.bup.domain.Midia;
-import br.com.bup.domain.ModalidadePagamento;
-import br.com.bup.domain.PublicoAlvo;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.I18nMessage;
-import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class MidiaController extends BaseController{
+public class MidiaController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(MidiaController.class);
 	
 	private final MidiaDAO midiaDAO;
@@ -51,6 +48,7 @@ public class MidiaController extends BaseController{
 		// simples formulario... futuramente receendo id para editar... ou
 		// nao...
 	}
+	
 	@OpenTransaction
 	@Path("/midia/editar/{id}")
 	public void editar(Long id) {
@@ -60,6 +58,7 @@ public class MidiaController extends BaseController{
 		result.include("midia", midia);
 		formulario();
 	}
+	
 	@OpenTransaction
 	public void atualizar(@NotNull Midia midia) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
@@ -76,9 +75,9 @@ public class MidiaController extends BaseController{
 		// atualiza
 		midia = midiaDAO.salvar(midia);
 		
-		validator.add(new I18nMessage("success", "msg.success.midia.atualizar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.midia.atualizar");
 		result.redirectTo(this).listar();
-	
+		
 	}
 	
 	/**
@@ -92,19 +91,19 @@ public class MidiaController extends BaseController{
 		Midia midiaAtualizada = midiaDAO.buscarPorId(midia.getId());
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(midiaAtualizada, midia);
-		} catch (IllegalAccessException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
-		} catch (InvocationTargetException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			addErrorMsg("msg.error.editar");
 		}
 		return midiaAtualizada;
 	}
+	
 	private void validar(Midia midia) {
 		validator.validate(midia);
 		if (!midiaDAO.unikConstraintValida(midia)) {
-			validator.add(new I18nMessage("Midia", "msg.error.salvar",Severity.ERROR));
+			addErrorMsg("msg.error.salvar");
 		}
 	}
+	
 	@OpenTransaction
 	@ApenasAdministrador
 	public void criar(@NotNull Midia midia) {
@@ -118,11 +117,9 @@ public class MidiaController extends BaseController{
 		// salva
 		midia = midiaDAO.salvar(midia);
 		
-		validator.add(new I18nMessage("success", "msg.success.midia.criar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.midia.criar");
 		result.redirectTo(this).listar();
-	
 	}
-	
 	
 	@OpenTransaction
 	@ApenasAdministrador
@@ -138,7 +135,7 @@ public class MidiaController extends BaseController{
 	public void apagar(Long id) {
 		midiaDAO.apagarPorId(id);
 		
-		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.apagar");
 		result.redirectTo(this).listar();
 	}
 }

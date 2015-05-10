@@ -1,11 +1,9 @@
 package br.com.bup.controller;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
@@ -18,20 +16,18 @@ import br.com.bup.annotation.Telefone;
 import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
-import br.com.bup.domain.ContaBancaria;
 import br.com.bup.domain.TipoUsuario;
 import br.com.bup.domain.Usuario;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.I18nMessage;
-import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class UsuarioController extends BaseController{
+public class UsuarioController extends BaseWeb{
 	private final static Logger LOGGER = LoggerFactory.getLogger(UsuarioController.class);
 	
 	private final UsuarioDAO usuarioDAO;
@@ -117,13 +113,12 @@ public class UsuarioController extends BaseController{
 	private void validar(Usuario usuario) {
 		if (usuario == null) {
 			addErrorMsg("msg.error.apagar");
-			validator.add(new I18nMessage("Usuario", "msg.error.apagar"));
 			return;
 		}
 		
 		validator.validate(usuario);
 		if (usuarioDAO.existeComEmail(usuario.getEmail())) {
-			validator.add(new I18nMessage("Usuario", "msg.error.salvar"));
+			addErrorMsg("msg.error.salvar");
 		}
 	}
 	
@@ -162,7 +157,7 @@ public class UsuarioController extends BaseController{
 		// atualiza
 		usuario = usuarioDAO.salvar(usuario);
 		
-		validator.add(new I18nMessage("success", "msg.success.conta_bancaria.atualizar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.conta_bancaria.atualizar");
 		result.redirectTo(this).listar();
 	}
 	/**
@@ -177,10 +172,8 @@ public class UsuarioController extends BaseController{
 		
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(usuarioAtualizado, usuario);
-		} catch (IllegalAccessException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
-		} catch (InvocationTargetException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (IllegalAccessException|InvocationTargetException e) {
+			addErrorMsg("msg.error.editar");
 		}
 		
 		return usuarioAtualizado;

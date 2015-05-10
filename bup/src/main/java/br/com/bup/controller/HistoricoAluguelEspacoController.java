@@ -13,44 +13,39 @@ import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.AnuncianteDAO;
 import br.com.bup.dao.EspacoPropagandaDAO;
 import br.com.bup.dao.HistoricoAluguelEspacoDAO;
-import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.HistoricoAluguelEspaco;
 import br.com.bup.domain.Usuario;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class HistoricoAluguelEspacoController extends BaseController{
+public class HistoricoAluguelEspacoController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(HistoricoAluguelEspacoController.class);
 	
 	private final HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO;
-	private final UsuarioDAO usuarioDAO;
-	
 	private final EspacoPropagandaDAO espacoPropagandaDAO;
-	
 	private final AnuncianteDAO anuncianteDAO;
 	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected HistoricoAluguelEspacoController() {
-		this(null, null, null, null, null, null, null,null);
+		this(null, null, null, null, null, null, null);
 	}
 	
 	@Inject
 	public HistoricoAluguelEspacoController(Result result, Validator validator,
 			HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO, EspacoPropagandaDAO espacoPropagandaDAO,
-			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession, UsuarioDAO usuarioDAO,ResourceBundle i18n) {
+			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession, ResourceBundle i18n) {
 		super(result, validator, usuarioSession, i18n);
 		this.historicoAluguelEspacoDAO = historicoAluguelEspacoDAO;
 		this.espacoPropagandaDAO = espacoPropagandaDAO;
 		this.anuncianteDAO = anuncianteDAO;
-		this.usuarioDAO = usuarioDAO;
 	}
 	
 	public void formulario() {

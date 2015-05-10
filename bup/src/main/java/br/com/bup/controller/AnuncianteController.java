@@ -24,13 +24,14 @@ import br.com.bup.domain.HistoricoAluguelEspaco;
 import br.com.bup.domain.LanceLeilao;
 import br.com.bup.domain.Leilao;
 import br.com.bup.domain.Usuario;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class AnuncianteController extends BaseController {
+public class AnuncianteController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(AnuncianteController.class);
 	
 	private final LeilaoDAO leilaoDAO;

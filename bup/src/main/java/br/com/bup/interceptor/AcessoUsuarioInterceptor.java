@@ -1,5 +1,7 @@
 package br.com.bup.interceptor;
 
+import java.util.ResourceBundle;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
@@ -13,6 +15,7 @@ import br.com.bup.annotation.ApenasAnunciante;
 import br.com.bup.controller.IndexController;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Accepts;
 import br.com.caelum.vraptor.AroundCall;
@@ -26,22 +29,25 @@ import br.com.caelum.vraptor.validator.Validator;
 
 @Intercepts(before = { TransactionInterceptor.class })
 @RequestScoped
-public class AcessoUsuarioInterceptor {
+public class AcessoUsuarioInterceptor extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(AcessoUsuarioInterceptor.class);
-	
-	@Inject
-	private UsuarioSession usuarioSession;
-	
-	@Inject
-	private Result result;
-	
-	@Inject
-	private Validator validator;
 	
 	private boolean possuiApenasAnunciante = false;
 	private boolean possuiApenasAgencia = false;
 	private boolean possuiApenasAdministrador = false;
 	private boolean possuiAnuncianteNaoGerenciado = false;
+	
+	/**
+	 * @deprecated CDI eyes only
+	 */
+	protected AcessoUsuarioInterceptor() {
+		this(null, null, null, null);
+	}
+	
+	@Inject
+	public AcessoUsuarioInterceptor(Result result, Validator validator, UsuarioSession usuarioSession, ResourceBundle i18n) {
+		super(result, validator, usuarioSession, i18n);
+	}
 	
 	@Accepts
 	public boolean accepts(ControllerMethod method) {
@@ -80,16 +86,16 @@ public class AcessoUsuarioInterceptor {
 			
 		} else {
 			if (!apenasAnuncianteValido) {
-				validator.add(new I18nMessage("info", "acesso.usuario.anunciante.invalido", Severity.INFO));
+				addInfoMsg("acesso.usuario.anunciante.invalido");
 			}
 			if (!apenasAgenciaValido) {
-				validator.add(new I18nMessage("info", "acesso.usuario.agencia.invalido", Severity.INFO));
+				addInfoMsg("acesso.usuario.agencia.invalido");
 			}
 			if (!apenasAdministradorValido) {
-				validator.add(new I18nMessage("info", "acesso.usuario.administrador.invalido", Severity.INFO));
+				addInfoMsg("acesso.usuario.administrador.invalido");
 			}
 			if (!anuncianteNaoGerenciadoValido) {
-				validator.add(new I18nMessage("info", "acesso.usuario.nao_gerenciado.invalido", Severity.INFO));
+				addInfoMsg("acesso.usuario.nao_gerenciado.invalido");
 			}
 			
 			LOGGER.debug("Redirecionando para a pagina index...");

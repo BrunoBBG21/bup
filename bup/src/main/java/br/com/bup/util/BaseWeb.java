@@ -1,4 +1,4 @@
-package br.com.bup.controller;
+package br.com.bup.util;
 
 import java.util.ResourceBundle;
 
@@ -8,7 +8,7 @@ import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
-public abstract class BaseController{
+public abstract class BaseWeb{
 	protected final Result result;
 	protected final Validator validator;
 	protected final UsuarioSession usuarioSession;
@@ -17,10 +17,10 @@ public abstract class BaseController{
 	/**
 	 * @deprecated CDI eyes only
 	 */
-	protected BaseController() {
+	protected BaseWeb() {
 		this(null, null, null, null);
 	}
-	public BaseController(Result result, Validator validator, UsuarioSession usuarioSession, ResourceBundle i18n) {
+	public BaseWeb(Result result, Validator validator, UsuarioSession usuarioSession, ResourceBundle i18n) {
 		super();
 		this.result = result;
 		this.validator = validator;
@@ -47,7 +47,16 @@ public abstract class BaseController{
 	 */
 	protected void addSuccessMsg(String keyMsg, Object... parametros) {
 		validator.add(new I18nMessage("success", keyMsg, Severity.SUCCESS, parametros));
-//		MessageFormat.format(bundle.getString(message), i18n(parameters));
-//		result.include("success", i18n.getString(keyMsg));
+	}
+	
+	/**
+	 * Seta uma msg de Info no validator com chave "info".
+	 * 
+	 * @param keyMsg
+	 *            Key da msg no message.properties.
+	 * @param parametros P
+	 */
+	protected void addInfoMsg(String keyMsg, Object... parametros) {
+		validator.add(new I18nMessage("info", keyMsg, Severity.INFO, parametros));
 	}
 }

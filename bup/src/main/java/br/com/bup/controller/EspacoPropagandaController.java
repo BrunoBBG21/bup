@@ -22,21 +22,18 @@ import br.com.bup.dao.PublicoAlvoDAO;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.FormatoEspacoPropaganda;
-import br.com.bup.domain.Midia;
 import br.com.bup.domain.PublicoAlvo;
 import br.com.bup.domain.Usuario;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.I18nMessage;
-import br.com.caelum.vraptor.validator.Severity;
-import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class EspacoPropagandaController extends BaseController{
+public class EspacoPropagandaController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(EspacoPropagandaController.class);
 	
 	private final EspacoPropagandaDAO espacoPropagandaDAO;
@@ -96,8 +93,7 @@ public class EspacoPropagandaController extends BaseController{
 		List<List<PublicoAlvo>> categoriaAlvos = new ArrayList<List<PublicoAlvo>>();
 		List<PublicoAlvo> alvosAux = new ArrayList<PublicoAlvo>();
 		for (PublicoAlvo publicoAlvo : alvos) {
-			if (!alvosAux.isEmpty() 
-					&& !alvosAux.get(0).getDescricao().equals(publicoAlvo.getDescricao())) {
+			if (!alvosAux.isEmpty() && !alvosAux.get(0).getDescricao().equals(publicoAlvo.getDescricao())) {
 				categoriaAlvos.add(alvosAux);
 				alvosAux = new ArrayList<PublicoAlvo>();
 			}
@@ -140,7 +136,7 @@ public class EspacoPropagandaController extends BaseController{
 			addErrorMsg("msg.error.salvar");
 		}
 	}
-
+	
 	@OpenTransaction
 	public List<EspacoPropaganda> listar() {
 		LOGGER.debug("Listando os espacos ");
@@ -156,6 +152,7 @@ public class EspacoPropagandaController extends BaseController{
 		addSuccessMsg("msg.success.apagar");
 		result.redirectTo(this).listar();
 	}
+	
 	@OpenTransaction
 	@Path("/espacoPropaganda/editar/{id}")
 	public void editar(Long id) {
@@ -165,6 +162,7 @@ public class EspacoPropagandaController extends BaseController{
 		result.include("espacoPropaganda", espacoPropaganda);
 		formulario();
 	}
+	
 	@OpenTransaction
 	public void atualizar(@NotNull EspacoPropaganda espacoPropaganda) {
 		validator.onErrorRedirectTo(this).formulario(); // caso seja null...
@@ -197,7 +195,7 @@ public class EspacoPropagandaController extends BaseController{
 		
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(espacoPropagandaAtualizado, espacoPropaganda);
-		} catch (InvocationTargetException|IllegalAccessException ex) {
+		} catch (InvocationTargetException | IllegalAccessException ex) {
 			addErrorMsg("msg.error.editar");
 		}
 		

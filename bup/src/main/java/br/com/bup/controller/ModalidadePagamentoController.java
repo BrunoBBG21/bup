@@ -15,18 +15,16 @@ import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.MidiaDAO;
 import br.com.bup.dao.ModalidadePagamentoDAO;
 import br.com.bup.domain.ModalidadePagamento;
-import br.com.bup.domain.PublicoAlvo;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.validator.I18nMessage;
-import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class ModalidadePagamentoController extends BaseController{
+public class ModalidadePagamentoController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(ModalidadePagamentoController.class);
 	
 	private final ModalidadePagamentoDAO modalidadePagamentoDAO;
@@ -113,12 +111,14 @@ public class ModalidadePagamentoController extends BaseController{
 		addSuccessMsg("msg.success.modalidade_pagamento.atualizar");
 		result.redirectTo(this).listar();
 	}
+	
 	private void validar(ModalidadePagamento modalidadePagamento) {
 		validator.validate(modalidadePagamento);
 		if (!modalidadePagamentoDAO.unikConstraintValida(modalidadePagamento)) {
 			addErrorMsg("msg.error.salvar");
 		}
 	}
+	
 	/**
 	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
 	 * mantendo os atributos do formulario da entidade passada.
@@ -130,7 +130,7 @@ public class ModalidadePagamentoController extends BaseController{
 		ModalidadePagamento modalidadeAtualizada = modalidadePagamentoDAO.buscarPorId(modalidadePagamento.getId());
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(modalidadeAtualizada, modalidadePagamento);
-		} catch (IllegalAccessException|InvocationTargetException e) {
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			addErrorMsg("msg.error.editar");
 		}
 		

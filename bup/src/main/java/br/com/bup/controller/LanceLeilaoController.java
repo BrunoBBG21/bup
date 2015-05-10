@@ -2,6 +2,7 @@ package br.com.bup.controller;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
@@ -14,28 +15,24 @@ import br.com.bup.dao.AgenciaDAO;
 import br.com.bup.dao.AnuncianteDAO;
 import br.com.bup.dao.LanceLeilaoDAO;
 import br.com.bup.dao.LeilaoDAO;
-import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.LanceLeilao;
 import br.com.bup.domain.Leilao;
+import br.com.bup.util.BaseWeb;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class LanceLeilaoController {
+public class LanceLeilaoController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(LanceLeilaoController.class);
 	
-	private final Result result;
-	private final Validator validator;
 	private final LanceLeilaoDAO lanceLeilaoDAO;
 	private final LeilaoDAO leilaoDAO;
 	private final AnuncianteDAO anuncianteDAO;
 	private final AgenciaDAO agenciaDAO;
-	private final UsuarioSession usuarioSession;
-	private final UsuarioDAO usuarioDAO;
 	
 	/**
 	 * @deprecated CDI eyes only
@@ -45,16 +42,13 @@ public class LanceLeilaoController {
 	}
 	
 	@Inject
-	public LanceLeilaoController(Result result, Validator validator, LanceLeilaoDAO lanceLeilaoDAO, LeilaoDAO leilaoDAO,
-			AgenciaDAO agenciaDAO, AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession, UsuarioDAO usuarioDAO) {
-		this.result = result;
-		this.validator = validator;
+	public LanceLeilaoController(Result result, Validator validator, UsuarioSession usuarioSession, ResourceBundle i18n,
+			LanceLeilaoDAO lanceLeilaoDAO, LeilaoDAO leilaoDAO, AgenciaDAO agenciaDAO, AnuncianteDAO anuncianteDAO) {
+		super(result, validator, usuarioSession, i18n);
 		this.lanceLeilaoDAO = lanceLeilaoDAO;
 		this.leilaoDAO = leilaoDAO;
 		this.agenciaDAO = agenciaDAO;
 		this.anuncianteDAO = anuncianteDAO;
-		this.usuarioSession = usuarioSession;
-		this.usuarioDAO = usuarioDAO;
 	}
 	
 	public void formulario() {
