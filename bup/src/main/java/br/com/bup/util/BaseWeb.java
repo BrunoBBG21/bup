@@ -35,9 +35,11 @@ public abstract class BaseWeb{
 	 *            Key da msg no message.properties.
 	 */
 	protected void addErrorMsg(String keyMsg, Object... parametros) {
-		validator.add(new I18nMessage("error", keyMsg, parametros));
+		addErrorMsg("error", keyMsg, parametros);
 	}
-	
+	protected void addErrorMsg(String campo,String keyMsg, Object... parametros) {
+		validator.add(new I18nMessage(campo, keyMsg, parametros));
+	}
 	/**
 	 * Seta uma msg de sucesso no validator com chave "success".
 	 * 

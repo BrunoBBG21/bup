@@ -116,16 +116,14 @@ public class UsuarioController extends BaseWeb {
 			return;
 		}
 		if (usuario.getId() != null && usuarioDAO.existeComEmailDiferenteId(usuario.getEmail(), usuario.getId())) {
-			addErrorMsg("email.ja.existe");
-			return;
+			addErrorMsg("email","email.ja.existe");
 		}
 		if (usuario.getId() != null && usuarioDAO.existeComCpfCnpjDiferenteId(usuario.getCpfCnpj(), usuario.getId())) {
 			if (TipoUsuario.AGENCIA.equals(usuario.getTipoUsuario())) {
-				addErrorMsg("cnpj.ja.existe");
+				addErrorMsg("cnpj","cnpj.ja.existe");
 			} else {
-				addErrorMsg("cpf.ja.existe");
+				addErrorMsg("cpf", "cpf.ja.existe");
 			}
-			return;
 		}
 		validator.validate(usuario);
 	}
