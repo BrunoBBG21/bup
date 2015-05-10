@@ -1,6 +1,7 @@
 package br.com.bup.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
@@ -197,14 +198,19 @@ public class UsuarioController {
 		Usuario usuario = usuarioDAO.buscarPorId(id);
 		
 		result.include("id", usuario.getId());
-//		result.include("tipoUsuario", usuario.gett);
+		result.include("tipoUsuario", usuario.getTipoUsuario());
 		result.include("email", usuario.getEmail());
 		result.include("password", usuario.getPassword());
 		result.include("nome", usuario.getNome());
 		result.include("endereco", usuario.getEndereco());
 		result.include("cep", usuario.getCep());
 		result.include("telefone", usuario.getTelefone());
-//		result.include("cpfCnpj", usuario);
+		if(TipoUsuario.AGENCIA.equals(usuario.getTipoUsuario())){
+			result.include("cpfCnpj", ((Agencia)usuario).getCnpj());
+		}else{
+			result.include("cpfCnpj", ((Anunciante)usuario).getCpf());
+		}
+		
 		formulario();
 	}
 }

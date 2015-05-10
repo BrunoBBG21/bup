@@ -18,18 +18,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
- *	Classe base para todos os usuarios no projeto. 
+ * Classe base para todos os usuarios no projeto.
  */
-@NamedQueries(value={
-   @NamedQuery(
-		      name = "Usuario.buscarPorEmailSenha",
-		      query="select u from Usuario u where u.email = :email AND u.password = :password"),
-   @NamedQuery(
-		      name = "Usuario.existeComEmail",
-		      query="select case when (count(u) > 0) then true else false end "
-		      		+ "from Usuario u "
-		      		+ "where u.email = :email")
-}) 
+@NamedQueries(value = {
+		@NamedQuery(name = "Usuario.buscarPorEmailSenha",
+				query = "select u from Usuario u where u.email = :email AND u.password = :password"),
+		@NamedQuery(name = "Usuario.existeComEmail", query = "select case when (count(u) > 0) then true else false end "
+				+ "from Usuario u " + "where u.email = :email") })
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -40,29 +35,29 @@ public abstract class Usuario implements Serializable {
 	@GeneratedValue
 	private Long id;
 	
-	@Column(unique=true,nullable=false)
+	@Column(unique = true, nullable = false)
 	@NotNull
 	private String email;
 	
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@NotNull
 	private String password;
 	
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@NotNull
 	private String nome;
 	
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@NotNull
 	private String endereco;
 	
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@NotNull
 	private String cep;
 	
 	private String telefone;
 	
-	@Column(nullable=false)
+	@Column(nullable = false)
 	@NotNull
 	private BigDecimal saldo = BigDecimal.valueOf(0);
 	
@@ -72,59 +67,79 @@ public abstract class Usuario implements Serializable {
 	@OneToMany(mappedBy = "usuario")
 	private List<TransacaoBancaria> transacoes = new ArrayList<TransacaoBancaria>();
 	
-	//get-set-gerados-------------------------------------------------------
+	public TipoUsuario getTipoUsuario() {
+		return (this instanceof Agencia) ? TipoUsuario.AGENCIA : TipoUsuario.ANUNCIANTE;
+	}
 	
+	// get-set-gerados-------------------------------------------------------
 	public Long getId() {
 		return id;
 	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public String getNome() {
 		return nome;
 	}
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
 	public String getEndereco() {
 		return endereco;
 	}
+	
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
+	
 	public String getCep() {
 		return cep;
 	}
+	
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
+	
 	public String getTelefone() {
 		return telefone;
 	}
+	
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+	
 	public BigDecimal getSaldo() {
 		return saldo;
 	}
+	
 	public void setSaldo(BigDecimal saldo) {
 		this.saldo = saldo;
 	}
+	
 	public List<ContaBancaria> getContasBancarias() {
 		return contasBancarias;
 	}
+	
 	public void setContasBancarias(List<ContaBancaria> contasBancarias) {
 		this.contasBancarias = contasBancarias;
 	}
