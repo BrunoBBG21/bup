@@ -23,7 +23,6 @@ import com.google.common.base.Strings;
 public class LoginController extends BaseWeb {
 	private final static Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 	
-	@Inject
 	private UsuarioDAO dao;
 	
 	/**
@@ -32,7 +31,7 @@ public class LoginController extends BaseWeb {
 	protected LoginController() {
 		this(null, null, null, null, null);
 	}
-	
+	@Inject
 	public LoginController(Result result, Validator validator, UsuarioSession usuarioSession, ResourceBundle i18n, UsuarioDAO dao) {
 		super(result, validator, usuarioSession, i18n);
 		this.dao = dao;
