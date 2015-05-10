@@ -8,7 +8,7 @@ import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
-public abstract class BaseController {
+public abstract class BaseController{
 	protected final Result result;
 	protected final Validator validator;
 	protected final UsuarioSession usuarioSession;
@@ -20,7 +20,6 @@ public abstract class BaseController {
 	protected BaseController() {
 		this(null, null, null, null);
 	}
-	
 	public BaseController(Result result, Validator validator, UsuarioSession usuarioSession, ResourceBundle i18n) {
 		super();
 		this.result = result;

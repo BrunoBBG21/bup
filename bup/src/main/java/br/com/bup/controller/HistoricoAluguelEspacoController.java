@@ -1,6 +1,7 @@
 package br.com.bup.controller;
 
 import java.util.Date;
+import java.util.ResourceBundle;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
@@ -24,13 +25,10 @@ import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class HistoricoAluguelEspacoController {
+public class HistoricoAluguelEspacoController extends BaseController{
 	private final static Logger LOGGER = LoggerFactory.getLogger(HistoricoAluguelEspacoController.class);
 	
-	private final Result result;
-	private final Validator validator;
 	private final HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO;
-	private final UsuarioSession usuarioSession;
 	private final UsuarioDAO usuarioDAO;
 	
 	private final EspacoPropagandaDAO espacoPropagandaDAO;
@@ -41,19 +39,17 @@ public class HistoricoAluguelEspacoController {
 	 * @deprecated CDI eyes only
 	 */
 	protected HistoricoAluguelEspacoController() {
-		this(null, null, null, null, null, null, null);
+		this(null, null, null, null, null, null, null,null);
 	}
 	
 	@Inject
 	public HistoricoAluguelEspacoController(Result result, Validator validator,
 			HistoricoAluguelEspacoDAO historicoAluguelEspacoDAO, EspacoPropagandaDAO espacoPropagandaDAO,
-			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession, UsuarioDAO usuarioDAO) {
-		this.result = result;
-		this.validator = validator;
+			AnuncianteDAO anuncianteDAO, UsuarioSession usuarioSession, UsuarioDAO usuarioDAO,ResourceBundle i18n) {
+		super(result, validator, usuarioSession, i18n);
 		this.historicoAluguelEspacoDAO = historicoAluguelEspacoDAO;
 		this.espacoPropagandaDAO = espacoPropagandaDAO;
 		this.anuncianteDAO = anuncianteDAO;
-		this.usuarioSession = usuarioSession;
 		this.usuarioDAO = usuarioDAO;
 	}
 	
@@ -73,7 +69,7 @@ public class HistoricoAluguelEspacoController {
 				+ ", anunciante - " + anunciante.getNome() + ", espaco propaganda - " + espacoPropaganda.getDescricao());
 		Usuario logado = usuarioSession.getUsuario();
 		if (!("admin".equals(logado.getNome()) && logado.getId() == 1)) {
-			validator.add(new SimpleMessage("error", "Usuario deve ser o administrador"));
+			addErrorMsg("msg.error.admin");
 			validator.onErrorRedirectTo(this).formulario();
 		} else {
 			HistoricoAluguelEspaco historicoAluguelEspaco = new HistoricoAluguelEspaco();

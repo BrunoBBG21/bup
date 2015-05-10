@@ -36,16 +36,12 @@ import br.com.caelum.vraptor.validator.SimpleMessage;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class EspacoPropagandaController {
+public class EspacoPropagandaController extends BaseController{
 	private final static Logger LOGGER = LoggerFactory.getLogger(EspacoPropagandaController.class);
 	
-	private final Result result;
-	private final Validator validator;
 	private final EspacoPropagandaDAO espacoPropagandaDAO;
 	private final MidiaDAO midiaDAO;
-	private final UsuarioSession usuarioSession;
 	private final PublicoAlvoDAO publicoAlvoDAO;
-	private final ResourceBundle i18n;
 	
 	private final Comparator<PublicoAlvo> c = new Comparator<PublicoAlvo>() {
 		public int compare(PublicoAlvo o1, PublicoAlvo o2) {
@@ -82,13 +78,10 @@ public class EspacoPropagandaController {
 	public EspacoPropagandaController(Result result, Validator validator, MidiaDAO midiaDAO,
 			EspacoPropagandaDAO espacoPropagandaDAO, PublicoAlvoDAO publicoAlvoDAO, UsuarioSession usuarioSession,
 			ResourceBundle i18n) {
-		this.result = result;
-		this.validator = validator;
+		super(result, validator, usuarioSession, i18n);
 		this.midiaDAO = midiaDAO;
 		this.espacoPropagandaDAO = espacoPropagandaDAO;
 		this.publicoAlvoDAO = publicoAlvoDAO;
-		this.usuarioSession = usuarioSession;
-		this.i18n = i18n;
 	}
 	
 	@OpenTransaction
@@ -99,7 +92,6 @@ public class EspacoPropagandaController {
 		result.include("midias", midiaDAO.buscarTodos());
 		List<PublicoAlvo> alvos = publicoAlvoDAO.buscarTodos();
 		Collections.sort(alvos, c);
-//		result.include("publicosAlvos", alvos);
 		
 		List<List<PublicoAlvo>> categoriaAlvos = new ArrayList<List<PublicoAlvo>>();
 		List<PublicoAlvo> alvosAux = new ArrayList<PublicoAlvo>();
@@ -131,23 +123,21 @@ public class EspacoPropagandaController {
 		
 		// salva
 		espacoPropaganda = espacoPropagandaDAO.salvar(espacoPropaganda);
-		
-		validator.add(new I18nMessage("success", "msg.success.espaco_propaganda.criar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.espaco_propaganda.criar");
 		result.redirectTo(this).listar();
 	}
 	
 	private void validar(EspacoPropaganda espacoPropaganda) {
 		Usuario usuario = usuarioSession.getUsuario();
 		if (!(usuario instanceof Anunciante)) {
-			validator.add(new SimpleMessage("error", "Usuario deve ser do tipo Anunciante"));
+			addErrorMsg("msg.error.espaco_propaganda.anunciante");
 			validator.onErrorRedirectTo(this).formulario();
-			
 		} else {
 			espacoPropaganda.setPertence((Anunciante) usuario);
 		}
 		validator.validate(espacoPropaganda);
 		if (!espacoPropagandaDAO.unikConstraintValida(espacoPropaganda)) {
-			validator.add(new I18nMessage("Espaço Propaganda", "msg.error.salvar",Severity.ERROR));
+			addErrorMsg("msg.error.salvar");
 		}
 	}
 
@@ -163,8 +153,7 @@ public class EspacoPropagandaController {
 	@ApenasAnunciante
 	public void apagar(Long id) {
 		espacoPropagandaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
-		
-		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.apagar");
 		result.redirectTo(this).listar();
 	}
 	@OpenTransaction
@@ -192,8 +181,7 @@ public class EspacoPropagandaController {
 		
 		// atualiza
 		espacoPropaganda = espacoPropagandaDAO.salvar(espacoPropaganda);
-		
-		validator.add(new I18nMessage("success", "msg.success.espaco_propaganda.atualizar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.espaco_propaganda.atualizar");
 		result.redirectTo(this).listar();
 	}
 	
@@ -209,10 +197,8 @@ public class EspacoPropagandaController {
 		
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(espacoPropagandaAtualizado, espacoPropaganda);
-		} catch (IllegalAccessException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
-		} catch (InvocationTargetException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (InvocationTargetException|IllegalAccessException ex) {
+			addErrorMsg("msg.error.editar");
 		}
 		
 		return espacoPropagandaAtualizado;

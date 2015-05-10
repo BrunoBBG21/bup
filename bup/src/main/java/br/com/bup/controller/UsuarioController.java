@@ -31,14 +31,10 @@ import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class UsuarioController {
+public class UsuarioController extends BaseController{
 	private final static Logger LOGGER = LoggerFactory.getLogger(UsuarioController.class);
 	
-	private final Result result;
-	private final Validator validator;
 	private final UsuarioDAO usuarioDAO;
-	private final UsuarioSession usuarioSession;
-	private final ResourceBundle i18n;
 	
 	/**
 	 * @deprecated CDI eyes only
@@ -50,12 +46,9 @@ public class UsuarioController {
 	@Inject
 	public UsuarioController(Result result, Validator validator, UsuarioDAO usuarioDAO, UsuarioSession usuarioSession,
 			ResourceBundle i18n) {
+		super(result, validator, usuarioSession, i18n);
 		LOGGER.debug("Criando controller UsuarioController...");
-		this.result = result;
-		this.validator = validator;
 		this.usuarioDAO = usuarioDAO;
-		this.usuarioSession = usuarioSession;
-		this.i18n = i18n;
 	}
 	
 	@Public
@@ -123,6 +116,7 @@ public class UsuarioController {
 	 */
 	private void validar(Usuario usuario) {
 		if (usuario == null) {
+			addErrorMsg("msg.error.apagar");
 			validator.add(new I18nMessage("Usuario", "msg.error.apagar"));
 			return;
 		}

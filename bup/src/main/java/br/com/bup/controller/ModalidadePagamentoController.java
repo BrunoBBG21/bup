@@ -26,15 +26,11 @@ import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class ModalidadePagamentoController {
+public class ModalidadePagamentoController extends BaseController{
 	private final static Logger LOGGER = LoggerFactory.getLogger(ModalidadePagamentoController.class);
 	
-	private final Result result;
-	private final Validator validator;
 	private final ModalidadePagamentoDAO modalidadePagamentoDAO;
 	private final MidiaDAO midiaDAO;
-	private final UsuarioSession usuarioSession;
-	private final ResourceBundle i18n;
 	
 	/**
 	 * @deprecated CDI eyes only
@@ -46,12 +42,9 @@ public class ModalidadePagamentoController {
 	@Inject
 	public ModalidadePagamentoController(Result result, Validator validator, ModalidadePagamentoDAO modalidadePagamentoDAO,
 			MidiaDAO midiaDAO, UsuarioSession usuarioSession, ResourceBundle i18n) {
-		this.result = result;
-		this.validator = validator;
+		super(result, validator, usuarioSession, i18n);
 		this.modalidadePagamentoDAO = modalidadePagamentoDAO;
 		this.midiaDAO = midiaDAO;
-		this.i18n = i18n;
-		this.usuarioSession = usuarioSession;
 	}
 	
 	@OpenTransaction
@@ -88,8 +81,7 @@ public class ModalidadePagamentoController {
 		
 		// salva
 		modalidadePagamento = modalidadePagamentoDAO.salvar(modalidadePagamento);
-		
-		validator.add(new I18nMessage("success", "msg.success.modalidade_pagamento.criar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.modalidade_pagamento.criar");
 		result.redirectTo(this).listar();
 	}
 	
@@ -99,7 +91,7 @@ public class ModalidadePagamentoController {
 	public void apagar(Long id) {
 		modalidadePagamentoDAO.apagarPorId(id);
 		
-		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.apagar");
 		result.redirectTo(this).listar();
 	}
 	
@@ -118,14 +110,13 @@ public class ModalidadePagamentoController {
 		
 		// atualiza
 		modalidadePagamento = modalidadePagamentoDAO.salvar(modalidadePagamento);
-		
-		validator.add(new I18nMessage("success", "msg.success.modalidade_pagamento.atualizar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.modalidade_pagamento.atualizar");
 		result.redirectTo(this).listar();
 	}
 	private void validar(ModalidadePagamento modalidadePagamento) {
 		validator.validate(modalidadePagamento);
 		if (!modalidadePagamentoDAO.unikConstraintValida(modalidadePagamento)) {
-			validator.add(new I18nMessage("Modalidade Pagamento", "msg.error.salvar",Severity.ERROR));
+			addErrorMsg("msg.error.salvar");
 		}
 	}
 	/**
@@ -139,10 +130,8 @@ public class ModalidadePagamentoController {
 		ModalidadePagamento modalidadeAtualizada = modalidadePagamentoDAO.buscarPorId(modalidadePagamento.getId());
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(modalidadeAtualizada, modalidadePagamento);
-		} catch (IllegalAccessException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
-		} catch (InvocationTargetException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (IllegalAccessException|InvocationTargetException e) {
+			addErrorMsg("msg.error.editar");
 		}
 		
 		return modalidadeAtualizada;

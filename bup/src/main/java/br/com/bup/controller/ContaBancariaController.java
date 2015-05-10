@@ -25,16 +25,12 @@ import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class ContaBancariaController {
+public class ContaBancariaController extends BaseController{
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(ContaBancariaController.class);
 	
-	private final Result result;
-	private final Validator validator;
 	private final ContaBancariaDAO contaBancariaDAO;
-	private final UsuarioSession usuarioSession;
 	private final UsuarioDAO usuarioDAO;
-	private final ResourceBundle i18n;
 	
 	/**
 	 * @deprecated CDI eyes only
@@ -46,12 +42,9 @@ public class ContaBancariaController {
 	@Inject
 	public ContaBancariaController(Result result, Validator validator, ContaBancariaDAO contaBancariaDAO,
 			UsuarioSession usuarioSession, UsuarioDAO usuarioDAO, ResourceBundle i18n) {
-		this.result = result;
-		this.validator = validator;
+		super(result, validator, usuarioSession, i18n);
 		this.contaBancariaDAO = contaBancariaDAO;
-		this.usuarioSession = usuarioSession;
 		this.usuarioDAO = usuarioDAO;
-		this.i18n = i18n;
 	}
 	
 	public void formulario() {
@@ -75,15 +68,14 @@ public class ContaBancariaController {
 		
 		// salva
 		contaBancaria = contaBancariaDAO.salvar(contaBancaria);
-		
-		validator.add(new I18nMessage("success", "msg.success.conta_bancaria.criar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.conta_bancaria.criar");
 		result.redirectTo(this).listar();
 	}
 	private void validar(ContaBancaria contaBancaria) {
 		validator.validate(contaBancaria);
 		
 		if (!contaBancariaDAO.unikConstraintValida(contaBancaria)) {
-			validator.add(new I18nMessage("Conta", "msg.error.salvar"));
+			addErrorMsg("msg.error.salvar");
 		}
 	}
 	
@@ -97,8 +89,7 @@ public class ContaBancariaController {
 	@OpenTransaction
 	public void apagar(Long id) {
 		contaBancariaDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
-		
-		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.apagar");
 		result.redirectTo(this).listar();
 	}
 	@OpenTransaction
@@ -116,8 +107,7 @@ public class ContaBancariaController {
 		
 		// atualiza
 		contaBancaria = contaBancariaDAO.salvar(contaBancaria);
-		
-		validator.add(new I18nMessage("success", "msg.success.conta_bancaria.atualizar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.conta_bancaria.atualizar");
 		result.redirectTo(this).listar();
 	}
 	/**
@@ -132,10 +122,8 @@ public class ContaBancariaController {
 		
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(contaBancariaAtualizada, contaBancaria);
-		} catch (IllegalAccessException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
-		} catch (InvocationTargetException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (InvocationTargetException|IllegalAccessException e) {
+			addErrorMsg("msg.error.editar");
 		}
 		
 		return contaBancariaAtualizada;

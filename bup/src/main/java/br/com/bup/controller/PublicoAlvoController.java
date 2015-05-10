@@ -25,14 +25,10 @@ import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class PublicoAlvoController {
+public class PublicoAlvoController extends BaseController{
 	private final static Logger LOGGER = LoggerFactory.getLogger(PublicoAlvoController.class);
 	
-	private final Result result;
-	private final Validator validator;
 	private final PublicoAlvoDAO publicoAlvoDAO;
-	private final UsuarioSession usuarioSession;
-	private final ResourceBundle i18n;
 	
 	/**
 	 * @deprecated CDI eyes only
@@ -44,11 +40,8 @@ public class PublicoAlvoController {
 	@Inject
 	public PublicoAlvoController(Result result, Validator validator, PublicoAlvoDAO publicoAlvoDAO,
 			UsuarioSession usuarioSession, ResourceBundle i18n) {
-		this.result = result;
-		this.validator = validator;
+		super(result, validator, usuarioSession, i18n);
 		this.publicoAlvoDAO = publicoAlvoDAO;
-		this.usuarioSession = usuarioSession;
-		this.i18n = i18n;
 	}
 	
 	@OpenTransaction
@@ -80,7 +73,7 @@ public class PublicoAlvoController {
 		// atualiza
 		publicoAlvo = publicoAlvoDAO.salvar(publicoAlvo);
 		
-		validator.add(new I18nMessage("success", "msg.success.publico_alvo.atualizar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.publico_alvo.atualizar");
 		result.redirectTo(this).listar();
 	}
 	
@@ -95,10 +88,8 @@ public class PublicoAlvoController {
 		PublicoAlvo pubAtualizada = publicoAlvoDAO.buscarPorId(pub.getId());
 		try {
 			NotNullBeanUtilsBean.getInstance().copyProperties(pubAtualizada, pub);
-		} catch (IllegalAccessException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
-		} catch (InvocationTargetException e) {
-			validator.add(new I18nMessage("error", "msg.error.editar", Severity.ERROR));
+		} catch (InvocationTargetException|IllegalAccessException e) {
+			addErrorMsg("msg.error.editar");
 		}
 		
 		return pubAtualizada;
@@ -121,15 +112,14 @@ public class PublicoAlvoController {
 		
 		// salva
 		publicoAlvo = publicoAlvoDAO.salvar(publicoAlvo);
-		
-		validator.add(new I18nMessage("success", "msg.success.publico_alvo.criar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.publico_alvo.criar");
 		result.redirectTo(this).listar();
 	}
 	
 	private void validar(PublicoAlvo publicoAlvo) {
 		validator.validate(publicoAlvo);
 		if (!publicoAlvoDAO.unikConstraintValida(publicoAlvo)) {
-			validator.add(new I18nMessage("Publico Alvo", "msg.error.salvar",Severity.ERROR));
+			addErrorMsg("msg.error.salvar");
 		}
 	}
 	
@@ -138,8 +128,7 @@ public class PublicoAlvoController {
 	@ApenasAdministrador
 	public void apagar(Long id) {
 		publicoAlvoDAO.apagarPorId(id);
-		
-		validator.add(new I18nMessage("success", "msg.success.apagar", Severity.SUCCESS));
+		addSuccessMsg("msg.success.apagar");
 		result.redirectTo(this).listar();
 	}
 }

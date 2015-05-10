@@ -92,7 +92,7 @@ public class AgenciaController extends BaseController {
 		LOGGER.debug("criando agencia: agencia - " + cnpj + ", usuario - " + usuario.getNome());
 		Usuario logado = usuarioSession.getUsuario();
 		if (!("admin".equals(logado.getNome()) && logado.getId() == 1)) {
-			validator.add(new SimpleMessage("error", "Usuario deve ser o administrador"));
+			addErrorMsg("msg.error.admin");
 			validator.onErrorRedirectTo(this).formulario();
 		} else {
 			Agencia agencia = new Agencia();
@@ -114,7 +114,7 @@ public class AgenciaController extends BaseController {
 			// salva
 			agencia = agenciaDAO.salvar(agencia);
 			
-			addSuccessMsg("agencia criada com sucesso.");
+			addSuccessMsg("msg.success.agencia.criar");
 			result.redirectTo(IndexController.class).index();
 		}
 	}

@@ -26,14 +26,10 @@ import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Controller
-public class MidiaController {
+public class MidiaController extends BaseController{
 	private final static Logger LOGGER = LoggerFactory.getLogger(MidiaController.class);
 	
-	private final Result result;
-	private final Validator validator;
 	private final MidiaDAO midiaDAO;
-	private final UsuarioSession usuarioSession;
-	private final ResourceBundle i18n;
 	
 	/**
 	 * @deprecated CDI eyes only
@@ -45,11 +41,8 @@ public class MidiaController {
 	@Inject
 	public MidiaController(Result result, Validator validator, MidiaDAO midiaDAO, UsuarioSession usuarioSession,
 			ResourceBundle i18n) {
-		this.result = result;
-		this.validator = validator;
+		super(result, validator, usuarioSession, i18n);
 		this.midiaDAO = midiaDAO;
-		this.usuarioSession = usuarioSession;
-		this.i18n = i18n;
 	}
 	
 	@ApenasAdministrador
