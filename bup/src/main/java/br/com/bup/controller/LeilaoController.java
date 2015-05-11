@@ -21,6 +21,7 @@ import br.com.bup.domain.Leilao;
 import br.com.bup.util.BaseWeb;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.Validator;
 
@@ -106,6 +107,31 @@ public class LeilaoController extends BaseWeb {
 	}
 	
 	@OpenTransaction
+	@Path("/leilao/apagar/{id}")
+	public void apagar(Long id) {
+		validarApagar(id);
+		validator.onErrorRedirectTo(this).listar();
+		
+		leilaoDAO.apagarPorId(id);
+		
+		addSuccessMsg("msg.success.apagar");
+		result.redirectTo(this).listar();
+	}
+	
+	/**
+	 * Verifica se o leilao pode ser apagado. Só pode apagar caso o estado do
+	 * leilao seja ESPERANDO e não possua nenhum inscrito.
+	 * 
+	 * @param id
+	 */
+	private void validarApagar(Long id) {
+		Leilao leilao = leilaoDAO.buscarPorId(id);
+		if (!leilao.isEstadoEsperando() || !leilao.getInscritos().isEmpty()) {
+			addErrorMsg("leilao.apagar.msg.erro");
+		}
+	}
+	
+	@OpenTransaction
 	@ApenasAnunciante
 	public List<Leilao> inscrever() {
 		LOGGER.debug("Listando os leiloes para inscrição");
@@ -118,17 +144,35 @@ public class LeilaoController extends BaseWeb {
 	public void inscricao(Long leilaoId) {
 		LOGGER.debug("Se inscrevendo no leilao " + leilaoId);
 		
+		validarInscricao(leilaoId);
+		validator.onErrorRedirectTo(this).inscrever();
+		
 		leilaoDAO.addInscritoNoLeilao(usuarioSession.getUsuario().getId(), leilaoId);
 		
 		addSuccessMsg("leilao.inscrever.msg.sucesso");
-		result.redirectTo(this).listar();
+		result.redirectTo(this).inscrever();
+	}
+	
+	/**
+	 * Valida se o usuario logado/gerenciado pode se inscrever no leilao. O
+	 * leilao deve esta no estado ESPERANDO para aceitar novos inscritos.
+	 * 
+	 * @param leilaoId
+	 *            id do leilao.
+	 */
+	private void validarInscricao(Long leilaoId) {
+		Leilao leilao = leilaoDAO.buscarPorId(leilaoId);
+		
+		if (!leilao.isEstadoEsperando()) {
+			addErrorMsg("leilao.inscrever.msg.erro.periodo.inscricao");
+		}
 	}
 	
 	@OpenTransaction
 	@ApenasAnunciante
-	public List<Leilao> inscritos() {
+	public List<Leilao> listarInscritos() {
 		LOGGER.debug("Listando os leiloes inscritos");
-		//TODO falta a tela!!!
-		return leilaoDAO.buscarTodosEsperandoMenosAnuncianteId(usuarioSession.getUsuario().getId());
+		
+		return leilaoDAO.buscarPorInscritoId(usuarioSession.getUsuario().getId());
 	}
 }

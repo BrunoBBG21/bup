@@ -35,6 +35,14 @@
 			<p class="login-box-msg">
 				<fmt:message key="login.msg.inicial" />
 			</p>
+			
+			<c:forEach var="error" items="${errors}">
+				<div class="alert alert-danger alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					${error.message}.
+				</div>
+			</c:forEach>
+			
 			<form action='<c:url value="/login/login"></c:url>' method="post">
 				<div class="form-group has-feedback">
 					<input type="text" class="form-control" placeholder="Email" name="email" />

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -45,8 +44,10 @@ public class LeilaoDAO extends BaseDAO<Leilao> {
 	}
 	
 	/**
-	 * Busca todos os leiloes com estado ESPERANDO menos os leiloes que pertencem ou em que o Anunciante participa.
-	 * @param anuncianteId 
+	 * Busca todos os leiloes com estado ESPERANDO menos os leiloes que
+	 * pertencem ou em que o Anunciante participa.
+	 * 
+	 * @param anuncianteId
 	 * @return
 	 */
 	public List<Leilao> buscarTodosEsperandoMenosAnuncianteId(Long anuncianteId) {
@@ -64,14 +65,29 @@ public class LeilaoDAO extends BaseDAO<Leilao> {
 	}
 	
 	/**
-	 * Busca todos os leiloes inscritos por id.
-	 * @param anuncianteId 
+	 * Adiciona um novo registro na tabela de inscritos em leilao.
+	 * 
+	 * @param anuncianteId
+	 * @param leilaoId
+	 */
+	public void addInscritoNoLeilao(Long anuncianteId, Long leilaoId) {
+		Query query = manager
+				.createNativeQuery("insert into Inscritos_Leilao (leilao_id, anunciante_id) values (:leilaoId, :anuncianteId)");
+		query.setParameter("anuncianteId", anuncianteId);
+		query.setParameter("leilaoId", leilaoId);
+		
+		query.executeUpdate();
+	}
+	
+	/**
+	 * Busca todos os leiloes em que o anuncianteId passado esteja inscrito.
+	 * 
+	 * @param anuncianteId
 	 * @return
 	 */
-	public List<Leilao> buscarInscritoPorAnuncianteId(Long anuncianteId) {
+	public List<Leilao> buscarPorInscritoId(Long anuncianteId) {
 		List<Leilao> value = new ArrayList<Leilao>();
-		//TODO falta fazer a query
-		Query query = manager.createNamedQuery("Leilao.buscarInscritoPorAnuncianteId");
+		Query query = manager.createNamedQuery("Leilao.buscarPorInscritoId");
 		query.setParameter("anuncianteId", anuncianteId);
 		
 		try {
@@ -80,18 +96,5 @@ public class LeilaoDAO extends BaseDAO<Leilao> {
 		}
 		
 		return value;
-	}
-	
-	/**
-	 * Adiciona um novo registro na tabela de inscritos em leilao.
-	 * @param anuncianteId
-	 * @param leilaoId
-	 */
-	public void addInscritoNoLeilao(Long anuncianteId, Long leilaoId) {
-		Query query = manager.createNativeQuery("insert into Inscritos_Leilao (leilao_id, anunciante_id) values (:leilaoId, :anuncianteId)");
-		query.setParameter("anuncianteId", anuncianteId);
-		query.setParameter("leilaoId", leilaoId);
-		
-		query.executeUpdate();
 	}
 }

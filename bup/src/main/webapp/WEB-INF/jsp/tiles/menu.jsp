@@ -54,8 +54,8 @@
 						<fmt:message key="menu.leilao.inscrever" />
 					</a>
 				</li>
-				<li>
-					<a href="#" style="color: red;">
+				<li data-menu-map="/bup/leilao/listarInscritos">
+					<a href="<c:url value='/leilao/listarInscritos'/>">
 						<fmt:message key="menu.leilao.inscritos" />
 					</a>
 				</li>

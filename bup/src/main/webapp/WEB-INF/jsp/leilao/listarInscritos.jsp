@@ -43,14 +43,7 @@
 				<c:forEach var="leilao" items="${leilaoList}">
 					<tr>
 						<td>
-							<form>
-								<button type="submit" class="btn btn-primary" formaction='<c:url value="/leilao/apagar/${leilao.id}"/>'>
-									<fmt:message key="btn.apagar" />
-								</button>
-								<button type="submit" class="btn btn-primary" formaction='<c:url value="/leilao/editar/${leilao.id}"/>'>
-										<fmt:message key="btn.editar" />
-								</button>
-							</form>
+							UHUL
 						</td>
 						<td>${leilao.estado.descricao}</td>
 						<td>${leilao.espacoPropaganda.descricao}</td>

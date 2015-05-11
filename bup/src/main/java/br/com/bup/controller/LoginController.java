@@ -44,13 +44,15 @@ public class LoginController extends BaseWeb {
 			LOGGER.debug("Usuario '" + email + "' tentando logar...");
 			Usuario usuario = dao.buscarPorEmailSenha(email, senha);
 			
-			if (usuario != null) {
-				usuarioSession.logar(usuario);
-				LOGGER.debug("Usuario '" + usuario.getId() + "' logado.");
-				result.redirectTo(IndexController.class).index();
-			} else {
-				result.include("msgErro", "Login ou/e Senha incorretos.");
+			if (usuario == null) {
+				addErrorMsg("login.msg.incorreto");
+				validator.onErrorRedirectTo(this).login(null, null);
 			}
+			
+			usuarioSession.logar(usuario);
+			LOGGER.debug("Usuario '" + usuario.getId() + "' logado.");
+			result.redirectTo(IndexController.class).index();
+			
 		} else if (usuarioSession.isLogado()) {
 			result.redirectTo(IndexController.class).index();
 		}

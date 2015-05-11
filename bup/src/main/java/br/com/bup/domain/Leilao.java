@@ -47,7 +47,16 @@ import br.com.bup.state.TipoEstadoLeilao;
 						+ "					JOIN l2.inscritos i "
 						+ "					WHERE "
 						+ "						l2.id = l.id "
-						+ "					AND i.id = :anuncianteId) ")
+						+ "					AND i.id = :anuncianteId) "),
+						
+		@NamedQuery(name = "Leilao.buscarPorInscritoId",
+				query = "select distinct l "
+						+ "from Leilao l "
+						+ "join l.inscritos i "
+						+ "where "
+						+ "		i.id = :anuncianteId")
+						
+						
 })
 //@formatter:on
 @Entity
@@ -70,9 +79,9 @@ public class Leilao {
 	
 	private BigDecimal reserva;
 	
-	private BigDecimal inscricao;
+	private BigDecimal inscricao; 
 	
-	private Boolean ativo = Boolean.TRUE;
+	private Boolean ativo = Boolean.TRUE; //TODO oq quer dizer? Provavelmente pode ser visto pelo estado do leilao...
 	
 	@Enumerated(EnumType.STRING)
 	private TipoEstadoLeilao estado = TipoEstadoLeilao.ESPERANDO;
@@ -99,16 +108,56 @@ public class Leilao {
 	// metodos----------------------------------------------------------------
 	
 	/**
-	 * Retorna o estado atual do leilao.
+	 * Retorna a logica do estado atual.
 	 * 
-	 * @return EstadoLeilao
+	 * @return EstadoLeilao implementação com a logica do estado atual.
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	public EstadoLeilao getEstadoAtual() throws InstantiationException, IllegalAccessException {
+	public EstadoLeilao getEstadoAtualLogica() throws InstantiationException, IllegalAccessException {
 		EstadoLeilao instance = estado.getInstance();
 		instance.setLeilao(this);
 		return instance;
+	}
+	
+	/**
+	 * Verifica se o estado autal do leilao é ESPERANDO.
+	 * @return boolean
+	 */
+	public boolean isEstadoEsperando() {
+		return TipoEstadoLeilao.ESPERANDO.equals(getEstado());
+	}
+	
+	/**
+	 * Verifica se o estado autal do leilao é CANCELADO.
+	 * @return boolean
+	 */
+	public boolean isEstadoCancelado() {
+		return TipoEstadoLeilao.CANCELADO.equals(getEstado());
+	}
+	
+	/**
+	 * Verifica se o estado autal do leilao é EM_ANDAMENTO.
+	 * @return boolean
+	 */
+	public boolean isEstadoEmAndamento() {
+		return TipoEstadoLeilao.EM_ANDAMENTO.equals(getEstado());
+	}
+	
+	/**
+	 * Verifica se o estado autal do leilao é AGUARDANDO.
+	 * @return boolean
+	 */
+	public boolean isEstadoAguardando() {
+		return TipoEstadoLeilao.AGUARDANDO.equals(getEstado());
+	}
+	
+	/**
+	 * Verifica se o estado autal do leilao é FINALIZADO.
+	 * @return boolean
+	 */
+	public boolean isEstadoFinalizado() {
+		return TipoEstadoLeilao.FINALIZADO.equals(getEstado());
 	}
 	
 	// get-set-gerados-------------------------------------------------------
