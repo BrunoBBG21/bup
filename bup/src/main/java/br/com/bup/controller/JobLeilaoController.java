@@ -41,7 +41,7 @@ public class JobLeilaoController extends BaseWeb implements CronTask {
 	public void execute() {
 		LOGGER.debug("Executando job...");
 		
-		result.redirectTo(IndexController.class).index(); //pq o maldito tiles tenta procurar uma jsp execute...
+		result.nothing();
 	}
 	
 	/**
