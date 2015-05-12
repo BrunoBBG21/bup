@@ -28,7 +28,7 @@ import br.com.bup.state.TipoEstadoLeilao;
 public class ProdutorEntityManager {
 	private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("bup");
 	static{
-//		inicio();
+		inicio();
 	}
 	public static void inicio() {
 		EntityManager em = factory.createEntityManager();

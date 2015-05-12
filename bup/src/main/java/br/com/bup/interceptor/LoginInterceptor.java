@@ -20,22 +20,24 @@ import br.com.caelum.vraptor.interceptor.SimpleInterceptorStack;
 @RequestScoped
 public class LoginInterceptor {
 	private final static Logger LOGGER = LoggerFactory.getLogger(LoginInterceptor.class);
-
+	
 	@Inject
 	private UsuarioSession usuarioSession;
 	
 	@Inject
 	private Result result;
-
+	
 	@Accepts
 	public boolean accepts(ControllerMethod method) {
-	    return !method.containsAnnotation(Public.class) && !usuarioSession.isLogado();
+		Boolean job = method.getController().toString().contains("QuartzController");
+		
+		return !job && !method.containsAnnotation(Public.class) && !usuarioSession.isLogado();
 	}
 	
 	@AroundCall
 	public void intercept(SimpleInterceptorStack stack) throws Exception {
 		LOGGER.debug("Redirecionando para a pagina de login...");
 		result.redirectTo(LoginController.class).login(null, null);
-//		stack.next(); // continua a execução
+		// stack.next(); // continua a execução
 	}
 }

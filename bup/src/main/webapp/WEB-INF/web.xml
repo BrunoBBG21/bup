@@ -13,23 +13,27 @@
 		<param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
 		<param-value>pt_BR</param-value>
 	</context-param>
+	<context-param>
+		<param-name>br.com.caelum.vraptor.environment</param-name>
+		<param-value>production</param-value>
+	</context-param>
 
 	<!-- Listener do Jboss Weld -->
 	<listener>
 		<listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 	</listener>
-	
+
 	<!-- Listener do Tiles -->
 	<listener>
-	    <listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
+		<listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
 	</listener>
-	
+
 	<servlet>
-	    <servlet-name>TilesDispatchServlet</servlet-name>
-	    <servlet-class>org.apache.tiles.web.util.TilesDispatchServlet</servlet-class>
+		<servlet-name>TilesDispatchServlet</servlet-name>
+		<servlet-class>org.apache.tiles.web.util.TilesDispatchServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	    <servlet-name>TilesDispatchServlet</servlet-name>
-	    <url-pattern>*.tiles</url-pattern>
+		<servlet-name>TilesDispatchServlet</servlet-name>
+		<url-pattern>*.tiles</url-pattern>
 	</servlet-mapping>
 </web-app>
