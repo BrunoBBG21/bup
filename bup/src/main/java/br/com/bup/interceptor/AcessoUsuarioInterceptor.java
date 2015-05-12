@@ -23,8 +23,6 @@ import br.com.caelum.vraptor.Intercepts;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.controller.ControllerMethod;
 import br.com.caelum.vraptor.interceptor.SimpleInterceptorStack;
-import br.com.caelum.vraptor.validator.I18nMessage;
-import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
 @Intercepts(before = { TransactionInterceptor.class })
@@ -51,13 +49,19 @@ public class AcessoUsuarioInterceptor extends BaseWeb {
 	
 	@Accepts
 	public boolean accepts(ControllerMethod method) {
-		possuiApenasAnunciante = method.containsAnnotation(ApenasAnunciante.class);
-		possuiApenasAgencia = method.containsAnnotation(ApenasAgencia.class);
-		possuiApenasAdministrador = method.containsAnnotation(ApenasAdministrador.class);
-		possuiAnuncianteNaoGerenciado = method.containsAnnotation(AnuncianteNaoGerenciado.class);
-		
-		return usuarioSession.isLogado()
-				&& (possuiApenasAnunciante || possuiApenasAgencia || possuiApenasAdministrador || possuiAnuncianteNaoGerenciado);
+		Boolean meuProj = method.getController().getPackageName().contains("br.com.bup");
+		if (meuProj) {
+			possuiApenasAnunciante = method.containsAnnotation(ApenasAnunciante.class);
+			possuiApenasAgencia = method.containsAnnotation(ApenasAgencia.class);
+			possuiApenasAdministrador = method.containsAnnotation(ApenasAdministrador.class);
+			possuiAnuncianteNaoGerenciado = method.containsAnnotation(AnuncianteNaoGerenciado.class);
+			
+			return usuarioSession.isLogado()
+					&& (possuiApenasAnunciante || possuiApenasAgencia || possuiApenasAdministrador || possuiAnuncianteNaoGerenciado);
+			
+		} else {
+			return false;
+		}
 	}
 	
 	@AroundCall

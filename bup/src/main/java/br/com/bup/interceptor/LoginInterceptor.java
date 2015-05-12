@@ -29,9 +29,10 @@ public class LoginInterceptor {
 	
 	@Accepts
 	public boolean accepts(ControllerMethod method) {
-		Boolean job = method.getController().toString().contains("QuartzController");
+		usuarioSession.atualizarDataUltimoRequest();
+		Boolean meuProj = method.getController().getPackageName().contains("br.com.bup");
 		
-		return !job && !method.containsAnnotation(Public.class) && !usuarioSession.isLogado();
+		return meuProj && !method.containsAnnotation(Public.class) && !usuarioSession.isLogado();
 	}
 	
 	@AroundCall

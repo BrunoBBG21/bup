@@ -1,8 +1,10 @@
 package br.com.bup.web;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.bup.domain.Agencia;
@@ -10,21 +12,35 @@ import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.Usuario;
 
 @SessionScoped
-@Named("usuarioSession")
 // para pegar na jsp
+@Named("usuarioSession")
 public class UsuarioSession implements Serializable {
 	private static final long serialVersionUID = 5135507409377401886L;
 	private Usuario usuarioLogado;
 	private Anunciante usuarioGerenciado;
+	private Date dataUltimoRequest = new Date();
+	
+	@Inject
+	private UsuarioApplication usuarioApplication;
+	
+	public void atualizarDataUltimoRequest() {
+		dataUltimoRequest = new Date();
+	}
+	
+	public Date getDataUltimoRequest() {
+		return dataUltimoRequest;
+	}
 	
 	public void logar(Usuario usuario) {
-		this.usuarioLogado = usuario;
+		usuarioLogado = usuario;
 		usuarioGerenciado = null;
+		usuarioApplication.addUsuarioLogado(this);
 	}
 	
 	public void deslogar() {
-		this.usuarioLogado = null;
+		usuarioLogado = null;
 		usuarioGerenciado = null;
+		usuarioApplication.removerUsuarioLogado(this);
 	}
 	
 	public Boolean isAdministrador() {
@@ -92,5 +108,13 @@ public class UsuarioSession implements Serializable {
 		}
 		
 		return value;
+	}
+	
+	/**
+	 * Tempo ocioso em minutos.
+	 * @return
+	 */
+	public Long getTempoOcioso() {
+		return ((new Date()).getTime() - dataUltimoRequest.getTime()) / 1000 / 60;
 	}
 }

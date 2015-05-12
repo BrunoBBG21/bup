@@ -24,7 +24,8 @@ public class TransactionInterceptor {
 	
 	@Accepts
 	public boolean accepts(ControllerMethod method) {
-		return method.containsAnnotation(OpenTransaction.class);
+		Boolean meuProj = method.getController().getPackageName().contains("br.com.bup");
+		return meuProj && method.containsAnnotation(OpenTransaction.class);
 	}
 	
 	@AroundCall
