@@ -15,7 +15,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.WordUtils;
-
+//@formatter:off
 @NamedQueries(value={
 	    @NamedQuery(
 					name = "PublicoAlvo.unikConstraintValida",
@@ -23,8 +23,13 @@ import org.apache.commons.lang.WordUtils;
 							+ " from PublicoAlvo p "
 							+ " where "
 							+ "		p.nome = :nome "
-							+ " AND p.descricao = :descricao ")
+							+ " AND p.descricao = :descricao "),
+		@NamedQuery(name = "PublicoAlvo.unikConstraintDiferenteId",
+					query = "select case when (count(p) > 0) then true else false end from PublicoAlvo p "+
+							"where (p.nome = :nome and p.descricao = :descricao) "+
+							"and p.id <> :id")
 		}) 
+//@formatter:on
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"nome","descricao"}))
 public class PublicoAlvo {

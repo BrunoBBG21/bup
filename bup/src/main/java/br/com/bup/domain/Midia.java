@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+//@formatter:off
 @NamedQueries(value={
 		@NamedQuery(
 					name = "Midia.unikConstraintValida",
@@ -20,8 +21,13 @@ import javax.validation.constraints.NotNull;
 							+ " from Midia m "
 							+ " where "
 							+ "		m.tipo = :tipo "
-							)
-		}) 
+							),
+		@NamedQuery(name = "Midia.unikConstraintDiferenteId",
+					query = "select case when (count(m) > 0) then true else false end from Midia m "+
+							"where m.tipo = :tipo "+
+							"and m.id <> :id")
+		})
+//@formatter:on
 @Entity
 @Table
 public class Midia {

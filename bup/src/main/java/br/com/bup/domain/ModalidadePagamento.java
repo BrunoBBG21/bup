@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+//@formatter:off
 @NamedQueries(value={
 	    @NamedQuery(
 					name = "ModalidadePagamento.unikConstraintValida",
@@ -27,9 +28,13 @@ import javax.validation.constraints.NotNull;
 							+ " where "
 							+ "		m.maxParcela = :maxParcela "
 							+ "	AND m.valorMinParcela = :valorMinParcela "
-							+ " AND m.midia.id = :midia ")
+							+ " AND m.midia.id = :midia "),
+		@NamedQuery(name = "ModalidadePagamento.unikConstraintDiferenteId",
+					query = "select case when (count(m) > 0) then true else false end from ModalidadePagamento m "+
+							"where (m.maxParcela = :maxParcela and m.valorMinParcela = :valorMinParcela and m.midia.id = :midia) "+
+							"and m.id <> :id")
 		}) 
-
+//@formatter:on
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames={"maxParcela","valorMinParcela","midia_id"}))
 public class ModalidadePagamento {

@@ -54,7 +54,21 @@ import br.com.bup.state.TipoEstadoLeilao;
 						+ "from Leilao l "
 						+ "join l.inscritos i "
 						+ "where "
-						+ "		i.id = :anuncianteId")
+						+ "		i.id = :anuncianteId"),
+						@NamedQuery(
+								name = "Leilao.unikConstraintValida",
+								query="select count(l) "
+										+ " from Leilao l "
+										+ " where "
+										+ "		l.dataInicio = :dataInicio "
+										+ "	AND l.dataFim = :dataFim "
+										+ "	AND l.modalidadePagamento.id = :mpid "
+										+ "	AND l.espacoPropaganda.id = :epid "
+								),
+					@NamedQuery(name = "Leilao.unikConstraintDiferenteId",
+								query = "select case when (count(l) > 0) then true else false end from Leilao l "+
+										"where (l.dataInicio = :dataInicio and l.dataFim = :dataFim and l.modalidadePagamento.id = :mpid and l.espacoPropaganda.id = :epid) "+
+										"and l.id <> :id")
 						
 						
 })
@@ -110,7 +124,7 @@ public class Leilao {
 	/**
 	 * Retorna a logica do estado atual.
 	 * 
-	 * @return EstadoLeilao implementação com a logica do estado atual.
+	 * @return EstadoLeilao implementaï¿½ï¿½o com a logica do estado atual.
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
@@ -121,7 +135,7 @@ public class Leilao {
 	}
 	
 	/**
-	 * Verifica se o estado autal do leilao é ESPERANDO.
+	 * Verifica se o estado autal do leilao ï¿½ ESPERANDO.
 	 * @return boolean
 	 */
 	public boolean isEstadoEsperando() {
@@ -129,7 +143,7 @@ public class Leilao {
 	}
 	
 	/**
-	 * Verifica se o estado autal do leilao é CANCELADO.
+	 * Verifica se o estado autal do leilao ï¿½ CANCELADO.
 	 * @return boolean
 	 */
 	public boolean isEstadoCancelado() {
@@ -137,7 +151,7 @@ public class Leilao {
 	}
 	
 	/**
-	 * Verifica se o estado autal do leilao é EM_ANDAMENTO.
+	 * Verifica se o estado autal do leilao ï¿½ EM_ANDAMENTO.
 	 * @return boolean
 	 */
 	public boolean isEstadoEmAndamento() {
@@ -145,7 +159,7 @@ public class Leilao {
 	}
 	
 	/**
-	 * Verifica se o estado autal do leilao é AGUARDANDO.
+	 * Verifica se o estado autal do leilao ï¿½ AGUARDANDO.
 	 * @return boolean
 	 */
 	public boolean isEstadoAguardando() {
@@ -153,7 +167,7 @@ public class Leilao {
 	}
 	
 	/**
-	 * Verifica se o estado autal do leilao é FINALIZADO.
+	 * Verifica se o estado autal do leilao ï¿½ FINALIZADO.
 	 * @return boolean
 	 */
 	public boolean isEstadoFinalizado() {

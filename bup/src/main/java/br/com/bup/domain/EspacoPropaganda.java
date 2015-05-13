@@ -28,9 +28,9 @@ import javax.validation.constraints.NotNull;
 		
 		@NamedQuery(name = "EspacoPropaganda.buscarLivresPorAnuncianteId",
 				query = "select e from EspacoPropaganda e where not exists (select l.espacoPropaganda.id from Leilao l where l.estado not in ('CANCELADO', 'FINALIZADO') AND l.espacoPropaganda.id = e.id) AND e.pertence.id = :id "),
-				@NamedQuery(
-						name = "EspacoPropaganda.unikConstraintValida",
-						query="select count(e) "
+		@NamedQuery(
+					name = "EspacoPropaganda.unikConstraintValida",
+					query="select count(e) "
 								+ " from EspacoPropaganda e "
 								+ " where "
 								+ "		e.url = :url "
@@ -38,7 +38,12 @@ import javax.validation.constraints.NotNull;
 								+ " AND e.largura = :largura "
 								+ " AND e.altura = :altura "
 								+ " AND e.midia.id = :midia "
-						)				})
+						),
+		@NamedQuery(name = "EspacoPropaganda.unikConstraintDiferenteId",
+						query = "select case when (count(e) > 0) then true else false end from EspacoPropaganda e "+
+								"where (e.url = :url and e.posicaoTela = :posicaoTela and e.largura = :largura and e.altura = :altura and e.midia.id = :midia) "+
+								"and e.id <> :id")
+						})
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "url", "posicaoTela", "largura", "altura", "midia_id" }))

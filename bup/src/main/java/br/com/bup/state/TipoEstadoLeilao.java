@@ -3,11 +3,11 @@ package br.com.bup.state;
 /**
  * Fazes do leilao.
  * 
- * 	ESPERANDO- estado inicial para o tempo de inscrição - pode ir para CANCELADO ou EM_ANDAMENTO
- * 	CANCELADO- estado final
- * 	EM_ANDAMENTO- aguardando o primeiro lance valido - pode ir para CANCELADO ou AGUARDANDO
- * 	AGUARDANDO- aguardando outros lances validos ate o termino do leilao - pode ir apenas para FINALIZADO
- * 	FINALIZADO- estado final
+ * ESPERANDO- estado inicial para o tempo de inscriï¿½ï¿½o - pode ir para CANCELADO
+ * ou EM_ANDAMENTO CANCELADO- estado final EM_ANDAMENTO- aguardando o primeiro
+ * lance valido - pode ir para CANCELADO ou AGUARDANDO AGUARDANDO- aguardando
+ * outros lances validos ate o termino do leilao - pode ir apenas para
+ * FINALIZADO FINALIZADO- estado final
  * 
  */
 public enum TipoEstadoLeilao {
@@ -19,25 +19,31 @@ public enum TipoEstadoLeilao {
 	
 	private String descricao;
 	private Class<? extends EstadoLeilao> impl;
-
+	
 	private TipoEstadoLeilao(String descricao, Class<? extends EstadoLeilao> impl) {
 		this.descricao = descricao;
 		this.impl = impl;
 	}
 	
+	public boolean isAtivo() {
+		return !(CANCELADO.equals(this) || FINALIZADO.equals(this));
+	}
+	
 	/**
-	 * Retorna uma instancia que contem a implementação da logica do estado.
+	 * Retorna uma instancia que contem a implementaï¿½ï¿½o da logica do estado.
+	 * 
 	 * @return EstadoLeilao.
-	 * @throws InstantiationException 
+	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
 	public EstadoLeilao getInstance() throws InstantiationException, IllegalAccessException {
 		return impl.newInstance();
 	}
-
+	
 	public String getDescricao() {
 		return descricao;
 	}
+	
 	public Class<? extends EstadoLeilao> getImpl() {
 		return impl;
 	}
