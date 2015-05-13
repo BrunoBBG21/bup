@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author andreluisdionisio
- *
- */
-package flatten;
