@@ -18,21 +18,58 @@ would result in the list [1,5,4,9,6].
  1 | 6
   /|\
  5 4 9
- * (non-Javadoc)
- * @see flatten.FlattenTree#flattenInOrder(flatten.Tree)
+ * 
+ * 
+   /|\
+  1 | 6
+   /|\
+  5 4 |
+ 	 /|\
+    8 9 7
+    
+    
+   /|\
+  1 | 6
+   /|\
+  5 4 |
+ 	 /|\
+    | 9 7
+   /|\
+  8 2 3
+  
+ * 
  */
 	
 	
 	public static void main(String[] args) {
 		Tree<Long> tree = new Tree.Node(Tree.Leaf.leaf(1), Tree.Node.tree(Tree.Leaf.leaf(5), Tree.Leaf.leaf(4), Tree.Leaf.leaf(9)), Tree.Leaf.leaf(6));
+		System.out.println(new MyFlattenTree<Long>().flattenInOrder(tree));
 		
+		tree = new Tree.Node(Tree.Leaf.leaf(1), 
+							Tree.Node.tree(Tree.Leaf.leaf(5), 
+											Tree.Leaf.leaf(4), 
+											Tree.Node.tree(Tree.Leaf.leaf(8), 
+															Tree.Leaf.leaf(9), 
+															Tree.Leaf.leaf(7))), 
+							Tree.Leaf.leaf(6));
+		System.out.println(new MyFlattenTree<Long>().flattenInOrder(tree));
+		
+		tree = new Tree.Node(Tree.Leaf.leaf(1), 
+							Tree.Node.tree(Tree.Leaf.leaf(5), 
+											Tree.Leaf.leaf(4), 
+											Tree.Node.tree(Tree.Node.tree(Tree.Leaf.leaf(8), 
+																			Tree.Leaf.leaf(2), 
+																			Tree.Leaf.leaf(3)), 
+															Tree.Leaf.leaf(9), 
+															Tree.Leaf.leaf(7))), 
+							Tree.Leaf.leaf(6));
 		System.out.println(new MyFlattenTree<Long>().flattenInOrder(tree));
 	}
 	
 	Function<T, T> funcLeft = new Function<T, T>() {
 		@Override
 		public T apply(T p) {
-			System.out.println("funcLeft : " + p);
+//			System.out.println("funcLeft : " + p);
 			return p;
 		}
 	};
@@ -41,7 +78,7 @@ would result in the list [1,5,4,9,6].
 		@Override
 		public List<T> apply(Triple<Tree<T>> p) {
 			List<T> value = new ArrayList<T>();
-			System.out.println("funcRigth : " + p);
+//			System.out.println("funcRigth : " + p);
 			value.addAll(new MyFlattenTree<T>().flattenInOrder(p.left()));
 			value.addAll(new MyFlattenTree<T>().flattenInOrder(p.middle()));
 			value.addAll(new MyFlattenTree<T>().flattenInOrder(p.right()));
@@ -56,7 +93,14 @@ would result in the list [1,5,4,9,6].
 			throw new IllegalArgumentException();
 		
 		if (tree.get().isLeft()) {
-			value.add(tree.get().ifLeft(funcLeft));
+			T left = tree.get().ifLeft(funcLeft);
+			if (left instanceof Tree.Leaf || left instanceof Tree.Node) {
+				value.addAll(new MyFlattenTree<T>().flattenInOrder((Tree)left));
+				
+			} else {
+//				System.out.println("left: "+left);
+				value.add(left);
+			}
 			
 		} else {
 			value.addAll(tree.get().ifRight(funcRigth));
