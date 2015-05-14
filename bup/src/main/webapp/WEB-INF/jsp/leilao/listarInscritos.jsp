@@ -43,7 +43,12 @@
 				<c:forEach var="leilao" items="${leilaoList}">
 					<tr>
 						<td>
-							UHUL
+							<form>
+								<input type="hidden" name="leilaoId" value="${leilao.id}">
+								<button type="submit" class="btn btn-primary btn-sm" formaction='<c:url value="/leilao/leilao"/>'>
+									<fmt:message key="leilao.inscritos.btn.participar" />
+								</button>
+							</form>
 						</td>
 						<td>${leilao.estado.descricao}</td>
 						<td>${leilao.espacoPropaganda.descricao}</td>

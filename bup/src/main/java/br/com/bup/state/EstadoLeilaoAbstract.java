@@ -8,11 +8,11 @@ public abstract class EstadoLeilaoAbstract implements EstadoLeilao {
 	public void setLeilao(Leilao leilao) {
 		this.leilao = leilao;
 	}
-
+	
 	public EstadoLeilao processar() {
 		return null;
 	}
-
+	
 	public EstadoLeilao cancelar() {
 		return null;
 	}

@@ -14,7 +14,7 @@ public class TransacaoBancariaDAO extends BaseDAO<TransacaoBancaria> {
 	protected TransacaoBancariaDAO() {
 		super(null, TransacaoBancaria.class);
 	}
-
+	
 	/**
 	 * Construtor usado nos testes unitarios.
 	 * 

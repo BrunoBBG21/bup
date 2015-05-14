@@ -31,6 +31,7 @@ public class LoginController extends BaseWeb {
 	protected LoginController() {
 		this(null, null, null, null, null);
 	}
+	
 	@Inject
 	public LoginController(Result result, Validator validator, UsuarioSession usuarioSession, ResourceBundle i18n, UsuarioDAO dao) {
 		super(result, validator, usuarioSession, i18n);

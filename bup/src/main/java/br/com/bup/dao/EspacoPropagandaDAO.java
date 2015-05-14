@@ -10,18 +10,17 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import br.com.bup.domain.EspacoPropaganda;
-import br.com.bup.domain.PublicoAlvo;
 
 @RequestScoped
 public class EspacoPropagandaDAO extends BaseDAO<EspacoPropaganda> {
-
+	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected EspacoPropagandaDAO() {
 		super(null, EspacoPropaganda.class);
 	}
-
+	
 	/**
 	 * @param manager
 	 *            EntityManager
@@ -30,7 +29,7 @@ public class EspacoPropagandaDAO extends BaseDAO<EspacoPropaganda> {
 	public EspacoPropagandaDAO(EntityManager manager) {
 		super(manager, EspacoPropaganda.class);
 	}
-
+	
 	/**
 	 * para garantir que o usuario apague os seus espacos de propaganda.
 	 * 
@@ -43,54 +42,52 @@ public class EspacoPropagandaDAO extends BaseDAO<EspacoPropaganda> {
 			manager.remove(e);
 		}
 	}
-
+	
 	public List<EspacoPropaganda> buscarPorAnuncianteId(Long id) {
 		List<EspacoPropaganda> value = new ArrayList<EspacoPropaganda>();
-
-		Query query = manager
-				.createNamedQuery("EspacoPropaganda.buscarPorAnuncianteId");
+		
+		Query query = manager.createNamedQuery("EspacoPropaganda.buscarPorAnuncianteId");
 		query.setParameter("id", id);
-
+		
 		try {
 			value = query.getResultList();
 		} catch (NoResultException ex) {
 		}
-
+		
 		return value;
 	}
-
+	
 	public List<EspacoPropaganda> buscarLivresPorAnuncianteId(Long id) {
 		List<EspacoPropaganda> value = new ArrayList<EspacoPropaganda>();
-
-		Query query = manager
-				.createNamedQuery("EspacoPropaganda.buscarLivresPorAnuncianteId");
+		
+		Query query = manager.createNamedQuery("EspacoPropaganda.buscarLivresPorAnuncianteId");
 		query.setParameter("id", id);
-
+		
 		try {
 			value = query.getResultList();
 		} catch (NoResultException ex) {
 		}
-
+		
 		return value;
 	}
-
+	
 	/**
 	 * Valida a unikConstraintValida anotada na classe...
-	 * @UniqueConstraint(columnNames={"agencia","conta","banco"}).
+	 * 
+	 * @UniqueConstraint(columnNames={"agencia","conta","banco" ).
 	 * 
 	 * @param contaBancaria
 	 * @return Boolean
 	 */
 	public Boolean unikConstraintValida(EspacoPropaganda espacoPropaganda) {
-		if (espacoPropaganda != null && espacoPropaganda.getMidia()!=null) {
-			Query query = manager
-					.createNamedQuery("EspacoPropaganda.unikConstraintValida");
+		if (espacoPropaganda != null && espacoPropaganda.getMidia() != null) {
+			Query query = manager.createNamedQuery("EspacoPropaganda.unikConstraintValida");
 			query.setParameter("url", espacoPropaganda.getUrl());
 			query.setParameter("posicaoTela", espacoPropaganda.getPosicaoTela());
 			query.setParameter("largura", espacoPropaganda.getLargura());
 			query.setParameter("altura", espacoPropaganda.getAltura());
 			query.setParameter("midia", espacoPropaganda.getMidia().getId());
-
+			
 			return (Long.valueOf(0)).equals((Long) query.getSingleResult());
 		} else {
 			return false;

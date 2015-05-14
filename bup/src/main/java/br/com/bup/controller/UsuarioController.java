@@ -116,11 +116,11 @@ public class UsuarioController extends BaseWeb {
 			return;
 		}
 		if (usuario.getId() != null && usuarioDAO.existeComEmailDiferenteId(usuario.getEmail(), usuario.getId())) {
-			addErrorMsg("email","email.ja.existe");
+			addErrorMsg("email", "email.ja.existe");
 		}
 		if (usuario.getId() != null && usuarioDAO.existeComCpfCnpjDiferenteId(usuario.getCpfCnpj(), usuario.getId())) {
 			if (TipoUsuario.AGENCIA.equals(usuario.getTipoUsuario())) {
-				addErrorMsg("cnpj","cnpj.ja.existe");
+				addErrorMsg("cnpj", "cnpj.ja.existe");
 			} else {
 				addErrorMsg("cpf", "cpf.ja.existe");
 			}
@@ -169,8 +169,8 @@ public class UsuarioController extends BaseWeb {
 	}
 	
 	/**
-	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
-	 * mantendo os atributos do formulario da entidade passada.
+	 * Retorna uma entidade atualizada com o banco e a passada pro metodo, mantendo os atributos do formulario da entidade
+	 * passada.
 	 * 
 	 * @param modalidadePagamento
 	 * @return Entidade atualizada.

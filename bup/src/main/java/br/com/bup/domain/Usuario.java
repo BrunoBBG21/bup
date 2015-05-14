@@ -15,7 +15,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -24,18 +23,33 @@ import javax.validation.constraints.NotNull;
 //@formatter:off
 @NamedQueries(value = {
 		@NamedQuery(name = "Usuario.buscarPorEmailSenha",
-				query = "select u from Usuario u where u.email = :email AND u.password = :password"),
+				query = "select u "
+						+ "from Usuario u "
+						+ "where "
+						+ "		u.email = :email "
+						+ "	AND u.password = :password"),
+						
 		@NamedQuery(name = "Usuario.existeComEmail", 
 		        query = "select case when (count(u) > 0) then true else false end "
-				+ "from Usuario u " + "where u.email = :email"), 
+		        		+ "from Usuario u "
+		        		+ "where u.email = :email"),
+		        		
 		@NamedQuery(name = "Usuario.existeComEmailDiferenteId",
-				query = "select case when (count(u) > 0) then true else false end from Usuario u "+
-		"where u.email = :email "+
-		"and u.id <> :id"),
+				query = "select case when (count(u) > 0) then true else false end "
+						+ "from Usuario u "
+						+ "where "
+						+ "		u.email = :email "
+						+ "	and u.id <> :id"),
+				
 		@NamedQuery(name = "Usuario.existeComCpfCnpjDiferenteId",
-				query = "select case when (count(u) > 0) then true else false end from Usuario u "+
-				"where (u.cpf = :cpfcnpj or  u.cnpj = :cpfcnpj) "+
-				"and u.id <> :id")
+				query = "select case when (count(u) > 0) then true else false end "
+						+ "from Usuario u "
+						+ "where "
+						+ "		("
+						+ "			u.cpf = :cpfcnpj "
+						+ "		or u.cnpj = :cpfcnpj"
+						+ "		) "
+						+ "	and u.id <> :id")
 })
 //@formatter:on
 @Entity

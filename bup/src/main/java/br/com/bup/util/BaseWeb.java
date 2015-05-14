@@ -8,7 +8,7 @@ import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Severity;
 import br.com.caelum.vraptor.validator.Validator;
 
-public abstract class BaseWeb{
+public abstract class BaseWeb {
 	protected final Result result;
 	protected final Validator validator;
 	protected final UsuarioSession usuarioSession;
@@ -20,6 +20,7 @@ public abstract class BaseWeb{
 	protected BaseWeb() {
 		this(null, null, null, null);
 	}
+	
 	public BaseWeb(Result result, Validator validator, UsuarioSession usuarioSession, ResourceBundle i18n) {
 		super();
 		this.result = result;
@@ -37,15 +38,18 @@ public abstract class BaseWeb{
 	protected void addErrorMsg(String keyMsg, Object... parametros) {
 		addErrorMsg("error", keyMsg, parametros);
 	}
-	protected void addErrorMsg(String campo,String keyMsg, Object... parametros) {
+	
+	protected void addErrorMsg(String campo, String keyMsg, Object... parametros) {
 		validator.add(new I18nMessage(campo, keyMsg, parametros));
 	}
+	
 	/**
 	 * Seta uma msg de sucesso no validator com chave "success".
 	 * 
 	 * @param keyMsg
 	 *            Key da msg no message.properties.
-	 * @param parametros P
+	 * @param parametros
+	 *            P
 	 */
 	protected void addSuccessMsg(String keyMsg, Object... parametros) {
 		validator.add(new I18nMessage("success", keyMsg, Severity.SUCCESS, parametros));
@@ -56,7 +60,8 @@ public abstract class BaseWeb{
 	 * 
 	 * @param keyMsg
 	 *            Key da msg no message.properties.
-	 * @param parametros P
+	 * @param parametros
+	 *            P
 	 */
 	protected void addInfoMsg(String keyMsg, Object... parametros) {
 		validator.add(new I18nMessage("info", keyMsg, Severity.INFO, parametros));

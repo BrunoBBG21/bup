@@ -89,7 +89,7 @@
 							<i class="icon fa fa-check"></i>
 							Sucesso!
 						</h4>
-						${success.category} - ${success.message}.
+						${success.message}
 					</div>
 				</c:forEach>
 
@@ -100,7 +100,7 @@
 							<i class="icon fa fa-info"></i>
 							Info!
 						</h4>
-						${info.category} - ${info.message}.
+						${info.message}
 					</div>
 				</c:forEach>
 
@@ -111,7 +111,7 @@
 							<i class="icon fa fa-warning"></i>
 							Warning!
 						</h4>
-						${warning.category} - ${warning.message}.
+						${warning.message}
 					</div>
 				</c:forEach>
 
@@ -122,7 +122,7 @@
 							<i class="icon fa fa-ban"></i>
 							Erro!
 						</h4>
-						${error.category} - ${error.message}.
+						${error.message}
 					</div>
 				</c:forEach>
 

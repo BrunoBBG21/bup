@@ -1,4 +1,4 @@
-package br.com.bup.controller;
+package br.com.bup.controller.job;
 
 import java.util.ResourceBundle;
 
@@ -47,9 +47,7 @@ public class JobUsuarioController extends BaseWeb implements CronTask {
 	}
 	
 	/**
-	 * Coisa de louco... veja
-	 * http://www.quartz-scheduler.org/documentation/quartz
-	 * -2.2.x/tutorials/tutorial-lesson-06
+	 * Coisa de louco... veja http://www.quartz-scheduler.org/documentation/quartz -2.2.x/tutorials/tutorial-lesson-06
 	 */
 	@Override
 	public String frequency() {

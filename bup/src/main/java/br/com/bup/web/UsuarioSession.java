@@ -2,11 +2,17 @@ package br.com.bup.web;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import br.com.bup.dao.LeilaoDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.Usuario;
@@ -14,14 +20,34 @@ import br.com.bup.domain.Usuario;
 @SessionScoped
 // para pegar na jsp
 @Named("usuarioSession")
-public class UsuarioSession implements Serializable {
+public class UsuarioSession implements Serializable, Observer {
 	private static final long serialVersionUID = 5135507409377401886L;
+	private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioSession.class);
+	
 	private Usuario usuarioLogado;
 	private Anunciante usuarioGerenciado;
 	private Date dataUltimoRequest = new Date();
 	
 	@Inject
 	private UsuarioApplication usuarioApplication;
+	
+	@Inject
+	private LeilaoApplication leilaoApplication;
+	
+	@Inject
+	private LeilaoDAO leilaoDAO;
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		LOGGER.debug(arg0.toString());
+	}
+	
+	public void atualizarLeiloesInscritosObserver() {
+		//TODO
+//		List<Long> idsLeiloesObservar = usuarioLogado == null ? new ArrayList<Long>() : leilaoDAO.buscarIdsLeiloesObservarPorUsuarioId(usuarioLogado.getId());
+//		
+//		leilaoApplication.atualizarObserver(idsLeiloesObservar, this);
+	}
 	
 	public void atualizarDataUltimoRequest() {
 		dataUltimoRequest = new Date();
@@ -35,12 +61,14 @@ public class UsuarioSession implements Serializable {
 		usuarioLogado = usuario;
 		usuarioGerenciado = null;
 		usuarioApplication.addUsuarioLogado(this);
+		atualizarLeiloesInscritosObserver();
 	}
 	
 	public void deslogar() {
 		usuarioLogado = null;
 		usuarioGerenciado = null;
 		usuarioApplication.removerUsuarioLogado(this);
+		atualizarLeiloesInscritosObserver();
 	}
 	
 	public Boolean isAdministrador() {
@@ -112,6 +140,7 @@ public class UsuarioSession implements Serializable {
 	
 	/**
 	 * Tempo ocioso em minutos.
+	 * 
 	 * @return
 	 */
 	public Long getTempoOcioso() {

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Anotation que indica quando um metodo de um controller só pode ser acessado por um Usuario Agencia.
  * 
  */
-@Retention(RetentionPolicy.RUNTIME) 
-@Target(ElementType.METHOD) // anotação para métodos
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface ApenasAgencia {
 }

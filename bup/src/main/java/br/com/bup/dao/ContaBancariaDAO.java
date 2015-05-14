@@ -19,7 +19,7 @@ public class ContaBancariaDAO extends BaseDAO<ContaBancaria> {
 	protected ContaBancariaDAO() {
 		super(null, ContaBancaria.class);
 	}
-
+	
 	/**
 	 * @param manager
 	 *            EntityManager
@@ -28,35 +28,37 @@ public class ContaBancariaDAO extends BaseDAO<ContaBancaria> {
 	public ContaBancariaDAO(EntityManager manager) {
 		super(manager, ContaBancaria.class);
 	}
-
+	
 	public List<ContaBancaria> buscarPorUsuarioId(Long id) {
 		List<ContaBancaria> value = new ArrayList<ContaBancaria>();
-
-		Query query = manager
-				.createNamedQuery("ContaBancaria.buscarPorUsuarioId");
+		
+		Query query = manager.createNamedQuery("ContaBancaria.buscarPorUsuarioId");
 		query.setParameter("id", id);
-
+		
 		try {
 			value = query.getResultList();
 		} catch (NoResultException ex) {
 		}
-
+		
 		return value;
 	}
+	
 	/**
 	 * para garantir que o usuario apague as suas proprias contas.
+	 * 
 	 * @param id
 	 * @param usuario
 	 */
-	public void apagarLogado(Long id,Long usuario){
+	public void apagarLogado(Long id, Long usuario) {
 		ContaBancaria c = this.buscarPorId(id);
-		if(c!=null&&c.getUsuario().getId().equals(usuario)){
+		if (c != null && c.getUsuario().getId().equals(usuario)) {
 			manager.remove(c);
 		}
 	}
-
+	
 	/**
-	 * Valida a unikConstraintValida anotada na classe... @UniqueConstraint(columnNames={"agencia","conta","banco"}). 
+	 * Valida a unikConstraintValida anotada na classe... @UniqueConstraint(columnNames={"agencia","conta","banco"}).
+	 * 
 	 * @param contaBancaria
 	 * @return Boolean
 	 */
@@ -67,6 +69,6 @@ public class ContaBancariaDAO extends BaseDAO<ContaBancaria> {
 		query.setParameter("conta", contaBancaria.getConta());
 		query.setParameter("banco", contaBancaria.getBanco());
 		
-		return (Long.valueOf(0)).equals((Long)query.getSingleResult());
+		return (Long.valueOf(0)).equals((Long) query.getSingleResult());
 	}
 }

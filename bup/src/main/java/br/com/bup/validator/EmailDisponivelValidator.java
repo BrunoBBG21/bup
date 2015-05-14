@@ -8,14 +8,14 @@ import br.com.bup.annotation.EmailDisponivel;
 import br.com.bup.dao.UsuarioDAO;
 
 public class EmailDisponivelValidator implements ConstraintValidator<EmailDisponivel, String> {
-
-    @Inject 
-    private UsuarioDAO usuarioDAO;
-
-    public boolean isValid(String email, ConstraintValidatorContext context) {
-        return !usuarioDAO.existeComEmail(email);
-    }
-
+	
+	@Inject
+	private UsuarioDAO usuarioDAO;
+	
+	public boolean isValid(String email, ConstraintValidatorContext context) {
+		return !usuarioDAO.existeComEmail(email);
+	}
+	
 	public void initialize(EmailDisponivel constraintAnnotation) {
 	}
 }

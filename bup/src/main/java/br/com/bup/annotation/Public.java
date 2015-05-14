@@ -8,8 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Anotation que indica quando um metodo de um controller não precisa de um usuario logado.
  */
-@Retention(RetentionPolicy.RUNTIME) 
-@Target(ElementType.METHOD) // anotação para métodos
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface Public {
 }
-

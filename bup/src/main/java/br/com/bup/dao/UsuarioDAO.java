@@ -50,13 +50,14 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 	 *            String
 	 * @return Boolean
 	 */
-	public boolean existeComEmailDiferenteId(String email,Long id) {
+	public boolean existeComEmailDiferenteId(String email, Long id) {
 		Query query = manager.createNamedQuery("Usuario.existeComEmailDiferenteId");
 		query.setParameter("email", email);
 		query.setParameter("id", id);
 		
 		return (Boolean) query.getSingleResult();
 	}
+	
 	/**
 	 * Verifica se existe um Usuario com o cpfCnpj passado e id diferente.
 	 * 
@@ -64,7 +65,7 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 	 *            String
 	 * @return Boolean
 	 */
-	public boolean existeComCpfCnpjDiferenteId(String cpfCnpj,Long id) {
+	public boolean existeComCpfCnpjDiferenteId(String cpfCnpj, Long id) {
 		Query query = manager.createNamedQuery("Usuario.existeComCpfCnpjDiferenteId");
 		query.setParameter("cpfcnpj", cpfCnpj);
 		query.setParameter("id", id);
@@ -85,6 +86,7 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 		
 		return (Boolean) query.getSingleResult();
 	}
+	
 	/**
 	 * para garantir que o usuario apague o seu usuario.
 	 * 

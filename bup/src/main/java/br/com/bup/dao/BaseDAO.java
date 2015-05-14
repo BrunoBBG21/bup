@@ -25,8 +25,7 @@ public abstract class BaseDAO<T> {
 	}
 	
 	/**
-	 * Salvar padrao. Utiliza o merge, logo ele retorna uma nova instancia
-	 * atachada. A instancia passada não é atachada.
+	 * Salvar padrao. Utiliza o merge, logo ele retorna uma nova instancia atachada. A instancia passada não é atachada.
 	 * 
 	 * @param entidade
 	 *            entidade que será salva

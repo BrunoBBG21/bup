@@ -7,11 +7,12 @@ import java.lang.annotation.Target;
 
 /**
  * apenas administrador pode acessar
+ * 
  * @author andreluisdionisio
  *
  */
-@Retention(RetentionPolicy.RUNTIME) 
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface ApenasAdministrador {
-
+	
 }

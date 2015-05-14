@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import br.com.bup.domain.HistoricoAluguelEspaco;
+
 @RequestScoped
 public class HistoricoAluguelEspacoDAO extends BaseDAO<HistoricoAluguelEspaco> {
 	/**
@@ -13,9 +14,10 @@ public class HistoricoAluguelEspacoDAO extends BaseDAO<HistoricoAluguelEspaco> {
 	protected HistoricoAluguelEspacoDAO() {
 		super(null, HistoricoAluguelEspaco.class);
 	}
-
+	
 	/**
-	 * @param manager EntityManager
+	 * @param manager
+	 *            EntityManager
 	 */
 	@Inject
 	public HistoricoAluguelEspacoDAO(EntityManager manager) {

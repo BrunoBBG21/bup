@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Anotation que indica quando um metodo de um controller só pode ser acessado por um Usuario não gerenciado. 
+ * Anotation que indica quando um metodo de um controller só pode ser acessado por um Usuario não gerenciado.
  */
-@Retention(RetentionPolicy.RUNTIME) 
-@Target(ElementType.METHOD) // anotação para métodos
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface AnuncianteNaoGerenciado {
 }

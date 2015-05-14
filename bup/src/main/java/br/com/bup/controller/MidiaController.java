@@ -81,8 +81,8 @@ public class MidiaController extends BaseWeb {
 	}
 	
 	/**
-	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
-	 * mantendo os atributos do formulario da entidade passada.
+	 * Retorna uma entidade atualizada com o banco e a passada pro metodo, mantendo os atributos do formulario da entidade
+	 * passada.
 	 * 
 	 * @param modalidadePagamento
 	 * @return Entidade atualizada.

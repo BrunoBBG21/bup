@@ -44,8 +44,7 @@ public class LeilaoDAO extends BaseDAO<Leilao> {
 	}
 	
 	/**
-	 * Busca todos os leiloes com estado ESPERANDO menos os leiloes que
-	 * pertencem ou em que o Anunciante participa.
+	 * Busca todos os leiloes com estado ESPERANDO menos os leiloes que pertencem ou em que o Anunciante participa.
 	 * 
 	 * @param anuncianteId
 	 * @return

@@ -58,7 +58,7 @@
 						<td>
 							<form>
 								<input type="hidden" name="espacoId" value="${espaco.id}">
-								<button type="submit" formaction='<c:url value="/leilao/formulario"/>'>
+								<button type="submit" class="btn btn-primary btn-sm" formaction='<c:url value="/leilao/formulario"/>'>
 									<fmt:message key="btn.selecionar" />
 								</button>
 							</form>

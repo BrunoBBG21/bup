@@ -24,8 +24,8 @@ import javax.validation.constraints.Pattern;
 @Pattern(regexp = "\\((\\d{2})\\) (\\d{4})-(\\d{4})")
 public @interface Telefone {
 	String message() default "{telefone.formato.incorreto}";
-
-    Class<?>[] groups() default {};
-
-    Class<? extends Payload>[] payload() default {};
+	
+	Class<?>[] groups() default {};
+	
+	Class<? extends Payload>[] payload() default {};
 }

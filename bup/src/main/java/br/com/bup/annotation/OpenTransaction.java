@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Anotation que indica quando uma transação deve ser aberta.
  */
-@Retention(RetentionPolicy.RUNTIME) 
-@Target(ElementType.METHOD) // anotação para métodos
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface OpenTransaction {
 }

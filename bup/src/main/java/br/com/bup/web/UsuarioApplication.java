@@ -9,7 +9,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class UsuarioApplication {
-	public static final Long TEMPO_OCIOSO_MIN = 30L; 
+	public static final Long TEMPO_OCIOSO_MIN = 30L;
 	private Set<UsuarioSession> usuariosLogados = new HashSet<UsuarioSession>();
 	
 	public void addUsuarioLogado(UsuarioSession session) {
@@ -23,7 +23,7 @@ public class UsuarioApplication {
 	public List<UsuarioSession> getUsuariosLogados() {
 		return new ArrayList<UsuarioSession>(usuariosLogados);
 	}
-
+	
 	public void deslogarLogadosOciosos() {
 		List<UsuarioSession> listAux = new ArrayList<UsuarioSession>(usuariosLogados);
 		

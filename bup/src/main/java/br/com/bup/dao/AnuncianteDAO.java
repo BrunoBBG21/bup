@@ -14,9 +14,10 @@ public class AnuncianteDAO extends BaseDAO<Anunciante> {
 	protected AnuncianteDAO() {
 		super(null, Anunciante.class);
 	}
-
+	
 	/**
-	 * @param manager EntityManager
+	 * @param manager
+	 *            EntityManager
 	 */
 	@Inject
 	public AnuncianteDAO(EntityManager manager) {

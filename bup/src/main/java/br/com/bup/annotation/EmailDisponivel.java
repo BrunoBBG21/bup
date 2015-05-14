@@ -17,9 +17,8 @@ import br.com.bup.validator.EmailDisponivelValidator;
 @Documented
 public @interface EmailDisponivel {
 	String message() default "{email.ja.existe}";
-
-    Class<?>[] groups() default {};
-
-    Class<? extends Payload>[] payload() default {};
+	
+	Class<?>[] groups() default {};
+	
+	Class<? extends Payload>[] payload() default {};
 }
-

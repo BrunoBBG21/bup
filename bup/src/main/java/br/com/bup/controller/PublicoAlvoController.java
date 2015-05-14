@@ -78,8 +78,8 @@ public class PublicoAlvoController extends BaseWeb {
 	}
 	
 	/**
-	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
-	 * mantendo os atributos do formulario da entidade passada.
+	 * Retorna uma entidade atualizada com o banco e a passada pro metodo, mantendo os atributos do formulario da entidade
+	 * passada.
 	 * 
 	 * @param modalidadePagamento
 	 * @return Entidade atualizada.
@@ -122,10 +122,10 @@ public class PublicoAlvoController extends BaseWeb {
 		if (!publicoAlvoDAO.unikConstraintValida(publicoAlvo)) {
 			addErrorMsg("msg.error.salvar");
 		}
-//		if(usuario.getId()!=null&&usuarioDAO.existeComEmailDiferenteId(usuario.getEmail(), usuario.getId())){
-//			addErrorMsg("email.ja.existe");
-//			return;
-//		}
+		//		if(usuario.getId()!=null&&usuarioDAO.existeComEmailDiferenteId(usuario.getEmail(), usuario.getId())){
+		//			addErrorMsg("email.ja.existe");
+		//			return;
+		//		}
 	}
 	
 	@Path("/publicoAlvo/apagar/{id}")

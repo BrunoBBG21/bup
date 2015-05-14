@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,28 +56,33 @@ import br.com.bup.state.TipoEstadoLeilao;
 						+ "join l.inscritos i "
 						+ "where "
 						+ "		i.id = :anuncianteId"),
-						@NamedQuery(
-								name = "Leilao.unikConstraintValida",
-								query="select count(l) "
-										+ " from Leilao l "
-										+ " where "
-										+ "		l.dataInicio = :dataInicio "
-										+ "	AND l.dataFim = :dataFim "
-										+ "	AND l.modalidadePagamento.id = :mpid "
-										+ "	AND l.espacoPropaganda.id = :epid "
-								),
-					@NamedQuery(name = "Leilao.unikConstraintDiferenteId",
-								query = "select case when (count(l) > 0) then true else false end from Leilao l "+
-										"where (l.dataInicio = :dataInicio and l.dataFim = :dataFim and l.modalidadePagamento.id = :mpid and l.espacoPropaganda.id = :epid) "+
-										"and l.id <> :id")
 						
+		@NamedQuery(name = "Leilao.unikConstraintValida",
+				query="select count(l) "
+						+ " from Leilao l "
+						+ " where "
+						+ "		l.dataInicio = :dataInicio "
+						+ "	AND l.dataFim = :dataFim "
+						+ "	AND l.modalidadePagamento.id = :mpid "
+						+ "	AND l.espacoPropaganda.id = :epid "),
 						
+		@NamedQuery(name = "Leilao.unikConstraintDiferenteId",
+				query = "select case when (count(l) > 0) then true else false end "
+						+ "from Leilao l "
+						+ "where "
+						+ "		("
+						+ "			l.dataInicio = :dataInicio "
+						+ "		and l.dataFim = :dataFim "
+						+ "		and l.modalidadePagamento.id = :mpid "
+						+ "		and l.espacoPropaganda.id = :epid"
+						+ "		) "
+						+ "and l.id <> :id")
 })
 //@formatter:on
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "dataInicio", "dataFim", "modalidadePagamento_id",
 		"espacoPropaganda_id" }))
-public class Leilao {
+public class Leilao extends Observable {
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -93,7 +99,7 @@ public class Leilao {
 	
 	private BigDecimal reserva;
 	
-	private BigDecimal inscricao; 
+	private BigDecimal inscricao;
 	
 	private Boolean ativo = Boolean.TRUE; //TODO oq quer dizer? Provavelmente pode ser visto pelo estado do leilao...
 	
@@ -136,6 +142,7 @@ public class Leilao {
 	
 	/**
 	 * Verifica se o estado autal do leilao � ESPERANDO.
+	 * 
 	 * @return boolean
 	 */
 	public boolean isEstadoEsperando() {
@@ -144,6 +151,7 @@ public class Leilao {
 	
 	/**
 	 * Verifica se o estado autal do leilao � CANCELADO.
+	 * 
 	 * @return boolean
 	 */
 	public boolean isEstadoCancelado() {
@@ -152,6 +160,7 @@ public class Leilao {
 	
 	/**
 	 * Verifica se o estado autal do leilao � EM_ANDAMENTO.
+	 * 
 	 * @return boolean
 	 */
 	public boolean isEstadoEmAndamento() {
@@ -160,6 +169,7 @@ public class Leilao {
 	
 	/**
 	 * Verifica se o estado autal do leilao � AGUARDANDO.
+	 * 
 	 * @return boolean
 	 */
 	public boolean isEstadoAguardando() {
@@ -168,10 +178,21 @@ public class Leilao {
 	
 	/**
 	 * Verifica se o estado autal do leilao � FINALIZADO.
+	 * 
 	 * @return boolean
 	 */
 	public boolean isEstadoFinalizado() {
 		return TipoEstadoLeilao.FINALIZADO.equals(getEstado());
+	}
+
+	public LanceLeilao getUltimoLance() {
+		LanceLeilao value = null;
+		for (LanceLeilao lanceLeilao : lances) {
+			if (value == null || value.getData().before(lanceLeilao.getData())) {
+				value = lanceLeilao;
+			}
+		}
+		return value;
 	}
 	
 	// get-set-gerados-------------------------------------------------------

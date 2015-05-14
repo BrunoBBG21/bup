@@ -1,5 +1,6 @@
 package br.com.bup.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -13,12 +14,15 @@ import org.slf4j.LoggerFactory;
 import br.com.bup.annotation.ApenasAnunciante;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.EspacoPropagandaDAO;
+import br.com.bup.dao.LanceLeilaoDAO;
 import br.com.bup.dao.LeilaoDAO;
 import br.com.bup.dao.ModalidadePagamentoDAO;
 import br.com.bup.dao.PublicoAlvoDAO;
 import br.com.bup.domain.EspacoPropaganda;
+import br.com.bup.domain.LanceLeilao;
 import br.com.bup.domain.Leilao;
 import br.com.bup.util.BaseWeb;
+import br.com.bup.web.LeilaoApplication;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
@@ -33,23 +37,27 @@ public class LeilaoController extends BaseWeb {
 	private final PublicoAlvoDAO publicoAlvoDAO;
 	private final LeilaoDAO leilaoDAO;
 	private final ModalidadePagamentoDAO modalidadePagamentoDAO;
+	private final LanceLeilaoDAO lanceLeilaoDAO;
+	private final LeilaoApplication leilaoApplication; 
 	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected LeilaoController() {
-		this(null, null, null, null, null, null, null, null);
+		this(null, null, null, null, null, null, null, null, null, null);
 	}
 	
 	@Inject
 	public LeilaoController(Result result, Validator validator, ResourceBundle i18n, EspacoPropagandaDAO espacoPropagandaDAO,
 			UsuarioSession usuarioSession, PublicoAlvoDAO publicoAlvoDAO, LeilaoDAO leilaoDAO,
-			ModalidadePagamentoDAO modalidadePagamentoDAO) {
+			ModalidadePagamentoDAO modalidadePagamentoDAO, LanceLeilaoDAO lanceLeilaoDAO, LeilaoApplication leilaoApplication) {
 		super(result, validator, usuarioSession, i18n);
 		this.espacoPropagandaDAO = espacoPropagandaDAO;
 		this.publicoAlvoDAO = publicoAlvoDAO;
 		this.leilaoDAO = leilaoDAO;
 		this.modalidadePagamentoDAO = modalidadePagamentoDAO;
+		this.lanceLeilaoDAO = lanceLeilaoDAO;
+		this.leilaoApplication = leilaoApplication;
 	}
 	
 	@OpenTransaction
@@ -119,8 +127,7 @@ public class LeilaoController extends BaseWeb {
 	}
 	
 	/**
-	 * Verifica se o leilao pode ser apagado. Só pode apagar caso o estado do
-	 * leilao seja ESPERANDO e não possua nenhum inscrito.
+	 * Verifica se o leilao pode ser apagado. Só pode apagar caso o estado do leilao seja ESPERANDO e não possua nenhum inscrito.
 	 * 
 	 * @param id
 	 */
@@ -154,8 +161,8 @@ public class LeilaoController extends BaseWeb {
 	}
 	
 	/**
-	 * Valida se o usuario logado/gerenciado pode se inscrever no leilao. O
-	 * leilao deve esta no estado ESPERANDO para aceitar novos inscritos.
+	 * Valida se o usuario logado/gerenciado pode se inscrever no leilao. O leilao deve esta no estado ESPERANDO para aceitar
+	 * novos inscritos.
 	 * 
 	 * @param leilaoId
 	 *            id do leilao.
@@ -174,5 +181,31 @@ public class LeilaoController extends BaseWeb {
 		LOGGER.debug("Listando os leiloes inscritos");
 		
 		return leilaoDAO.buscarPorInscritoId(usuarioSession.getUsuario().getId());
+	}
+	
+	@OpenTransaction
+	@ApenasAnunciante
+	public Leilao leilao(Long leilaoId) {
+		LOGGER.debug("Carregando tela do leilao: " + leilaoId);
+		
+		Leilao leilao = leilaoApplication.getLeilaoPorId(leilaoId);
+		LanceLeilao ultimoLance = null;
+		if (leilao == null) {
+			leilao = leilaoDAO.buscarPorId(leilaoId);
+			ultimoLance = lanceLeilaoDAO.buscarUltimoPorLeilaoId(leilaoId);
+			
+		} else {
+			ultimoLance = leilao.getUltimoLance();
+		}
+		
+		result.include("ultimoLance", ultimoLance);
+		
+		return leilao;
+	}
+	
+	@OpenTransaction
+	@ApenasAnunciante
+	public void lancarLance(Long leilaoId, BigDecimal valor) {
+		//TODO 
 	}
 }
