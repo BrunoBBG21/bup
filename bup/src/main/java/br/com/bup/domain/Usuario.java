@@ -41,7 +41,7 @@ import javax.validation.constraints.NotNull;
 						+ "		u.email = :email "
 						+ "	and u.id <> :id"),
 				
-		@NamedQuery(name = "Usuario.existeComCpfCnpjDiferenteId",
+		@NamedQuery(name = "Usuario.unikConstraintDiferenteId",
 				query = "select case when (count(u) > 0) then true else false end "
 						+ "from Usuario u "
 						+ "where "

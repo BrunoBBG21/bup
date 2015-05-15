@@ -65,8 +65,8 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 	 *            String
 	 * @return Boolean
 	 */
-	public boolean existeComCpfCnpjDiferenteId(String cpfCnpj, Long id) {
-		Query query = manager.createNamedQuery("Usuario.existeComCpfCnpjDiferenteId");
+	public boolean unikConstraintDiferenteId(String cpfCnpj, Long id) {
+		Query query = manager.createNamedQuery("Usuario.unikConstraintDiferenteId");
 		query.setParameter("cpfcnpj", cpfCnpj);
 		query.setParameter("id", id);
 		

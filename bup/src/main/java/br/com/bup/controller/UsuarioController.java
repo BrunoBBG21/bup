@@ -118,7 +118,7 @@ public class UsuarioController extends BaseWeb {
 		if (usuario.getId() != null && usuarioDAO.existeComEmailDiferenteId(usuario.getEmail(), usuario.getId())) {
 			addErrorMsg("email", "email.ja.existe");
 		}
-		if (usuario.getId() != null && usuarioDAO.existeComCpfCnpjDiferenteId(usuario.getCpfCnpj(), usuario.getId())) {
+		if (usuario.getId() != null && usuarioDAO.unikConstraintDiferenteId(usuario.getCpfCnpj(), usuario.getId())) {
 			if (TipoUsuario.AGENCIA.equals(usuario.getTipoUsuario())) {
 				addErrorMsg("cnpj", "cnpj.ja.existe");
 			} else {
