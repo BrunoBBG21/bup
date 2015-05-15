@@ -1,7 +1,9 @@
 package br.com.bup.web;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -27,6 +29,7 @@ public class UsuarioSession implements Serializable, Observer {
 	private Usuario usuarioLogado;
 	private Anunciante usuarioGerenciado;
 	private Date dataUltimoRequest = new Date();
+	private List<Long> idsLeiloesObserver = new ArrayList<Long>();
 	
 	@Inject
 	private UsuarioApplication usuarioApplication;
@@ -39,14 +42,12 @@ public class UsuarioSession implements Serializable, Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		LOGGER.debug(arg0.toString());
+		LOGGER.debug("updateupdateupdateupdateupdate: " + arg0.toString());
 	}
 	
 	public void atualizarLeiloesInscritosObserver() {
-		//TODO
-//		List<Long> idsLeiloesObservar = usuarioLogado == null ? new ArrayList<Long>() : leilaoDAO.buscarIdsLeiloesObservarPorUsuarioId(usuarioLogado.getId());
-//		
-//		leilaoApplication.atualizarObserver(idsLeiloesObservar, this);
+		idsLeiloesObserver = usuarioLogado == null ? new ArrayList<Long>() : leilaoDAO.buscarIdsLeiloesObservarPorUsuarioId(usuarioLogado.getId());
+		leilaoApplication.atualizarObserver(this);
 	}
 	
 	public void atualizarDataUltimoRequest() {
@@ -145,5 +146,9 @@ public class UsuarioSession implements Serializable, Observer {
 	 */
 	public Long getTempoOcioso() {
 		return ((new Date()).getTime() - dataUltimoRequest.getTime()) / 1000 / 60;
+	}
+
+	public List<Long> getIdsLeiloesObserver() {
+		return idsLeiloesObserver;
 	}
 }

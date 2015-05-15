@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import br.com.bup.domain.Leilao;
 
@@ -13,6 +14,9 @@ import br.com.bup.domain.Leilao;
 @ApplicationScoped
 public class LeilaoApplication {
 	private final static List<Leilao> LEILOES_EM_ANDAMENTO = new ArrayList<Leilao>();
+	
+	@Inject
+	private UsuarioApplication usuarioApplication;
 	
 	public void addLeilao(Leilao leilao) {
 		LEILOES_EM_ANDAMENTO.add(leilao);
@@ -52,6 +56,42 @@ public class LeilaoApplication {
 	public void notificarObservers() {
 		for (Leilao leilao : LEILOES_EM_ANDAMENTO) {
 			leilao.notifyObservers();
+		}
+	}
+	
+	public void atualizarLeiloes(List<Leilao> leiloes) {
+		List<Leilao> leiloesNovos = getNovosLeiloes(leiloes);
+		
+		for (Leilao leilao : leiloesNovos) {
+			for (UsuarioSession session : usuarioApplication.getUsuariosLogados()) {
+				if (session.getIdsLeiloesObserver().contains(leilao.getId())) {
+					leilao.addObserver(session);
+				}
+			}
+			addLeilao(leilao);
+		}
+	}
+	
+	private List<Leilao> getNovosLeiloes(List<Leilao> leiloes) {
+		List<Leilao> value = new ArrayList<Leilao>();
+		
+		for (Leilao leilao : leiloes) {
+			if (getLeilaoPorId(leilao.getId()) == null) {
+				value.add(leilao);
+			}
+		}
+		
+		return value;
+	}
+	
+	public void atualizarObserver(UsuarioSession usuarioSession) {
+		for (Leilao leilao : LEILOES_EM_ANDAMENTO) {
+			if (usuarioSession.getIdsLeiloesObserver().contains(leilao.getId())) {
+				leilao.addObserver(usuarioSession);
+				
+			} else {
+				leilao.deleteObserver(usuarioSession);
+			}
 		}
 	}
 }

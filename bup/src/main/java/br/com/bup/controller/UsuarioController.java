@@ -71,7 +71,7 @@ public class UsuarioController extends BaseWeb {
 		usuario = usuarioDAO.salvar(usuario);
 		
 		usuarioSession.logar(usuario);
-		result.include("success", "Usuario incluido com sucesso.");
+		addSuccessMsg("Usuario incluido com sucesso.");
 		result.redirectTo(IndexController.class).index();
 	}
 	
@@ -141,7 +141,7 @@ public class UsuarioController extends BaseWeb {
 		usuarioDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
 		usuarioSession.deslogar();
 		
-		result.include("success", i18n.getString("msg.success.apagar"));
+		addSuccessMsg("msg.success.apagar");
 		result.redirectTo(this).listar();
 	}
 	

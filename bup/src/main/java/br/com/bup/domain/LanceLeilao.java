@@ -48,7 +48,7 @@ public class LanceLeilao {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data = new Date();
 	
-	private Boolean vencedor = Boolean.FALSE;
+	private Boolean vencedor = Boolean.FALSE; //TODO pq??????
 	
 	@ManyToOne
 	private Agencia agencia;

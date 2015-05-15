@@ -97,15 +97,49 @@ public class LeilaoDAO extends BaseDAO<Leilao> {
 		
 		return value;
 	}
+	
+	public List<Leilao> buscarTodosEmAndamentoOuAguardando() {
+		List<Leilao> value = new ArrayList<Leilao>();
+		Query query = manager.createNamedQuery("Leilao.buscarTodosEmAndamentoOuAguardando");
+		
+		try {
+			value = query.getResultList();
+		} catch (NoResultException ex) {
+		}
+		
+		return value;
+	}
+	
+	/**
+	 * Busca os ids dos leiloes EM_ANDAMENTO ou AGUARDANDO em que o usuario está inscrito.
+	 * 
+	 * @param usuarioId
+	 * @return
+	 */
+	public List<Long> buscarIdsLeiloesObservarPorUsuarioId(Long usuarioId) {
+		List<Long> value = new ArrayList<Long>();
+		Query query = manager.createNamedQuery("Leilao.buscarIdsLeiloesObservarPorUsuarioId");
+		query.setParameter("usuarioId", usuarioId);
+		
+		try {
+			value = query.getResultList();
+		} catch (NoResultException ex) {
+		}
+		
+		return value;
+	}
+	
 	/**
 	 * Verifica se existe um PublicoAlvo com o nome,descricao passado e id diferente.
+	 * 
 	 * @param id
 	 * @param nome
 	 * @param descricao
 	 *            String
 	 * @return Boolean
 	 */
-	public boolean unikConstraintDiferenteId(Date dataInicio, Date dataFim, Long modalidadePagamento, Long espacoPropaganda,Long id) {
+	public boolean unikConstraintDiferenteId(Date dataInicio, Date dataFim, Long modalidadePagamento, Long espacoPropaganda,
+			Long id) {
 		Query query = manager.createNamedQuery("Leilao.unikConstraintDiferenteId");
 		query.setParameter("dataInicio", dataInicio);
 		query.setParameter("dataFim", dataFim);
@@ -114,5 +148,4 @@ public class LeilaoDAO extends BaseDAO<Leilao> {
 		query.setParameter("id", id);
 		return (Boolean) query.getSingleResult();
 	}
-	
 }

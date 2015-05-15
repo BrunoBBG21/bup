@@ -312,6 +312,7 @@ public class ProdutorEntityManager {
 		leilao2.setInscricao(BigDecimal.ZERO);
 		leilao2.setModalidadePagamento(p2);
 		leilao2.setReserva(BigDecimal.ZERO);
+		leilao2.getInscritos().add(bup2);
 		
 		leilao2 = lDAO.salvar(leilao2);
 		

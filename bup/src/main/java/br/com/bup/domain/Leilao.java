@@ -50,6 +50,21 @@ import br.com.bup.state.TipoEstadoLeilao;
 						+ "						l2.id = l.id "
 						+ "					AND i.id = :anuncianteId) "),
 						
+		@NamedQuery(name = "Leilao.buscarTodosEmAndamentoOuAguardando",
+				query = "select l "
+						+ "from Leilao l "
+						+ "left join fetch l.lances la "
+						+ "where "
+						+ "		l.estado in ('EM_ANDAMENTO', 'AGUARDANDO') "),
+						
+		@NamedQuery(name = "Leilao.buscarIdsLeiloesObservarPorUsuarioId",
+				query = "select distinct l.id "
+						+ "from Leilao l "
+						+ "join l.inscritos i "
+						+ "where "
+						+ "		l.estado in ('EM_ANDAMENTO', 'AGUARDANDO') "
+						+ "	AND (i.id = :usuarioId or i.gerenciado.id = :usuarioId)"),
+						
 		@NamedQuery(name = "Leilao.buscarPorInscritoId",
 				query = "select distinct l "
 						+ "from Leilao l "
@@ -126,6 +141,14 @@ public class Leilao extends Observable {
 	private List<Anunciante> inscritos = new ArrayList<Anunciante>();
 	
 	// metodos----------------------------------------------------------------
+
+    /**
+     * Marca o leilao como alterado...
+     */
+	@Override
+    public synchronized void setChanged() {
+        super.setChanged();
+    }
 	
 	/**
 	 * Retorna a logica do estado atual.

@@ -18,6 +18,7 @@ import br.com.bup.dao.LanceLeilaoDAO;
 import br.com.bup.dao.LeilaoDAO;
 import br.com.bup.dao.ModalidadePagamentoDAO;
 import br.com.bup.dao.PublicoAlvoDAO;
+import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.LanceLeilao;
 import br.com.bup.domain.Leilao;
@@ -206,6 +207,34 @@ public class LeilaoController extends BaseWeb {
 	@OpenTransaction
 	@ApenasAnunciante
 	public void lancarLance(Long leilaoId, BigDecimal valor) {
-		//TODO 
+		Leilao leilao = leilaoApplication.getLeilaoPorId(leilaoId);
+		validarLance(leilao, valor);
+		validator.onErrorRedirectTo(this).leilao(leilaoId);
+		
+		LanceLeilao lance = new LanceLeilao();
+		if (usuarioSession.isLogadoAgencia()) {
+			lance.setAgencia(usuarioSession.getUsuarioLogadoComoAgencia());
+			
+		}
+		lance.setAnunciante((Anunciante) usuarioSession.getUsuario());
+		lance.setLeilao(leilao);
+		lance.setValor(valor);
+		
+		lance = lanceLeilaoDAO.salvar(lance);
+		leilao.getLances().add(lance);
+		leilao.setChanged();
+		
+		//TODO estornar a grana do lance anterior e descontar do novo...
+		
+		result.redirectTo(this).leilao(leilaoId);
+	}
+
+	private void validarLance(Leilao leilao, BigDecimal valor) {
+		LanceLeilao ultimoLance = leilao.getUltimoLance();
+		
+		if (ultimoLance != null && ultimoLance.getValor().compareTo(valor) >= 0) {
+			addErrorMsg("leilao.lance.invalido");
+		}
+		//TODO validar se o usuario tem a grana
 	}
 }

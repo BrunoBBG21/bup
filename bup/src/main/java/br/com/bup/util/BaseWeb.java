@@ -12,7 +12,7 @@ public abstract class BaseWeb {
 	protected final Result result;
 	protected final Validator validator;
 	protected final UsuarioSession usuarioSession;
-	protected final ResourceBundle i18n;
+	protected final ResourceBundle i18n; //TODO MORRE DIABO!!
 	
 	/**
 	 * @deprecated CDI eyes only
