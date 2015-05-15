@@ -48,4 +48,20 @@ public class ModalidadePagamentoDAO extends BaseDAO<ModalidadePagamento> {
 			return false;
 		}
 	}
+	/**
+	 * Verifica se existe um PublicoAlvo com o nome,descricao passado e id diferente.
+	 * @param id
+	 * @param nome
+	 * @param descricao
+	 *            String
+	 * @return Boolean
+	 */
+	public boolean unikConstraintDiferenteId(String maxParcela, String valorMinParcela,Long midia, Long id) {
+		Query query = manager.createNamedQuery("ModalidadePagamento.unikConstraintDiferenteId");
+		query.setParameter("maxParcela", maxParcela);
+		query.setParameter("valorMinParcela", valorMinParcela);
+		query.setParameter("midia",midia);
+		query.setParameter("id", id);
+		return (Boolean) query.getSingleResult();
+	}
 }
