@@ -102,6 +102,9 @@ public class MidiaController extends BaseWeb {
 		if (!midiaDAO.unikConstraintValida(midia)) {
 			addErrorMsg("msg.error.salvar");
 		}
+		if (midia.getId() != null && midiaDAO.unikConstraintDiferenteId(midia.getTipo(),midia.getId())) {
+			addErrorMsg("tipo", "ja.existe.midia");
+		}
 	}
 	
 	@OpenTransaction
