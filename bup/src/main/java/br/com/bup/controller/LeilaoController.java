@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import br.com.bup.annotation.ApenasAnunciante;
 import br.com.bup.annotation.OpenTransaction;
+import br.com.bup.annotation.Public;
 import br.com.bup.dao.EspacoPropagandaDAO;
 import br.com.bup.dao.LanceLeilaoDAO;
 import br.com.bup.dao.LeilaoDAO;
@@ -26,9 +27,11 @@ import br.com.bup.util.BaseWeb;
 import br.com.bup.web.LeilaoApplication;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.Validator;
+import br.com.caelum.vraptor.view.Results;
 
 @Controller
 public class LeilaoController extends BaseWeb {
@@ -39,7 +42,7 @@ public class LeilaoController extends BaseWeb {
 	private final LeilaoDAO leilaoDAO;
 	private final ModalidadePagamentoDAO modalidadePagamentoDAO;
 	private final LanceLeilaoDAO lanceLeilaoDAO;
-	private final LeilaoApplication leilaoApplication; 
+	private final LeilaoApplication leilaoApplication;
 	
 	/**
 	 * @deprecated CDI eyes only
@@ -204,6 +207,23 @@ public class LeilaoController extends BaseWeb {
 		return leilao;
 	}
 	
+	@Get("/leilao/ultimoLance/{leilaoId}")
+	@Public
+	public void ultimoLance(Long leilaoId) {
+		LOGGER.debug("Buscando ultimo lance pra Json do leilao: " + leilaoId);
+		
+		Leilao leilao = leilaoApplication.getLeilaoPorId(leilaoId);
+		BigDecimal valor = BigDecimal.ZERO;
+		LanceLeilao ultimoLance = null;
+		if (leilao != null) {
+			ultimoLance = leilao.getUltimoLance();
+		}
+		if (ultimoLance == null) {
+			ultimoLance = new LanceLeilao();
+		}
+		result.use(Results.json()).from(ultimoLance).include("valor").serialize(); 
+	}
+	
 	@OpenTransaction
 	@ApenasAnunciante
 	public void lancarLance(Long leilaoId, BigDecimal valor) {
@@ -228,7 +248,7 @@ public class LeilaoController extends BaseWeb {
 		
 		result.redirectTo(this).leilao(leilaoId);
 	}
-
+	
 	private void validarLance(Leilao leilao, BigDecimal valor) {
 		LanceLeilao ultimoLance = leilao.getUltimoLance();
 		

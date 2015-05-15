@@ -1,5 +1,6 @@
 package br.com.bup.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -34,7 +35,9 @@ import javax.validation.constraints.NotNull;
 //@formatter:on
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "valor", "data", "anunciante_id", "leilao_id" }))
-public class LanceLeilao {
+public class LanceLeilao implements Serializable {
+	private static final long serialVersionUID = 7487849244318501287L;
+
 	@Id
 	@GeneratedValue
 	private Long id;

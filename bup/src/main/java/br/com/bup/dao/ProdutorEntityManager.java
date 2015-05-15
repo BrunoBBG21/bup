@@ -89,6 +89,17 @@ public class ProdutorEntityManager {
 		
 		bup2 = (Anunciante) u.salvar(bup2);
 		
+		Anunciante bup3 = new Anunciante();
+		bup3.setCep("33");
+		bup3.setCpf("123");
+		bup3.setEmail("b3@b.b");
+		bup3.setEndereco("n3");
+		bup3.setNome("Anunciante do bup3");
+		bup3.setPassword("b");
+		bup3.setTelefone("213");
+		
+		bup3 = (Anunciante) u.salvar(bup3);
+		
 		ContaBancaria contaA = new ContaBancaria();
 		contaA.setAgencia("1");
 		contaA.setAtiva(Boolean.TRUE);
@@ -313,6 +324,7 @@ public class ProdutorEntityManager {
 		leilao2.setModalidadePagamento(p2);
 		leilao2.setReserva(BigDecimal.ZERO);
 		leilao2.getInscritos().add(bup2);
+		leilao2.getInscritos().add(bup3);
 		
 		leilao2 = lDAO.salvar(leilao2);
 		
