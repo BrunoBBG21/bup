@@ -1,5 +1,7 @@
 package br.com.bup.dao;
 
+import java.math.BigDecimal;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -56,7 +58,7 @@ public class ModalidadePagamentoDAO extends BaseDAO<ModalidadePagamento> {
 	 *            String
 	 * @return Boolean
 	 */
-	public boolean unikConstraintDiferenteId(String maxParcela, String valorMinParcela,Long midia, Long id) {
+	public boolean unikConstraintDiferenteId(Integer maxParcela, BigDecimal valorMinParcela,Long midia, Long id) {
 		Query query = manager.createNamedQuery("ModalidadePagamento.unikConstraintDiferenteId");
 		query.setParameter("maxParcela", maxParcela);
 		query.setParameter("valorMinParcela", valorMinParcela);

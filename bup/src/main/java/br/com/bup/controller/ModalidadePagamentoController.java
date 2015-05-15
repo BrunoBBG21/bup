@@ -117,6 +117,11 @@ public class ModalidadePagamentoController extends BaseWeb {
 		if (!modalidadePagamentoDAO.unikConstraintValida(modalidadePagamento)) {
 			addErrorMsg("msg.error.salvar");
 		}
+		if (modalidadePagamento.getId() != null && modalidadePagamentoDAO.unikConstraintDiferenteId(modalidadePagamento.getMaxParcela(),modalidadePagamento.getValorMinParcela(), modalidadePagamento.getMidia().getId(),modalidadePagamento.getId())) {
+			addErrorMsg("valorMinParcela", "ja.existe.modalidade.pagamento");
+			addErrorMsg("maxParcela", "ja.existe.modalidade.pagamento");
+			addErrorMsg("midia.id", "ja.existe.modalidade.pagamento");
+		}
 	}
 	
 	/**

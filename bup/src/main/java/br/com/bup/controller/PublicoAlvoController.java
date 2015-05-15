@@ -14,6 +14,7 @@ import br.com.bup.annotation.ApenasAdministrador;
 import br.com.bup.annotation.OpenTransaction;
 import br.com.bup.dao.PublicoAlvoDAO;
 import br.com.bup.domain.PublicoAlvo;
+import br.com.bup.domain.TipoUsuario;
 import br.com.bup.util.BaseWeb;
 import br.com.bup.util.NotNullBeanUtilsBean;
 import br.com.bup.web.UsuarioSession;
@@ -126,6 +127,10 @@ public class PublicoAlvoController extends BaseWeb {
 		//			addErrorMsg("email.ja.existe");
 		//			return;
 		//		}
+		if (publicoAlvo.getId() != null && publicoAlvoDAO.unikConstraintDiferenteId(publicoAlvo.getNome(),publicoAlvo.getDescricao(), publicoAlvo.getId())) {
+			addErrorMsg("nome", "ja.existe.publico.alvo");
+			addErrorMsg("descricao", "ja.existe.publico.alvo");
+		}
 	}
 	
 	@Path("/publicoAlvo/apagar/{id}")
