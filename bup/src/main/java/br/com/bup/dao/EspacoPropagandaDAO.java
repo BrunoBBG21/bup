@@ -102,13 +102,14 @@ public class EspacoPropagandaDAO extends BaseDAO<EspacoPropaganda> {
 	 *            String
 	 * @return Boolean
 	 */
-	public boolean unikConstraintDiferenteId(String url, String posicaoTela, Double largura, Double altura, Long midia) {
+	public boolean unikConstraintDiferenteId(String url, String posicaoTela, Double largura, Double altura, Long midia, Long id) {
 		Query query = manager.createNamedQuery("EspacoPropaganda.unikConstraintDiferenteId");
 		query.setParameter("url", url);
 		query.setParameter("posicaoTela", posicaoTela);
 		query.setParameter("largura", largura);
 		query.setParameter("altura", altura);
 		query.setParameter("midia", midia);
+		query.setParameter("id", id);
 		return (Boolean) query.getSingleResult();
 	}
 }

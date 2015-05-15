@@ -105,12 +105,13 @@ public class LeilaoDAO extends BaseDAO<Leilao> {
 	 *            String
 	 * @return Boolean
 	 */
-	public boolean unikConstraintDiferenteId(Date dataInicio, Date dataFim, Long modalidadePagamento, Long espacoPropaganda) {
+	public boolean unikConstraintDiferenteId(Date dataInicio, Date dataFim, Long modalidadePagamento, Long espacoPropaganda,Long id) {
 		Query query = manager.createNamedQuery("Leilao.unikConstraintDiferenteId");
 		query.setParameter("dataInicio", dataInicio);
 		query.setParameter("dataFim", dataFim);
 		query.setParameter("modalidadePagamento", modalidadePagamento);
 		query.setParameter("espacoPropaganda", espacoPropaganda);
+		query.setParameter("id", id);
 		return (Boolean) query.getSingleResult();
 	}
 	

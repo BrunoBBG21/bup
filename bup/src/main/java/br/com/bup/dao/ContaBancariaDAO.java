@@ -71,4 +71,20 @@ public class ContaBancariaDAO extends BaseDAO<ContaBancaria> {
 		
 		return (Long.valueOf(0)).equals((Long) query.getSingleResult());
 	}
+	/**
+	 * Verifica se existe um PublicoAlvo com o nome,descricao passado e id diferente.
+	 * @param id
+	 * @param nome
+	 * @param descricao
+	 *            String
+	 * @return Boolean
+	 */
+	public boolean unikConstraintDiferenteId(String agencia, String conta, String banco,Long id) {
+		Query query = manager.createNamedQuery("ContaBancaria.unikConstraintDiferenteId");
+		query.setParameter("agencia", agencia);
+		query.setParameter("conta", conta);
+		query.setParameter("banco", banco);
+		query.setParameter("id", id);
+		return (Boolean) query.getSingleResult();
+	}
 }
