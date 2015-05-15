@@ -1,6 +1,7 @@
 package br.com.bup.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -92,5 +93,22 @@ public class EspacoPropagandaDAO extends BaseDAO<EspacoPropaganda> {
 		} else {
 			return false;
 		}
+	}
+	/**
+	 * Verifica se existe um PublicoAlvo com o nome,descricao passado e id diferente.
+	 * @param id
+	 * @param nome
+	 * @param descricao
+	 *            String
+	 * @return Boolean
+	 */
+	public boolean unikConstraintDiferenteId(String url, String posicaoTela, Double largura, Double altura, Long midia) {
+		Query query = manager.createNamedQuery("EspacoPropaganda.unikConstraintDiferenteId");
+		query.setParameter("url", url);
+		query.setParameter("posicaoTela", posicaoTela);
+		query.setParameter("largura", largura);
+		query.setParameter("altura", altura);
+		query.setParameter("midia", midia);
+		return (Boolean) query.getSingleResult();
 	}
 }
