@@ -46,4 +46,19 @@ public class PublicoAlvoDAO extends BaseDAO<PublicoAlvo> {
 			return false;
 		}
 	}
+	/**
+	 * Verifica se existe um PublicoAlvo com o nome,descricao passado e id diferente.
+	 * @param id
+	 * @param nome
+	 * @param descricao
+	 *            String
+	 * @return Boolean
+	 */
+	public boolean unikConstraintDiferenteId(String nome, String descricao, Long id) {
+		Query query = manager.createNamedQuery("PublicoAlvo.unikConstraintDiferenteId");
+		query.setParameter("nome", nome);
+		query.setParameter("descricao", descricao);
+		query.setParameter("id", id);
+		return (Boolean) query.getSingleResult();
+	}
 }
