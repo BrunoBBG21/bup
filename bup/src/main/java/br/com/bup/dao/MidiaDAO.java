@@ -53,4 +53,18 @@ public class MidiaDAO extends BaseDAO<Midia> {
 			return false;
 		}
 	}
+	/**
+	 * Verifica se existe um PublicoAlvo com o nome,descricao passado e id diferente.
+	 * @param id
+	 * @param nome
+	 * @param descricao
+	 *            String
+	 * @return Boolean
+	 */
+	public boolean unikConstraintDiferenteId(String tipo, Long id) {
+		Query query = manager.createNamedQuery("Midia.unikConstraintDiferenteId");
+		query.setParameter("tipo", tipo);
+		query.setParameter("id", id);
+		return (Boolean) query.getSingleResult();
+	}
 }
