@@ -1,6 +1,7 @@
 package br.com.bup.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -96,4 +97,21 @@ public class LeilaoDAO extends BaseDAO<Leilao> {
 		
 		return value;
 	}
+	/**
+	 * Verifica se existe um PublicoAlvo com o nome,descricao passado e id diferente.
+	 * @param id
+	 * @param nome
+	 * @param descricao
+	 *            String
+	 * @return Boolean
+	 */
+	public boolean unikConstraintDiferenteId(Date dataInicio, Date dataFim, Long modalidadePagamento, Long espacoPropaganda) {
+		Query query = manager.createNamedQuery("Leilao.unikConstraintDiferenteId");
+		query.setParameter("dataInicio", dataInicio);
+		query.setParameter("dataFim", dataFim);
+		query.setParameter("modalidadePagamento", modalidadePagamento);
+		query.setParameter("espacoPropaganda", espacoPropaganda);
+		return (Boolean) query.getSingleResult();
+	}
+	
 }

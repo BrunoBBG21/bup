@@ -73,8 +73,8 @@ import br.com.bup.state.TipoEstadoLeilao;
 						+ "		("
 						+ "			l.dataInicio = :dataInicio "
 						+ "		and l.dataFim = :dataFim "
-						+ "		and l.modalidadePagamento.id = :mpid "
-						+ "		and l.espacoPropaganda.id = :epid"
+						+ "		and l.modalidadePagamento.id = :modalidadePagamento "
+						+ "		and l.espacoPropaganda.id = :espacoPropaganda"
 						+ "		) "
 						+ "and l.id <> :id")
 })
