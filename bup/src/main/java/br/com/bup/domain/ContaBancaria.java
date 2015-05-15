@@ -32,7 +32,17 @@ import javax.validation.constraints.NotNull;
 						+ " where "
 						+ "		c.agencia = :agencia "
 						+ "	AND c.conta = :conta "
-						+ " AND c.banco = :banco ")
+						+ " AND c.banco = :banco "),
+		@NamedQuery(name = "ContaBancaria.unikConstraintDiferenteId",
+						query = "select case when (count(c) > 0) then true else false end "
+								+ "from ContaBancaria c "
+								+ "where "
+								+ "		("
+								+ "			c.agencia = :agencia "
+								+ "		and c.conta = :conta "
+								+ "		and c.banco = :banco "
+								+ "		) "
+								+ "and c.id <> :id")				
 		}) 
 //@formatter:on
 @Entity
