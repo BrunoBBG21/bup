@@ -76,6 +76,12 @@ public class ContaBancariaController extends BaseWeb {
 		if (!contaBancariaDAO.unikConstraintValida(contaBancaria)) {
 			addErrorMsg("msg.error.salvar");
 		}
+		if (contaBancaria.getId() != null && 
+				contaBancariaDAO.unikConstraintDiferenteId(contaBancaria.getAgencia(), contaBancaria.getConta(), contaBancaria.getBanco(), contaBancaria.getId())){
+			addErrorMsg("agencia", "ja.existe.conta");
+			addErrorMsg("conta", "ja.existe.conta");
+			addErrorMsg("banco", "ja.existe.conta");
+		}
 	}
 	
 	@OpenTransaction
