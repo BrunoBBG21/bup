@@ -7,11 +7,16 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.bup.domain.Leilao;
+
 public abstract class BaseDAO<T> {
 	private final static Logger LOGGER = LoggerFactory.getLogger(BaseDAO.class);
 	protected EntityManager manager;
 	private final Class<T> classT;// = (Class<T>) ((ParameterizedType)
 									// getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	public BaseDAO() {
+		this(null, null);
+	}
 	
 	/**
 	 * Construtor usado nos testes unitarios.
@@ -25,10 +30,10 @@ public abstract class BaseDAO<T> {
 	}
 	
 	/**
-	 * Salvar padrao. Utiliza o merge, logo ele retorna uma nova instancia atachada. A instancia passada não é atachada.
+	 * Salvar padrao. Utiliza o merge, logo ele retorna uma nova instancia atachada. A instancia passada nï¿½o ï¿½ atachada.
 	 * 
 	 * @param entidade
-	 *            entidade que será salva
+	 *            entidade que serï¿½ salva
 	 * @return entidade atachada.
 	 */
 	public T salvar(T entidade) {

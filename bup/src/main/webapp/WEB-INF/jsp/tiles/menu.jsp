@@ -123,6 +123,12 @@
 						<fmt:message key="menu.transferencia.retirar" />
 					</a>
 				</li>
+				<li data-menu-map="/bup/transacaoBancaria/listar">
+					<a href="<c:url value='/transacaoBancaria/listar'/>" >
+						<fmt:message key="menu.transferencia.listar" />
+					</a>
+				</li>
+				
 			</ul>
 		</li>
 
