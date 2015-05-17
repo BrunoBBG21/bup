@@ -135,6 +135,14 @@ public class EspacoPropagandaController extends BaseWeb {
 		if (!espacoPropagandaDAO.unikConstraintValida(espacoPropaganda)) {
 			addErrorMsg("msg.error.salvar");
 		}
+		if (espacoPropaganda.getId() != null && 
+				espacoPropagandaDAO.unikConstraintDiferenteId(espacoPropaganda.getUrl(), espacoPropaganda.getPosicaoTela(), espacoPropaganda.getLargura(), espacoPropaganda.getAltura(), espacoPropaganda.getMidia().getId(), espacoPropaganda.getId())){
+			addErrorMsg("url", "ja.existe.espaco");
+			addErrorMsg("posicaoTela", "ja.existe.espaco");
+			addErrorMsg("largura", "ja.existe.espaco");
+			addErrorMsg("altura", "ja.existe.espaco");
+			addErrorMsg("midia.id", "ja.existe.espaco");
+		}
 	}
 	
 	@OpenTransaction
@@ -184,8 +192,8 @@ public class EspacoPropagandaController extends BaseWeb {
 	}
 	
 	/**
-	 * Retorna uma entidade atualizada com o banco e a passada pro metodo, mantendo os atributos do formulario da entidade
-	 * passada.
+	 * Retorna uma entidade atualizada com o banco e a passada pro metodo,
+	 * mantendo os atributos do formulario da entidade passada.
 	 * 
 	 * @param modalidadePagamento
 	 * @return Entidade atualizada.
