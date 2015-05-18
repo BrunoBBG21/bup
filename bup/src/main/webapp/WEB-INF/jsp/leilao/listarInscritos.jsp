@@ -44,8 +44,7 @@
 					<tr>
 						<td>
 							<form>
-								<input type="hidden" name="leilaoId" value="${leilao.id}">
-								<button type="submit" class="btn btn-primary btn-sm" formaction='<c:url value="/leilao/leilao"/>'>
+								<button type="submit" class="btn btn-primary btn-sm" formaction='<c:url value="/leilao/leilao"/>/${leilao.id}'>
 									<fmt:message key="leilao.inscritos.btn.participar" />
 								</button>
 							</form>

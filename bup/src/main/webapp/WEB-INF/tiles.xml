@@ -122,7 +122,7 @@
         <put-attribute name="body" value="/WEB-INF/jsp/transacaoBancaria/listar.jsp" />
     </definition>
     
-    <definition name="transacaoBancaria/listarEspacos" extends="commonPage">
+    <definition name="leilao/listarEspacos" extends="commonPage">
         <put-attribute name="title" value="leilao.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/leilao/listarEspacos.jsp" />
     </definition>

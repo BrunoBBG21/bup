@@ -35,7 +35,7 @@ import br.com.caelum.vraptor.view.Results;
 
 @Controller
 public class LeilaoController extends BaseWeb {
-	private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(LeilaoController.class);
 	
 	private final EspacoPropagandaDAO espacoPropagandaDAO;
 	private final PublicoAlvoDAO publicoAlvoDAO;
@@ -189,31 +189,22 @@ public class LeilaoController extends BaseWeb {
 	
 	@OpenTransaction
 	@ApenasAnunciante
+	@Get("/leilao/leilao/{leilaoId}")
 	public Leilao leilao(Long leilaoId) {
 		LOGGER.debug("Carregando tela do leilao: " + leilaoId);
 		
 		Leilao leilao = leilaoApplication.getLeilaoPorId(leilaoId);
-		LanceLeilao ultimoLance = null;
 		if (leilao == null) {
 			leilao = leilaoDAO.buscarPorId(leilaoId);
-			ultimoLance = lanceLeilaoDAO.buscarUltimoPorLeilaoId(leilaoId);
-			
-		} else {
-			ultimoLance = leilao.getUltimoLance();
 		}
-		
-		result.include("ultimoLance", ultimoLance);
 		
 		return leilao;
 	}
 	
-	@Get("/leilao/ultimoLance/{leilaoId}")
 	@Public
+	@Get("/leilao/ultimoLance/{leilaoId}")
 	public void ultimoLance(Long leilaoId) {
-		LOGGER.debug("Buscando ultimo lance pra Json do leilao: " + leilaoId);
-		
 		Leilao leilao = leilaoApplication.getLeilaoPorId(leilaoId);
-		BigDecimal valor = BigDecimal.ZERO;
 		LanceLeilao ultimoLance = null;
 		if (leilao != null) {
 			ultimoLance = leilao.getUltimoLance();
@@ -221,7 +212,8 @@ public class LeilaoController extends BaseWeb {
 		if (ultimoLance == null) {
 			ultimoLance = new LanceLeilao();
 		}
-		result.use(Results.json()).from(ultimoLance).include("valor").serialize(); 
+		result.use(Results.json()).withoutRoot().from(ultimoLance).include("anunciante").serialize();
+//				.exclude("cpf", "password", "endereco", "cep", "telefone", "saldo").serialize(); 
 	}
 	
 	@OpenTransaction
