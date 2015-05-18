@@ -38,6 +38,9 @@
 					<th>
 						<fmt:message key="usuario.formulario.label.telefone" />
 					</th>
+					<th>
+						<fmt:message key="usuario.formulario.label.saldo" />
+					</th>
 
 				</tr>
 			</thead>
@@ -60,6 +63,7 @@
 						<td>${usuario.endereco}</td>
 						<td>${usuario.cep}</td>
 						<td>${usuario.telefone}</td>
+						<td>${usuario.saldo}</td>
 					</tr>
 				</c:if>
 			</tbody>

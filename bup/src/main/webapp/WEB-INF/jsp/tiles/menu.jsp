@@ -111,13 +111,13 @@
 				<i class="fa fa-angle-left pull-right"></i>
 			</a>
 			<ul class="treeview-menu">
-				<c:if test="${usuarioSession.isAdministrador() }">
-					<li>
-						<a href="#" style="color: red;">
+				
+					<li data-menu-map="/bup/transacaoBancaria/formularioCreditar">
+						<a href="<c:url value='/transacaoBancaria/formularioCreditar'/>" >
 							<fmt:message key="menu.transferencia.creditar" />
 						</a>
 					</li>
-				</c:if>
+				
 				<li>
 					<a href="#" style="color: red;">
 						<fmt:message key="menu.transferencia.retirar" />
