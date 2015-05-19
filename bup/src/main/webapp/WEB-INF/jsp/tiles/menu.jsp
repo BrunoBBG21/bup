@@ -131,7 +131,7 @@
 				<c:if test="${usuarioSession.isAdministrador() }">
 					<li data-menu-map="/bup/transacaoBancaria/listarAdmin">
 						<a href="<c:url value='/transacaoBancaria/listarAdmin'/>" >
-							<fmt:message key="menu.transferencia.creditar" />
+							<fmt:message key="menu.transferencia.aprovar" />
 						</a>
 					</li>
 				</c:if>
