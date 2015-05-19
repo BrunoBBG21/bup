@@ -221,7 +221,7 @@ public class LeilaoController extends BaseWeb {
 			ultimoLance = new LanceLeilao();
 		}
 		result.use(Results.json()).withoutRoot().from(ultimoLance).include("anunciante").serialize();
-		//TODO: undia... remover o password!!!
+		//TODO: um dia... remover o password!!!
 	}
 	
 	@OpenTransaction
@@ -283,9 +283,14 @@ public class LeilaoController extends BaseWeb {
 	private void validarLance(Leilao leilao, BigDecimal valor) {
 		LanceLeilao ultimoLance = leilao.getUltimoLance();
 		
+		Usuario usuario = usuarioSession.getUsuario();
+		
+		if (usuario.getSaldo().compareTo(valor) > 0) {
+			addErrorMsg("leilao.lance.saldo.insuficiente");
+		}
+		
 		if (ultimoLance != null && ultimoLance.getValor().compareTo(valor) >= 0) {
 			addErrorMsg("leilao.lance.invalido");
 		}
-		//TODO validar se o usuario tem a grana
 	}
 }
