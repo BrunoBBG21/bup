@@ -9,11 +9,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
+//@formatter:off
+@NamedQueries(value={
+		@NamedQuery(
+				name = "TransacaoBancaria.buscarSemTransferenciaUsuario",
+				query="select t "
+						+ "from TransacaoBancaria t "
+						+ "where t.usuario is null "),
+		@NamedQuery(
+				name = "TransacaoBancaria.buscarSemTransferenciaUsuarioPorId",
+				query="select t "
+						+ "from TransacaoBancaria t "
+						+ "where t.usuario is null and t.conta.usuario.id = :id ")
+	    	}) 
+//@formatter:on
 @Entity
 @Table
 public class TransacaoBancaria implements Serializable {
@@ -27,8 +42,8 @@ public class TransacaoBancaria implements Serializable {
 	@ManyToOne(optional = false)
 	private ContaBancaria conta;
 	
-	@NotNull
-	@ManyToOne(optional = false)
+	
+	@ManyToOne
 	private Usuario usuario;
 	
 	@Column(nullable = false)

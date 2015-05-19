@@ -109,6 +109,10 @@
         <put-attribute name="body" value="/WEB-INF/jsp/publicoAlvo/listar.jsp" />
     </definition>
     
+    <definition name="transacaoBancaria/listarAdmin" extends="commonPage">
+        <put-attribute name="title" value="transacao.bancaria.header" />
+        <put-attribute name="body" value="/WEB-INF/jsp/transacaoBancaria/listar.jsp" />
+    </definition>
     <definition name="transacaoBancaria/listar" extends="commonPage">
         <put-attribute name="title" value="transacao.bancaria.header" />
         <put-attribute name="body" value="/WEB-INF/jsp/transacaoBancaria/listar.jsp" />

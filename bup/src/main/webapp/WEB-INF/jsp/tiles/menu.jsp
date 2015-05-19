@@ -128,7 +128,13 @@
 						<fmt:message key="menu.transferencia.listar" />
 					</a>
 				</li>
-				
+				<c:if test="${usuarioSession.isAdministrador() }">
+					<li data-menu-map="/bup/transacaoBancaria/listarAdmin">
+						<a href="<c:url value='/transacaoBancaria/listarAdmin'/>" >
+							<fmt:message key="menu.transferencia.creditar" />
+						</a>
+					</li>
+				</c:if>
 			</ul>
 		</li>
 
