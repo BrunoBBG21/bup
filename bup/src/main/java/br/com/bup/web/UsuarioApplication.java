@@ -7,12 +7,6 @@ import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import sun.management.resources.agent;
-import br.com.bup.domain.Agencia;
-import br.com.bup.domain.Anunciante;
-import br.com.bup.domain.Leilao;
-import br.com.bup.domain.Usuario;
-
 @ApplicationScoped
 public class UsuarioApplication {
 	public final static Long TEMPO_OCIOSO_MIN = 30L;
@@ -48,6 +42,24 @@ public class UsuarioApplication {
 		
 		for (UsuarioSession usuarioSession : USUARIOS_LOGADOS) {
 			if (usuarioSession.isLogado() && usuarioSession.getUsuario().getId().equals(usuarioId)) {
+				value = usuarioSession;
+				break;
+			}
+		}
+		
+		return value;
+	}
+	
+	/**
+	 * Busca a agencia logada que esta gerenciando o usuario id nesse momento.
+	 * @param usuarioId
+	 * @return
+	 */
+	public UsuarioSession getAgenciaGerenciandoUsuarioId(Long usuarioId) {
+		UsuarioSession value = null;
+		
+		for (UsuarioSession usuarioSession : USUARIOS_LOGADOS) {
+			if (usuarioSession.isGerenciando() && usuarioSession.getIdGerenciado().equals(usuarioId)) {
 				value = usuarioSession;
 				break;
 			}

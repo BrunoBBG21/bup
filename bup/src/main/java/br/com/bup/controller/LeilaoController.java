@@ -19,12 +19,15 @@ import br.com.bup.dao.LanceLeilaoDAO;
 import br.com.bup.dao.LeilaoDAO;
 import br.com.bup.dao.ModalidadePagamentoDAO;
 import br.com.bup.dao.PublicoAlvoDAO;
+import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.LanceLeilao;
 import br.com.bup.domain.Leilao;
+import br.com.bup.domain.Usuario;
 import br.com.bup.util.BaseWeb;
 import br.com.bup.web.LeilaoApplication;
+import br.com.bup.web.UsuarioApplication;
 import br.com.bup.web.UsuarioSession;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
@@ -42,19 +45,22 @@ public class LeilaoController extends BaseWeb {
 	private final LeilaoDAO leilaoDAO;
 	private final ModalidadePagamentoDAO modalidadePagamentoDAO;
 	private final LanceLeilaoDAO lanceLeilaoDAO;
+	private final UsuarioDAO usuarioDAO;
 	private final LeilaoApplication leilaoApplication;
+	private final UsuarioApplication usuarioApplication;
 	
 	/**
 	 * @deprecated CDI eyes only
 	 */
 	protected LeilaoController() {
-		this(null, null, null, null, null, null, null, null, null, null);
+		this(null, null, null, null, null, null, null, null, null, null, null, null);
 	}
 	
 	@Inject
 	public LeilaoController(Result result, Validator validator, ResourceBundle i18n, EspacoPropagandaDAO espacoPropagandaDAO,
 			UsuarioSession usuarioSession, PublicoAlvoDAO publicoAlvoDAO, LeilaoDAO leilaoDAO,
-			ModalidadePagamentoDAO modalidadePagamentoDAO, LanceLeilaoDAO lanceLeilaoDAO, LeilaoApplication leilaoApplication) {
+			ModalidadePagamentoDAO modalidadePagamentoDAO, LanceLeilaoDAO lanceLeilaoDAO, UsuarioDAO usuarioDAO,
+			LeilaoApplication leilaoApplication, UsuarioApplication usuarioApplication) {
 		super(result, validator, usuarioSession, i18n);
 		this.espacoPropagandaDAO = espacoPropagandaDAO;
 		this.publicoAlvoDAO = publicoAlvoDAO;
@@ -62,6 +68,8 @@ public class LeilaoController extends BaseWeb {
 		this.modalidadePagamentoDAO = modalidadePagamentoDAO;
 		this.lanceLeilaoDAO = lanceLeilaoDAO;
 		this.leilaoApplication = leilaoApplication;
+		this.usuarioDAO = usuarioDAO;
+		this.usuarioApplication = usuarioApplication;
 	}
 	
 	@OpenTransaction
@@ -213,7 +221,7 @@ public class LeilaoController extends BaseWeb {
 			ultimoLance = new LanceLeilao();
 		}
 		result.use(Results.json()).withoutRoot().from(ultimoLance).include("anunciante").serialize();
-//				.exclude("cpf", "password", "endereco", "cep", "telefone", "saldo").serialize(); 
+		//TODO: undia... remover o password!!!
 	}
 	
 	@OpenTransaction
@@ -223,12 +231,15 @@ public class LeilaoController extends BaseWeb {
 		validarLance(leilao, valor);
 		validator.onErrorRedirectTo(this).leilao(leilaoId);
 		
+		estornarUltimoLance(leilao);
+		
 		LanceLeilao lance = new LanceLeilao();
 		if (usuarioSession.isLogadoAgencia()) {
 			lance.setAgencia(usuarioSession.getUsuarioLogadoComoAgencia());
 			
 		}
-		lance.setAnunciante((Anunciante) usuarioSession.getUsuario());
+		Anunciante usuario = (Anunciante) usuarioSession.getUsuario();
+		lance.setAnunciante(usuario);
 		lance.setLeilao(leilao);
 		lance.setValor(valor);
 		
@@ -236,9 +247,37 @@ public class LeilaoController extends BaseWeb {
 		leilao.getLances().add(lance);
 		leilao.setChanged();
 		
-		//TODO estornar a grana do lance anterior e descontar do novo...
+		usuario.setSaldo(usuario.getSaldo().subtract(valor));
+		usuarioDAO.salvar(usuario);
 		
 		result.redirectTo(this).leilao(leilaoId);
+	}
+	
+	/**
+	 * Estorna o ultimo lance do leilao...
+	 * Deve atualizar o usuario no banco, atualizar o usuario caso logado e atualizar o usuario caso o agente dele esteja logado. 
+	 * @param leilao
+	 */
+	private void estornarUltimoLance(Leilao leilao) {
+		LanceLeilao ultimoLance = leilao.getUltimoLance();
+		
+		if (ultimoLance != null) {
+			Long anuncianteId = ultimoLance.getAnunciante().getId();
+			UsuarioSession usuarioLogadoSession = usuarioApplication.getUsuarioPorId(anuncianteId);
+			Usuario usuario = null;
+			 
+			if (usuarioLogadoSession == null) {
+				UsuarioSession agenciaSession = usuarioApplication.getAgenciaGerenciandoUsuarioId(anuncianteId);
+				usuario = agenciaSession == null ? null : agenciaSession.getUsuario();
+			}
+			
+			if (usuario == null) {
+				usuario = usuarioDAO.buscarPorId(anuncianteId);
+			}
+			
+			usuario.getSaldo().add(ultimoLance.getValor());
+			usuarioDAO.salvar(usuario);
+		}
 	}
 	
 	private void validarLance(Leilao leilao, BigDecimal valor) {
