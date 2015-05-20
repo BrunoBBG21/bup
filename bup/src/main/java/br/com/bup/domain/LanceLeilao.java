@@ -2,7 +2,10 @@ package br.com.bup.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,6 +68,29 @@ public class LanceLeilao implements Serializable {
 	@JoinColumn(name = "leilao_id", nullable = false)
 	@NotNull
 	private Leilao leilao;
+	
+	//staticos----------------------------------------------------------------------------------------------------
+	
+	public static void ordernarPorDataCresc(List<LanceLeilao> lances) { 
+		Collections.sort(lances, getComparatorDataCresc());
+	}
+	
+	public static Comparator<LanceLeilao> getComparatorDataCresc() {
+		return new Comparator<LanceLeilao>() {
+			@Override
+			public int compare(LanceLeilao o1, LanceLeilao o2) {
+				
+				if (o1 == null && o2 == null)
+					return 0;
+				if (o1 != null && o2 == null)
+					return +1;
+				if (o1 == null && o2 != null)
+					return -1;
+				
+				return o1.getData().compareTo(o2.getData());
+			}
+		};
+	}
 	
 	//get-set-gerados-------------------------------------------------------
 	
