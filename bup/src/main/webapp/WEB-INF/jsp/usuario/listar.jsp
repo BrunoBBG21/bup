@@ -84,11 +84,12 @@
 					<tr>
 						<td>
 							<form>
+							<c:if test="${usuarioSession.podeDeletar() }">
 								<button type="button" class="btn btn-primary" data-id="${usuario.id}" data-toggle="modal"
 										data-target="#modalApagar">
 										<fmt:message key="btn.apagar" />
 									</button>
-								
+								</c:if>
 								<button type="submit" formaction='<c:url value="/usuario/editar/${usuario.id}"/>'>
 										<fmt:message key="btn.editar" />
 								</button>

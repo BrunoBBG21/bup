@@ -57,6 +57,12 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
 		
 		return (Boolean) query.getSingleResult();
 	}
+	public boolean podeDeletarPorId( Long id) {
+		Query query = manager.createNamedQuery("Usuario.podeDeletarPorId");
+		query.setParameter("id", id);
+		
+		return (Boolean) query.getSingleResult();
+	}
 	
 	/**
 	 * Verifica se existe um Usuario com o cpfCnpj passado e id diferente.

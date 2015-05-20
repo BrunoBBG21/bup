@@ -138,10 +138,16 @@ public class UsuarioController extends BaseWeb {
 	@Path("/usuario/apagar/{id}")
 	@OpenTransaction
 	public void apagar(Long id) {
-		usuarioDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
-		usuarioSession.deslogar();
+		if(usuarioDAO.podeDeletarPorId(id)){
+			usuarioDAO.apagarLogado(id, usuarioSession.getUsuarioLogado().getId());
+			usuarioSession.deslogar();
+			
+			addSuccessMsg("msg.success.apagar");
+		}else{
+			addErrorMsg("email","msg.error.apagar");
+			validator.onErrorUsePageOf(this).listar();
+		}
 		
-		addSuccessMsg("msg.success.apagar");
 		result.redirectTo(this).listar();
 	}
 	

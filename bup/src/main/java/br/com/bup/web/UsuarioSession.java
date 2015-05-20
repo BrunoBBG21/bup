@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.bup.dao.LeilaoDAO;
+import br.com.bup.dao.UsuarioDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.Usuario;
@@ -25,7 +26,6 @@ import br.com.bup.domain.Usuario;
 public class UsuarioSession implements Serializable, Observer {
 	private static final long serialVersionUID = 5135507409377401886L;
 	private static final Logger LOGGER = LoggerFactory.getLogger(UsuarioSession.class);
-	
 	private Usuario usuarioLogado;
 	private Anunciante usuarioGerenciado;
 	private Date dataUltimoRequest = new Date();
@@ -39,7 +39,8 @@ public class UsuarioSession implements Serializable, Observer {
 	
 	@Inject
 	private LeilaoDAO leilaoDAO;
-
+	@Inject
+	private UsuarioDAO usuarioDAO;
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		LOGGER.debug("updateupdateupdateupdateupdate: " + arg0.toString());
@@ -64,12 +65,13 @@ public class UsuarioSession implements Serializable, Observer {
 		usuarioApplication.addUsuarioLogado(this);
 		atualizarLeiloesInscritosObserver();
 	}
+	public Boolean podeDeletar(){
+		
+		if(this!=null&&this.getUsuarioLogado()!=null&&usuarioDAO!=null)
+			return usuarioDAO.podeDeletarPorId(this.getUsuarioLogado().getId());
+		else
+			return true;
 	
-	public void deslogar() {
-		usuarioLogado = null;
-		usuarioGerenciado = null;
-		usuarioApplication.removerUsuarioLogado(this);
-		atualizarLeiloesInscritosObserver();
 	}
 	
 	public Boolean isAdministrador() {
@@ -124,7 +126,7 @@ public class UsuarioSession implements Serializable, Observer {
 	}
 	
 	/**
-	 * Verifica se o usuario logado está sendo gerenciado.
+	 * Verifica se o usuario logado estï¿½ sendo gerenciado.
 	 * 
 	 * @return Boolean
 	 */
@@ -151,4 +153,14 @@ public class UsuarioSession implements Serializable, Observer {
 	public List<Long> getIdsLeiloesObserver() {
 		return idsLeiloesObserver;
 	}
+	public void deslogar() {
+		usuarioLogado = null;
+		usuarioGerenciado = null;
+		usuarioApplication.removerUsuarioLogado(this);
+		atualizarLeiloesInscritosObserver();
+	}
 }
+
+	
+	
+	

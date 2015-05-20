@@ -49,7 +49,57 @@ import javax.validation.constraints.NotNull;
 						+ "			u.cpf = :cpfcnpj "
 						+ "		or u.cnpj = :cpfcnpj"
 						+ "		) "
-						+ "	and u.id <> :id")
+						+ "	and u.id <> :id"),
+		@NamedQuery(name = "Usuario.podeDeletarPorId",
+						query = "select case when (count(u) = 0) then true else false end "
+								+ "from Usuario u "
+								+ "where "
+								/*+ "		u.id not in (select a.gerencia.id "
+					      		+ "					from Agencia a "
+					      		+ "					where a.id = :id) and "*/
+
+					      		+ "		u.id not in (select an.gerenciado.id "
+					      		+ "					from Anunciante an "
+					      		+ "					where an.gerenciado.id = :id) or "
+					      		
+								+ "		u.id not in (select c.usuario.id "
+								+ "					from ContaBancaria c "
+								+ "					where c.usuario.id = :id) or "
+								
+								+ "		u.id not in (select t.usuario.id "
+								+ "					from TransacaoBancaria t "
+								+ "					where t.usuario.id = :id) or "
+								
+								+ "		u.id not in (select l.agencia.id "
+								+ "					from LanceLeilao l "
+								+ "					where l.agencia.id = :id) or "
+								
+								+ "		u.id not in (select l.anunciante.id "
+								+ "					from LanceLeilao l "
+								+ "					where l.anunciante.id = :id) or "
+								
+								+ "		u.id not in (select anuciante.id "
+								+ "					from Leilao as lei  "
+								+ "					INNER JOIN lei.inscritos anuciante "
+								+ "					where anuciante.id = :id) or "
+								
+								+ "		u.id not in (select e.pertence.id "
+								+ "					from EspacoPropaganda e "
+								+ "					where e.pertence.id = :id) or "
+								
+								+ "		u.id not in (select e.pertence.id "
+								+ "					from EspacoPropaganda e "
+								+ "					where e.pertence.id = :id) or "
+								
+								+ "		u.id not in (select e.alugador.id "
+								+ "					from EspacoPropaganda e "
+								+ "					where e.alugador.id = :id) or "
+								
+								+ "		u.id not in (select h.anunciante.id "
+								+ "					from HistoricoAluguelEspaco h "
+								+ "					where h.anunciante.id = :id)  "
+								
+								/*+ "	and u.id <> :id"*/)	
 })
 //@formatter:on
 @Entity
