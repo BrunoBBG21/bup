@@ -141,14 +141,14 @@ public class Leilao extends Observable {
 	private List<Anunciante> inscritos = new ArrayList<Anunciante>();
 	
 	// metodos----------------------------------------------------------------
-
-    /**
-     * Marca o leilao como alterado...
-     */
+	
+	/**
+	 * Marca o leilao como alterado...
+	 */
 	@Override
-    public synchronized void setChanged() {
-        super.setChanged();
-    }
+	public synchronized void setChanged() {
+		super.setChanged();
+	}
 	
 	/**
 	 * Retorna a logica do estado atual.
@@ -207,7 +207,7 @@ public class Leilao extends Observable {
 	public boolean isEstadoFinalizado() {
 		return TipoEstadoLeilao.FINALIZADO.equals(getEstado());
 	}
-
+	
 	public LanceLeilao getUltimoLance() {
 		LanceLeilao value = null;
 		for (LanceLeilao lanceLeilao : lances) {
@@ -215,6 +215,18 @@ public class Leilao extends Observable {
 				value = lanceLeilao;
 			}
 		}
+		return value;
+	}
+	
+	public LanceLeilao getPenultimoLance() {
+		LanceLeilao value = null;
+		List<LanceLeilao> lances = new ArrayList<LanceLeilao>(this.lances);
+		
+		if (lances.size() > 1) {
+			LanceLeilao.ordernarPorDataCresc(lances);
+			value = lances.get(lances.size() - 2);
+		}
+		
 		return value;
 	}
 	

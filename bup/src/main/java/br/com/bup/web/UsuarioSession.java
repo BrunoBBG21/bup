@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import br.com.bup.dao.LeilaoDAO;
 import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
+import br.com.bup.domain.LanceLeilao;
+import br.com.bup.domain.Leilao;
 import br.com.bup.domain.Usuario;
 
 @SessionScoped
@@ -30,6 +32,7 @@ public class UsuarioSession implements Serializable, Observer {
 	private Anunciante usuarioGerenciado;
 	private Date dataUltimoRequest = new Date();
 	private List<Long> idsLeiloesObserver = new ArrayList<Long>();
+	private final List<String> notificacoes = new ArrayList<String>();
 	
 	@Inject
 	private UsuarioApplication usuarioApplication;
@@ -43,8 +46,27 @@ public class UsuarioSession implements Serializable, Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		LOGGER.debug("updateupdateupdateupdateupdate: " + arg0.toString());
+		updateLeilao(arg0);
 	}
 	
+	/**
+	 * Deve: 
+	 * qunado mudar o estado deve anunciar.. (comecou o leilao, terminou...)
+	 * quando o usuario logado nao estiver mais ganhando o leilao
+	 * @param arg0
+	 */
+	private void updateLeilao(Observable arg0) {
+		if (!(arg0 instanceof Leilao)) {
+			return;
+		}
+		
+		Leilao leilao = (Leilao) arg0;
+		//TODO ....
+//		if (leilao.is)
+//		LanceLeilao penultimoLance = leilao.getPenultimoLance();
+//		if (penultimoLance != null && penultimoLance.get)
+	}
+
 	public void atualizarLeiloesInscritosObserver() {
 		idsLeiloesObserver = usuarioLogado == null ? new ArrayList<Long>() : leilaoDAO.buscarIdsLeiloesObservarPorUsuarioId(usuarioLogado.getId());
 		leilaoApplication.atualizarObserver(this);
