@@ -34,7 +34,18 @@ public class TransacaoBancariaDAO extends BaseDAO<TransacaoBancaria> {
 	public TransacaoBancariaDAO(EntityManager manager) {
 		super(manager, TransacaoBancaria.class);
 	}
-	
+	/**
+	 * para garantir que o usuario apague as suas proprias contas.
+	 * 
+	 * @param id
+	 * @param usuario
+	 */
+	public void apagarLogado(Long id, Long usuario) {
+		TransacaoBancaria transacaoBancaria = this.buscarPorId(id);
+		if (transacaoBancaria != null && transacaoBancaria.getConta().getUsuario().getId().equals(usuario)) {
+			manager.remove(transacaoBancaria);
+		}
+	}
 	public List<TransacaoBancaria> buscarSemTransferenciaUsuario() {
 		List<TransacaoBancaria> value = new ArrayList<TransacaoBancaria>();
 		

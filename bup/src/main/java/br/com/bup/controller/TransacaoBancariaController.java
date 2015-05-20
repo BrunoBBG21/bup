@@ -50,7 +50,13 @@ public class TransacaoBancariaController extends BaseWeb{
 		this.usuarioDAO = usuarioDAO;
 		this.contaDAO=contaDAO;
 	}
-
+	@Path("/transacaoBancaria/apagar/{id}")
+	@OpenTransaction
+	public void apagar(Long id) {
+		transacaoBancariaDAO.apagarLogado(id, usuarioSession.getUsuario().getId());
+		addSuccessMsg("msg.success.apagar");
+		result.redirectTo(this).listar();
+	}
 	public void formularioCreditar() {
 		LOGGER.debug("carregando formulario de creditar");
 		//busca as contas do usuario logado e solicitante da transferencia
@@ -68,8 +74,6 @@ public class TransacaoBancariaController extends BaseWeb{
 		if(transacaoBancaria!=null&&transacaoBancaria.getSaldo()!=null&&-1==transacaoBancaria.getSaldo().signum()){
 			transacaoBancaria.setSaldo(transacaoBancaria.getSaldo().negate());
 		}
-//		usuarioSession.getUsuarioLogado().getSaldo().add(transacaoBancaria.getSaldo());
-//		transacaoBancaria.setUsuario(usuarioSession.getUsuarioLogado());
 		transacaoBancaria.setData(new Date());
 		// validacoes...
 		validarCreditar(transacaoBancaria);
@@ -103,12 +107,6 @@ public class TransacaoBancariaController extends BaseWeb{
 		// atualiza
 		transacaoBancaria = transacaoBancariaDAO.salvar(transacaoBancaria);
 		addSuccessMsg("msg.success.transacao.bancaria.creditar");
-//		Usuario usuario = usuarioSession.getUsuarioLogado();
-//		usuario.getSaldo().add(transacaoBancaria.getSaldo());
-//		usuario = usuarioDAO.salvar(usuario);
-//		transacaoBancariaDAO.apagarPorId(transacaoBancaria.getId());
-		
-//		addSuccessMsg("msg.success.apagar");
 		result.redirectTo(this).listar();
 	}
 	
