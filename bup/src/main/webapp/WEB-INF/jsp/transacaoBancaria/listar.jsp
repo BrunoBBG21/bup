@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <script type="text/javascript">
 	$(function() {
-		$('#modalInscrever').on('show.bs.modal', function(event) {
+		$('#modalApagar').on('show.bs.modal', function(event) {
 			var button = $(event.relatedTarget); // Button that triggered the modal
 			var recipient = button.data('id'); // Extract info from data-* attributes
 			var modal = $(this);
@@ -85,7 +85,7 @@
 								<form>
 									
 									<button type="button" class="btn btn-primary" data-id="${transacaoBancaria.id}" data-toggle="modal"
-										data-target="#modalInscrever">
+										data-target="#modalApagar">
 										<fmt:message key="btn.apagar" />
 									</button>
 									<c:if test="${usuarioSession.isAdministrador() }">
