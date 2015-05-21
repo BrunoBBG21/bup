@@ -1,5 +1,7 @@
 package br.com.bup.state;
 
+import org.jboss.weld.exceptions.IllegalStateException;
+
 import br.com.bup.domain.Leilao;
 
 public abstract class EstadoLeilaoAbstract implements EstadoLeilao {
@@ -9,11 +11,11 @@ public abstract class EstadoLeilaoAbstract implements EstadoLeilao {
 		this.leilao = leilao;
 	}
 	
-	public EstadoLeilao processar() {
-		return null;
+	public void processar() {
+		throw new IllegalStateException("Mudanca de estado invalida.");
 	}
 	
-	public EstadoLeilao cancelar() {
-		return null;
+	public void cancelar() {
+		throw new IllegalStateException("Mudanca de estado invalida.");
 	}
 }

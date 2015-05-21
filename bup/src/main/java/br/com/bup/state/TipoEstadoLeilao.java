@@ -17,7 +17,7 @@ public enum TipoEstadoLeilao {
 	CANCELADO("Cancelado", Cancelado.class),
 	EM_ANDAMENTO("Em Andamento", EmAndamento.class),
 	AGUARDANDO("Aguardando Lances", AguardandoLances.class),
-	FINALIZADO("Finalizado", Finalizar.class);
+	FINALIZADO("Finalizado", Finalizado.class);
 	
 	private String descricao;
 	private Class<? extends EstadoLeilao> impl;

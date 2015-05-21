@@ -57,15 +57,31 @@ public class UsuarioSession implements Serializable, Observer {
 	 * @param arg0
 	 */
 	private void updateLeilao(Observable arg0) {
+		//TODO ....
 		if (!(arg0 instanceof Leilao)) {
 			return;
 		}
 		
 		Leilao leilao = (Leilao) arg0;
-		//TODO ....
-//		if (leilao.is)
-//		LanceLeilao penultimoLance = leilao.getPenultimoLance();
-//		if (penultimoLance != null && penultimoLance.get)
+		if (leilao.isEstadoEmAndamento()) { //acabou de iniciar o leilao
+			
+		} else if (leilao.isEstadoAguardando()) { //durante a faze do leilao...
+			LanceLeilao penultimoLance = leilao.getPenultimoLance();
+			LanceLeilao ultimoLance = leilao.getUltimoLance();
+			
+			Anunciante penulLancAnunciante = penultimoLance == null ? null : penultimoLance.getAnunciante();
+			Agencia penulLancAgencia = penultimoLance == null ? null : penultimoLance.getAgencia();
+			Anunciante ultLancAnunciante = ultimoLance == null ? null : ultimoLance.getAnunciante();
+			Agencia ultLancAgencia = ultimoLance == null ? null : ultimoLance.getAgencia();
+			
+			if (((penulLancAnunciante != null && penulLancAnunciante.getId().equals(usuarioLogado.getId()))
+				  || (penulLancAgencia != null && penulLancAgencia.getId().equals(usuarioLogado.getId())))
+				&& !ultLancAnunciante.getId().equals(usuarioLogado.getId()) 
+				&& !ultLancAgencia.getId().equals(usuarioLogado.getId())) {
+				//TODO
+			}
+			
+		}
 	}
 
 	public void atualizarLeiloesInscritosObserver() {
@@ -85,6 +101,12 @@ public class UsuarioSession implements Serializable, Observer {
 		usuarioLogado = usuario;
 		usuarioGerenciado = null;
 		usuarioApplication.addUsuarioLogado(this);
+		atualizarLeiloesInscritosObserver();
+	}
+	public void deslogar() {
+		usuarioLogado = null;
+		usuarioGerenciado = null;
+		usuarioApplication.removerUsuarioLogado(this);
 		atualizarLeiloesInscritosObserver();
 	}
 	public Boolean podeDeletar(){
@@ -174,12 +196,6 @@ public class UsuarioSession implements Serializable, Observer {
 
 	public List<Long> getIdsLeiloesObserver() {
 		return idsLeiloesObserver;
-	}
-	public void deslogar() {
-		usuarioLogado = null;
-		usuarioGerenciado = null;
-		usuarioApplication.removerUsuarioLogado(this);
-		atualizarLeiloesInscritosObserver();
 	}
 }
 

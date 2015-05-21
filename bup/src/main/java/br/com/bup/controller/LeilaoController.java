@@ -226,7 +226,7 @@ public class LeilaoController extends BaseWeb {
 	
 	@OpenTransaction
 	@ApenasAnunciante
-	public void lancarLance(Long leilaoId, BigDecimal valor) {
+	public void lancarLance(Long leilaoId, BigDecimal valor) throws InstantiationException, IllegalAccessException {
 		Leilao leilao = leilaoApplication.getLeilaoPorId(leilaoId);
 		validarLance(leilao, valor);
 		validator.onErrorRedirectTo(this).leilao(leilaoId);
@@ -245,6 +245,7 @@ public class LeilaoController extends BaseWeb {
 		
 		lance = lanceLeilaoDAO.salvar(lance);
 		leilao.getLances().add(lance);
+		leilao.getEstadoAtualLogica().processar();
 		leilao.setChanged();
 		
 		usuario.setSaldo(usuario.getSaldo().subtract(valor));
