@@ -129,7 +129,7 @@ public abstract class Usuario implements Serializable {
 	private String endereco;
 	
 	@Column(nullable = false)
-	@NotNull 
+	@NotNull
 	private String cep;
 	
 	private String telefone;

@@ -139,7 +139,7 @@ public class LeilaoController extends BaseWeb {
 	}
 	
 	/**
-	 * Verifica se o leilao pode ser apagado. Só pode apagar caso o estado do leilao seja ESPERANDO e não possua nenhum inscrito.
+	 * Verifica se o leilao pode ser apagado. Sï¿½ pode apagar caso o estado do leilao seja ESPERANDO e nï¿½o possua nenhum inscrito.
 	 * 
 	 * @param id
 	 */
@@ -153,7 +153,7 @@ public class LeilaoController extends BaseWeb {
 	@OpenTransaction
 	@ApenasAnunciante
 	public List<Leilao> inscrever() {
-		LOGGER.debug("Listando os leiloes para inscrição");
+		LOGGER.debug("Listando os leiloes para inscriï¿½ï¿½o");
 		
 		return leilaoDAO.buscarTodosEsperandoMenosAnuncianteId(usuarioSession.getUsuario().getId());
 	}
@@ -250,6 +250,7 @@ public class LeilaoController extends BaseWeb {
 		
 		usuario.setSaldo(usuario.getSaldo().subtract(valor));
 		usuarioDAO.salvar(usuario);
+		leilaoDAO.salvar(leilao);
 		
 		result.redirectTo(this).leilao(leilaoId);
 	}

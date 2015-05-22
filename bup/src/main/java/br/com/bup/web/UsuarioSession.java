@@ -44,16 +44,16 @@ public class UsuarioSession implements Serializable, Observer {
 	private LeilaoDAO leilaoDAO;
 	@Inject
 	private UsuarioDAO usuarioDAO;
+	
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		LOGGER.debug("updateupdateupdateupdateupdate: " + arg0.toString());
 		updateLeilao(arg0);
 	}
 	
 	/**
-	 * Deve: 
-	 * qunado mudar o estado deve anunciar.. (comecou o leilao, terminou...)
-	 * quando o usuario logado nao estiver mais ganhando o leilao
+	 * Deve: qunado mudar o estado deve anunciar.. (comecou o leilao, terminou...) quando o usuario logado nao estiver mais
+	 * ganhando o leilao
+	 * 
 	 * @param arg0
 	 */
 	private void updateLeilao(Observable arg0) {
@@ -64,28 +64,28 @@ public class UsuarioSession implements Serializable, Observer {
 		
 		Leilao leilao = (Leilao) arg0;
 		if (leilao.isEstadoEmAndamento()) { //acabou de iniciar o leilao
-			
+		
 		} else if (leilao.isEstadoAguardando()) { //durante a faze do leilao...
 			LanceLeilao penultimoLance = leilao.getPenultimoLance();
 			LanceLeilao ultimoLance = leilao.getUltimoLance();
 			
 			Anunciante penulLancAnunciante = penultimoLance == null ? null : penultimoLance.getAnunciante();
 			Agencia penulLancAgencia = penultimoLance == null ? null : penultimoLance.getAgencia();
-			Anunciante ultLancAnunciante = ultimoLance == null ? null : ultimoLance.getAnunciante();
-			Agencia ultLancAgencia = ultimoLance == null ? null : ultimoLance.getAgencia();
+			Anunciante ultLancAnunciante = ultimoLance.getAnunciante();
+			Agencia ultLancAgencia = ultimoLance.getAgencia();
 			
-			if (((penulLancAnunciante != null && penulLancAnunciante.getId().equals(usuarioLogado.getId()))
-				  || (penulLancAgencia != null && penulLancAgencia.getId().equals(usuarioLogado.getId())))
-				&& !ultLancAnunciante.getId().equals(usuarioLogado.getId()) 
-				&& !ultLancAgencia.getId().equals(usuarioLogado.getId())) {
-				//TODO
+			if (((penulLancAnunciante != null && penulLancAnunciante.getId().equals(usuarioLogado.getId())) || (penulLancAgencia != null && penulLancAgencia
+					.getId().equals(usuarioLogado.getId())))
+					&& !ultLancAnunciante.getId().equals(usuarioLogado.getId())
+					&& !ultLancAgencia.getId().equals(usuarioLogado.getId())) {
+				notificacoes.add("Alguem deu um lance maior que o seu no leilao: " + leilao.getEspacoPropaganda().getUrl());
 			}
-			
 		}
 	}
-
+	
 	public void atualizarLeiloesInscritosObserver() {
-		idsLeiloesObserver = usuarioLogado == null ? new ArrayList<Long>() : leilaoDAO.buscarIdsLeiloesObservarPorUsuarioId(usuarioLogado.getId());
+		idsLeiloesObserver = usuarioLogado == null ? new ArrayList<Long>() : leilaoDAO
+				.buscarIdsLeiloesObservarPorUsuarioId(usuarioLogado.getId());
 		leilaoApplication.atualizarObserver(this);
 	}
 	
@@ -103,19 +103,21 @@ public class UsuarioSession implements Serializable, Observer {
 		usuarioApplication.addUsuarioLogado(this);
 		atualizarLeiloesInscritosObserver();
 	}
+	
 	public void deslogar() {
 		usuarioLogado = null;
 		usuarioGerenciado = null;
 		usuarioApplication.removerUsuarioLogado(this);
 		atualizarLeiloesInscritosObserver();
 	}
-	public Boolean podeDeletar(){
+	
+	public Boolean podeDeletar() {
 		
-		if(this!=null&&this.getUsuarioLogado()!=null&&usuarioDAO!=null)
+		if (this != null && this.getUsuarioLogado() != null && usuarioDAO != null)
 			return usuarioDAO.podeDeletarPorId(this.getUsuarioLogado().getId());
 		else
 			return true;
-	
+		
 	}
 	
 	public Boolean isAdministrador() {
@@ -193,12 +195,8 @@ public class UsuarioSession implements Serializable, Observer {
 	public Long getTempoOcioso() {
 		return ((new Date()).getTime() - dataUltimoRequest.getTime()) / 1000 / 60;
 	}
-
+	
 	public List<Long> getIdsLeiloesObserver() {
 		return idsLeiloesObserver;
 	}
 }
-
-	
-	
-	

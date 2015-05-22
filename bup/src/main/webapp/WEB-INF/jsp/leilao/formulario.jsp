@@ -112,7 +112,8 @@
 						value='<fmt:message key="btn.editar"/>' onclick="atualizarCampoData();"/>
 			      </c:when>
 			
-			      <c:otherwise><input type="submit" formaction="<c:url value='/leilao/criar'/>" class="btn btn-primary"
+			      <c:otherwise>
+			      	<input type="submit" formaction="<c:url value='/leilao/criar'/>" class="btn btn-primary"
 						value='<fmt:message key="btn.salvar"/>' onclick="atualizarCampoData();"/>
 			      </c:otherwise>
 				</c:choose>	

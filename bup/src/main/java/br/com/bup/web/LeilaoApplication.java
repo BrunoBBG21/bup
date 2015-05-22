@@ -6,6 +6,9 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.bup.domain.Leilao;
 
 /**
@@ -13,12 +16,14 @@ import br.com.bup.domain.Leilao;
  */
 @ApplicationScoped
 public class LeilaoApplication {
+	private final static Logger LOGGER = LoggerFactory.getLogger(LeilaoApplication.class);
 	private final static List<Leilao> LEILOES_EM_ANDAMENTO = new ArrayList<Leilao>();
 	
 	@Inject
 	private UsuarioApplication usuarioApplication;
 	
 	public void addLeilao(Leilao leilao) {
+		LOGGER.debug("Adicionando leilao; id: " + (leilao == null ? null : leilao.getId()) + ", leilao: " + leilao);
 		LEILOES_EM_ANDAMENTO.add(leilao);
 	}
 	
@@ -44,7 +49,8 @@ public class LeilaoApplication {
 		List<Leilao> value = new ArrayList<Leilao>();
 		
 		for (Leilao leilao : listAux) {
-			if (!leilao.isEstadoEmAndamento()) {
+			if (!leilao.isEstadoEmAndamento() && !leilao.isEstadoAguardando()) {
+				LOGGER.debug("Removendo leilao; id: " + (leilao == null ? null : leilao.getId()) + ", leilao: " + leilao);
 				value.add(leilao);
 				LEILOES_EM_ANDAMENTO.remove(leilao);
 			}
@@ -54,6 +60,7 @@ public class LeilaoApplication {
 	}
 	
 	public void notificarObservers() {
+		LOGGER.debug("Notificando observers caso tenha altera��o...");
 		for (Leilao leilao : LEILOES_EM_ANDAMENTO) {
 			leilao.notifyObservers();
 		}

@@ -51,7 +51,7 @@ import br.com.bup.state.TipoEstadoLeilao;
 						+ "					AND i.id = :anuncianteId) "),
 						
 		@NamedQuery(name = "Leilao.buscarTodosEmAndamentoOuAguardando",
-				query = "select l "
+				query = "select distinct l "
 						+ "from Leilao l "
 						+ "left join fetch l.lances la "
 						+ "where "
