@@ -14,8 +14,10 @@
 				role="form">
 				<div
 					class="form-group ${empty errors.from('tipoUsuario') ? '' : 'has-error'}">
-					<label for="inpTipoUsuario"> <fmt:message
-							key="usuario.formulario.label.tipoUsuario" />
+					<label for="inpTipoUsuario"> <c:if
+							test="${not empty errors.from('tipoUsuario')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <fmt:message key="usuario.formulario.label.tipoUsuario" />
 					</label> <select id="inpTipoUsuario" name="tipoUsuario"
 						class="form-control">
 						<option value="">
@@ -31,15 +33,20 @@
 				<div
 					class="form-group ${empty errors.from('email') ? '' : 'has-error'}">
 
-					<label for="inpEmail"> <fmt:message
-							key="usuario.formulario.label.email" />
+					<label for="inpEmail"> <c:if
+							test="${not empty errors.from('email')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <fmt:message key="usuario.formulario.label.email" />
 					</label>
 
-					<div class="input-group">
+					<div
+						class="input-group ${empty errors.from('email') ? '' : 'has-error'}">
 
-						<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-						<input id="inpEmail" type="email" class="form-control"
-							name="email" value="${email}" placeholder="Email@email.com" />
+						<span
+							class="input-group-addon ${empty errors.from('email') ? '' : 'has-error'}"><i
+							class="fa fa-envelope"></i></span> <input id="inpEmail" type="email"
+							class="form-control" name="email" value="${email}"
+							placeholder="Email@email.com" />
 					</div>
 				</div>
 
@@ -53,15 +60,20 @@
  -->
 				<div
 					class="form-group ${empty errors.from('password') ? '' : 'has-error'}">
-					<label for="inpPassword"> <fmt:message
-							key="usuario.formulario.label.password" />
+					<label for="inpPassword"> <c:if
+							test="${not empty errors.from('password')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <fmt:message key="usuario.formulario.label.password" />
 					</label> <input id="inpPassword" type="password" class="form-control"
 						name="password" value="${password}" />
 				</div>
 
 				<div
 					class="form-group ${empty errors.from('nome') ? '' : 'has-error'}">
-					<label for="inpNome"> <fmt:message
+					<label for="inpNome"> <c:if
+							test="${not empty errors.from('nome')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if><fmt:message
 							key="usuario.formulario.label.nome" />
 					</label> <input id="inpNome" type="text" class="form-control" name="nome"
 						value="${nome}" />
@@ -69,7 +81,10 @@
 
 				<div
 					class="form-group ${empty errors.from('endereco') ? '' : 'has-error'}">
-					<label for="inpEndereco"> <fmt:message
+					<label for="inpEndereco"> <c:if
+							test="${not empty errors.from('endereco')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if><fmt:message
 							key="usuario.formulario.label.endereco" />
 					</label> <input id="inpEndereco" type="text" class="form-control"
 						name="endereco" value="${endereco}" />
@@ -77,12 +92,15 @@
 
 				<div
 					class="form-group ${empty errors.from('cep') ? '' : 'has-error'}">
-					<label for="inpCep"> <fmt:message
+					<label for="inpCep">  <c:if
+							test="${not empty errors.from('cep')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if><fmt:message
 							key="usuario.formulario.label.cep" />
 					</label> <input id="inpCep" type="text" class="form-control" name="cep"
 						value="${cep}" />
 				</div>
-<!-- 
+				<!-- 
 				<div
 					class="form-group ${empty errors.from('telefone') ? '' : 'has-error'}">
 					<label for="inpTelefone"> <fmt:message
@@ -93,14 +111,18 @@
 						data-inputmask='"mask": "(99) 9999-9999"' data-mask />
 				</div>
 	 -->
-	 			<div
+				<div
 					class="form-group ${empty errors.from('telefone') ? '' : 'has-error'}">
 
-					<label for="inpTelefone"> <fmt:message
+					<label for="inpTelefone"> <c:if
+							test="${not empty errors.from('telefone')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if><fmt:message
 							key="usuario.formulario.label.telefone" />
 					</label>
 
-					<div class="input-group">
+					<div
+						class="input-group ${empty errors.from('telefone') ? '' : 'has-error'}">
 
 						<span class="input-group-addon"><i class="fa fa-phone"></i></span>
 						<input id="inpTelefone" type="text" class="form-control"
@@ -112,7 +134,10 @@
 
 				<div
 					class="form-group ${empty errors.from('cpf') and empty errors.from('cnpj') ? '' : 'has-error'}">
-					<label for="inpCpfCnpj"> <fmt:message
+					<label for="inpCpfCnpj"><c:if
+							test="${not empty errors.from('cpf') or not empty errors.from('cnpj')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <fmt:message
 							key="usuario.formulario.label.cpfCnpj" />
 					</label> <input id="inpCpfCnpj" type="text" class="form-control"
 						name="cpfCnpj" value="${cpfCnpj}" />
