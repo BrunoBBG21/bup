@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -9,81 +10,126 @@
 	</div>
 	<div class="box-body">
 		<div class="box-body">
-			<form action="<c:url value='/usuario/criar'/>" method="post" role="form">
-				<div class="form-group ${empty errors.from('tipoUsuario') ? '' : 'has-error'}">
-					<label for="inpTipoUsuario">
-						<fmt:message key="usuario.formulario.label.tipoUsuario" />
-					</label>
-					<select id="inpTipoUsuario" name="tipoUsuario" class="form-control">
+			<form action="<c:url value='/usuario/criar'/>" method="post"
+				role="form">
+				<div
+					class="form-group ${empty errors.from('tipoUsuario') ? '' : 'has-error'}">
+					<label for="inpTipoUsuario"> <fmt:message
+							key="usuario.formulario.label.tipoUsuario" />
+					</label> <select id="inpTipoUsuario" name="tipoUsuario"
+						class="form-control">
 						<option value="">
 							<fmt:message key="combo.selecione" />
 						</option>
 
 						<c:forEach var="tipo" items="${tipos}">
-							<option value="${tipo.name()}" <c:if test="${tipoUsuario eq tipo.name()}">selected</c:if>>${tipo.descricao}</option>
+							<option value="${tipo.name()}"
+								<c:if test="${tipoUsuario eq tipo.name()}">selected</c:if>>${tipo.descricao}</option>
 						</c:forEach>
 					</select>
 				</div>
+				<div
+					class="form-group ${empty errors.from('email') ? '' : 'has-error'}">
 
+					<label for="inpEmail"> <fmt:message
+							key="usuario.formulario.label.email" />
+					</label>
+
+					<div class="input-group">
+
+						<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+						<input id="inpEmail" type="email" class="form-control"
+							name="email" value="${email}" placeholder="Email@email.com" />
+					</div>
+				</div>
+
+				<!-- -   
 				<div class="form-group ${empty errors.from('email') ? '' : 'has-error'}">
 					<label for="inpEmail">
 						<fmt:message key="usuario.formulario.label.email" />
 					</label>
 					<input id="inpEmail" type="email" class="form-control" name="email" value="${email}" />
 				</div>
-
-				<div class="form-group ${empty errors.from('password') ? '' : 'has-error'}">
-					<label for="inpPassword">
-						<fmt:message key="usuario.formulario.label.password" />
-					</label>
-					<input id="inpPassword" type="password" class="form-control" name="password" value="${password}" />
+ -->
+				<div
+					class="form-group ${empty errors.from('password') ? '' : 'has-error'}">
+					<label for="inpPassword"> <fmt:message
+							key="usuario.formulario.label.password" />
+					</label> <input id="inpPassword" type="password" class="form-control"
+						name="password" value="${password}" />
 				</div>
 
-				<div class="form-group ${empty errors.from('nome') ? '' : 'has-error'}">
-					<label for="inpNome">
-						<fmt:message key="usuario.formulario.label.nome" />
-					</label>
-					<input id="inpNome" type="text" class="form-control" name="nome" value="${nome}" />
+				<div
+					class="form-group ${empty errors.from('nome') ? '' : 'has-error'}">
+					<label for="inpNome"> <fmt:message
+							key="usuario.formulario.label.nome" />
+					</label> <input id="inpNome" type="text" class="form-control" name="nome"
+						value="${nome}" />
 				</div>
 
-				<div class="form-group ${empty errors.from('endereco') ? '' : 'has-error'}">
-					<label for="inpEndereco">
-						<fmt:message key="usuario.formulario.label.endereco" />
-					</label>
-					<input id="inpEndereco" type="text" class="form-control" name="endereco" value="${endereco}" />
+				<div
+					class="form-group ${empty errors.from('endereco') ? '' : 'has-error'}">
+					<label for="inpEndereco"> <fmt:message
+							key="usuario.formulario.label.endereco" />
+					</label> <input id="inpEndereco" type="text" class="form-control"
+						name="endereco" value="${endereco}" />
 				</div>
 
-				<div class="form-group ${empty errors.from('cep') ? '' : 'has-error'}">
-					<label for="inpCep">
-						<fmt:message key="usuario.formulario.label.cep" />
-					</label>
-					<input id="inpCep" type="text" class="form-control" name="cep" value="${cep}" />
+				<div
+					class="form-group ${empty errors.from('cep') ? '' : 'has-error'}">
+					<label for="inpCep"> <fmt:message
+							key="usuario.formulario.label.cep" />
+					</label> <input id="inpCep" type="text" class="form-control" name="cep"
+						value="${cep}" />
 				</div>
-
-				<div class="form-group ${empty errors.from('telefone') ? '' : 'has-error'}">
-					<label for="inpTelefone">
-						<fmt:message key="usuario.formulario.label.telefone" />
-					</label>
-					<input id="inpTelefone" type="text" name="telefone" value="${telefone}" class="form-control" placeholder="(00) 0000-0000"
+<!-- 
+				<div
+					class="form-group ${empty errors.from('telefone') ? '' : 'has-error'}">
+					<label for="inpTelefone"> <fmt:message
+							key="usuario.formulario.label.telefone" />
+					</label> <input id="inpTelefone" type="text" name="telefone"
+						value="${telefone}" class="form-control"
+						placeholder="(00) 0000-0000"
 						data-inputmask='"mask": "(99) 9999-9999"' data-mask />
 				</div>
+	 -->
+	 			<div
+					class="form-group ${empty errors.from('telefone') ? '' : 'has-error'}">
 
-				<div class="form-group ${empty errors.from('cpf') and empty errors.from('cnpj') ? '' : 'has-error'}">
-					<label for="inpCpfCnpj">
-						<fmt:message key="usuario.formulario.label.cpfCnpj" />
+					<label for="inpTelefone"> <fmt:message
+							key="usuario.formulario.label.telefone" />
 					</label>
-					<input id="inpCpfCnpj" type="text" class="form-control" name="cpfCnpj" value="${cpfCnpj}" />
+
+					<div class="input-group">
+
+						<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+						<input id="inpTelefone" type="text" class="form-control"
+							name="telefone" value="${telefone}" placeholder="(00) 0000-0000"
+							data-inputmask='"mask": "(99) 9999-9999"' data-mask />
+					</div>
+				</div>
+
+
+				<div
+					class="form-group ${empty errors.from('cpf') and empty errors.from('cnpj') ? '' : 'has-error'}">
+					<label for="inpCpfCnpj"> <fmt:message
+							key="usuario.formulario.label.cpfCnpj" />
+					</label> <input id="inpCpfCnpj" type="text" class="form-control"
+						name="cpfCnpj" value="${cpfCnpj}" />
 				</div>
 
 				<c:choose>
-			      <c:when test="${id != null}"><input type="hidden" name="id" value="${id}">
-					<input type="submit" formaction="<c:url value='/usuario/atualizar'/>" class="btn btn-primary"
-						value='<fmt:message key="btn.editar"/>' />
-			      </c:when>
-			
-			      <c:otherwise><input type="submit" formaction="<c:url value='/usuario/criar'/>" class="btn btn-primary"
-						value='<fmt:message key="btn.salvar"/>' />
-			      </c:otherwise>
+					<c:when test="${id != null}">
+						<input type="hidden" name="id" value="${id}">
+						<input type="submit"
+							formaction="<c:url value='/usuario/atualizar'/>"
+							class="btn btn-primary" value='<fmt:message key="btn.editar"/>' />
+					</c:when>
+
+					<c:otherwise>
+						<input type="submit" formaction="<c:url value='/usuario/criar'/>"
+							class="btn btn-primary" value='<fmt:message key="btn.salvar"/>' />
+					</c:otherwise>
 				</c:choose>
 			</form>
 		</div>

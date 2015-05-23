@@ -71,7 +71,7 @@ public class UsuarioController extends BaseWeb {
 		usuario = usuarioDAO.salvar(usuario);
 		
 		usuarioSession.logar(usuario);
-		addSuccessMsg("Usuario incluido com sucesso.");
+		addSuccessMsg("msg.user.ok");
 		result.redirectTo(IndexController.class).index();
 	}
 	
