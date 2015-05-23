@@ -111,6 +111,7 @@ public class UsuarioController extends BaseWeb {
 	 *            Usuario
 	 */
 	private void validar(Usuario usuario) {
+		validator.validate(usuario);
 		if (usuario == null) {
 			addErrorMsg("msg.error.apagar");
 			return;
@@ -125,7 +126,7 @@ public class UsuarioController extends BaseWeb {
 				addErrorMsg("cpf", "cpf.ja.existe");
 			}
 		}
-		validator.validate(usuario);
+		
 	}
 	
 	@OpenTransaction
