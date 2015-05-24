@@ -7,12 +7,17 @@
     color: red;
     padding-right: 5px;
 }
+.unik {
+    color: #F39C12;
+    padding-right: 5px;
+}
 </style>
 <!-- Default box -->
 <div class="box">
 	<div class="box-header with-border">
 		<h3 class="box-title"><fmt:message key="usuario.formulario.box_title" /></h3>
 		<div><i class="fa fa-circle-o required"></i><b><fmt:message key="usuario.formulario.obrigatorio" />.</b></div>
+		<div><i class="fa fa-bell-o unik"></i><b><fmt:message key="usuario.formulario.exclusivo" />.</b></div>
 	</div>
 	<div class="box-body">
 		<div class="box-body">
@@ -42,7 +47,7 @@
 					<label for="inpEmail"> <c:if
 							test="${not empty errors.from('email')}">
 							<i class="fa fa-times-circle-o"></i>
-						</c:if> <i class="fa fa-circle-o required" > </i><fmt:message key="usuario.formulario.label.email" />
+						</c:if> <i class="fa fa-circle-o required" > </i><i class="fa fa-bell-o unik"></i><fmt:message key="usuario.formulario.label.email" />
 					</label>
 
 					<div
@@ -143,7 +148,7 @@
 					<label id="lblCpfCnpj" for="inpCpfCnpj"><c:if
 							test="${not empty errors.from('cpf') or not empty errors.from('cnpj')}">
 							<i class="fa fa-times-circle-o"></i>
-						</c:if><div id="txtCpfCnpj"><i class="fa fa-circle-o required" ></i><fmt:message
+						</c:if><div id="txtCpfCnpj"><i class="fa fa-circle-o required" ></i><i class="fa fa-bell-o unik"></i><fmt:message
 							key="usuario.formulario.label.cpfCnpj" /></div>
 					</label> <input id="inpCpfCnpj" type="text" class="form-control"
 						name="cpfCnpj" value="${cpfCnpj}" />
@@ -157,9 +162,9 @@ $( ".target" )
     });
     //alert( str );
     if(str == "AGENCIA"){
-    	$( "#txtCpfCnpj" ).html( "<i class='fa fa-circle-o required' ></i>"+"<fmt:message key='usuario.formulario.label.cnpj' />" );
+    	$( "#txtCpfCnpj" ).html( "<i class='fa fa-circle-o required' ></i><i class='fa fa-bell-o unik'></i>"+"<fmt:message key='usuario.formulario.label.cnpj' />" );
     }else{
-    	$( "#txtCpfCnpj" ).html( "<i class='fa fa-circle-o required' ></i>"+"<fmt:message key='usuario.formulario.label.cpf' />" );
+    	$( "#txtCpfCnpj" ).html( "<i class='fa fa-circle-o required' ></i><i class='fa fa-bell-o unik'></i>"+"<fmt:message key='usuario.formulario.label.cpf' />" );
     }
   })
   .change();
