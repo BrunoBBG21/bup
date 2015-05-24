@@ -20,6 +20,7 @@ import br.com.bup.domain.Agencia;
 import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.LanceLeilao;
 import br.com.bup.domain.Leilao;
+import br.com.bup.domain.Notificacao;
 import br.com.bup.domain.Usuario;
 
 @SessionScoped
@@ -32,11 +33,10 @@ public class UsuarioSession implements Serializable, Observer {
 	private Anunciante usuarioGerenciado;
 	private Date dataUltimoRequest = new Date();
 	private List<Long> idsLeiloesObserver = new ArrayList<Long>();
-	private final List<String> notificacoes = new ArrayList<String>();
+	private final List<Notificacao> notificacoesNaoLidas = new ArrayList<Notificacao>();
 	
 	@Inject
 	private UsuarioApplication usuarioApplication;
-	
 	@Inject
 	private LeilaoApplication leilaoApplication;
 	
@@ -44,6 +44,20 @@ public class UsuarioSession implements Serializable, Observer {
 	private LeilaoDAO leilaoDAO;
 	@Inject
 	private UsuarioDAO usuarioDAO;
+	
+//	@Inject
+//	private ResourceBundle i18n; //esta tendo algum erro de injecao...
+	
+	public Notificacao getNotificacao(Long notificacaoId) {
+		Notificacao value = null;
+		for (Notificacao notificacao : notificacoesNaoLidas) {
+			if (notificacao.getId().equals(notificacaoId)) {
+				value = notificacao;
+				break;
+			}
+		}
+		return value;
+	}
 	
 	@Override
 	public void update(Observable arg0, Object arg1) {
@@ -57,30 +71,52 @@ public class UsuarioSession implements Serializable, Observer {
 	 * @param arg0
 	 */
 	private void updateLeilao(Observable arg0) {
-		//TODO ....
 		if (!(arg0 instanceof Leilao)) {
 			return;
 		}
 		
 		Leilao leilao = (Leilao) arg0;
 		if (leilao.isEstadoEmAndamento()) { //acabou de iniciar o leilao
-		
-		} else if (leilao.isEstadoAguardando()) { //durante a faze do leilao...
-			LanceLeilao penultimoLance = leilao.getPenultimoLance();
-			LanceLeilao ultimoLance = leilao.getUltimoLance();
+			notificarInicioLeilao(leilao);
 			
-			Anunciante penulLancAnunciante = penultimoLance == null ? null : penultimoLance.getAnunciante();
-			Agencia penulLancAgencia = penultimoLance == null ? null : penultimoLance.getAgencia();
-			Anunciante ultLancAnunciante = ultimoLance.getAnunciante();
-			Agencia ultLancAgencia = ultimoLance.getAgencia();
-			
-			if (((penulLancAnunciante != null && penulLancAnunciante.getId().equals(usuarioLogado.getId())) || (penulLancAgencia != null && penulLancAgencia
-					.getId().equals(usuarioLogado.getId())))
-					&& !ultLancAnunciante.getId().equals(usuarioLogado.getId())
-					&& !ultLancAgencia.getId().equals(usuarioLogado.getId())) {
-				notificacoes.add("Alguem deu um lance maior que o seu no leilao: " + leilao.getEspacoPropaganda().getUrl());
+		} else if (leilao.isEstadoAguardando()) { //durante a fase do leilao...
+			if (verificarLanceSuperado(leilao)) {
+				notificarLanceSuperado(leilao);
 			}
 		}
+	}
+	
+	private boolean verificarLanceSuperado(Leilao leilao) {
+		LanceLeilao penultimoLance = leilao.getPenultimoLance();
+		LanceLeilao ultimoLance = leilao.getUltimoLance();
+		
+		Anunciante penulLancAnunciante = penultimoLance == null ? null : penultimoLance.getAnunciante();
+		Agencia penulLancAgencia = penultimoLance == null ? null : penultimoLance.getAgencia();
+		Anunciante ultLancAnunciante = ultimoLance.getAnunciante();
+		Agencia ultLancAgencia = ultimoLance.getAgencia();
+		
+		return ((penulLancAnunciante != null && penulLancAnunciante.getId().equals(usuarioLogado.getId())) 
+				 || (penulLancAgencia != null && penulLancAgencia.getId().equals(usuarioLogado.getId())))
+				&& !ultLancAnunciante.getId().equals(usuarioLogado.getId())
+				&& (ultLancAgencia == null || !ultLancAgencia.getId().equals(usuarioLogado.getId()));
+	}
+	
+	private void notificarLanceSuperado(Leilao leilao) {
+		LOGGER.debug("Notificando lance superado...");
+		Notificacao notificacao = new Notificacao();
+		notificacao.setMensagem("Alguem deu um lance maior que o seu!");
+//		notificacao.setMensagem(i18n.getString("notificacao.leilao.lance.superado"));
+		notificacao.setLeilaoId(leilao.getId());
+		notificacoesNaoLidas.add(notificacao);
+	}
+	
+	private void notificarInicioLeilao(Leilao leilao) {
+		LOGGER.debug("Notificando inicio do leilao...");
+		Notificacao notificacao = new Notificacao();
+		notificacao.setMensagem("Leilao iniciado!");
+//		notificacao.setMensagem(i18n.getString("notificacao.leilao.iniciado"));
+		notificacao.setLeilaoId(leilao.getId());
+		notificacoesNaoLidas.add(notificacao);
 	}
 	
 	public void atualizarLeiloesInscritosObserver() {
@@ -198,5 +234,9 @@ public class UsuarioSession implements Serializable, Observer {
 	
 	public List<Long> getIdsLeiloesObserver() {
 		return idsLeiloesObserver;
+	}
+
+	public List<Notificacao> getNotificacoesNaoLidas() {
+		return notificacoesNaoLidas;
 	}
 }

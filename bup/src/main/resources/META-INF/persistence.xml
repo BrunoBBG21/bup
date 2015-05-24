@@ -36,7 +36,7 @@
 			<!-- propriedades do hibernate -->
 
 			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />
+			<!-- <property name="hibernate.format_sql" value="true" /> -->
 
 			<!-- teste Drop and re-create the database schema on startup: 
 			- validate: validate the schema, makes no changes to the database. 
