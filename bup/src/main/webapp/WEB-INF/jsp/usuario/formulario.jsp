@@ -2,7 +2,12 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<style>
+.required {
+    color: red;
+    padding-right: 5px;
+}
+</style>
 <!-- Default box -->
 <div class="box">
 	<div class="box-header with-border">
@@ -17,9 +22,9 @@
 					<label for="inpTipoUsuario"> <c:if
 							test="${not empty errors.from('tipoUsuario')}">
 							<i class="fa fa-times-circle-o"></i>
-						</c:if> <fmt:message key="usuario.formulario.label.tipoUsuario" />
+						</c:if>  <i class="fa fa-circle-o required" ></i> <fmt:message key="usuario.formulario.label.tipoUsuario" />
 					</label> <select id="inpTipoUsuario" name="tipoUsuario"
-						class="form-control">
+						class="form-control target">
 						<option value="">
 							<fmt:message key="combo.selecione" />
 						</option>
@@ -36,7 +41,7 @@
 					<label for="inpEmail"> <c:if
 							test="${not empty errors.from('email')}">
 							<i class="fa fa-times-circle-o"></i>
-						</c:if> <fmt:message key="usuario.formulario.label.email" />
+						</c:if> <i class="fa fa-circle-o required" > </i><fmt:message key="usuario.formulario.label.email" />
 					</label>
 
 					<div
@@ -63,7 +68,7 @@
 					<label for="inpPassword"> <c:if
 							test="${not empty errors.from('password')}">
 							<i class="fa fa-times-circle-o"></i>
-						</c:if> <fmt:message key="usuario.formulario.label.password" />
+						</c:if> <i class="fa fa-circle-o required" ></i><fmt:message key="usuario.formulario.label.password" />
 					</label> <input id="inpPassword" type="password" class="form-control"
 						name="password" value="${password}" />
 				</div>
@@ -73,7 +78,7 @@
 					<label for="inpNome"> <c:if
 							test="${not empty errors.from('nome')}">
 							<i class="fa fa-times-circle-o"></i>
-						</c:if><fmt:message
+						</c:if><i class="fa fa-circle-o required" ></i><fmt:message
 							key="usuario.formulario.label.nome" />
 					</label> <input id="inpNome" type="text" class="form-control" name="nome"
 						value="${nome}" />
@@ -84,7 +89,7 @@
 					<label for="inpEndereco"> <c:if
 							test="${not empty errors.from('endereco')}">
 							<i class="fa fa-times-circle-o"></i>
-						</c:if><fmt:message
+						</c:if><i class="fa fa-circle-o required" ></i><fmt:message
 							key="usuario.formulario.label.endereco" />
 					</label> <input id="inpEndereco" type="text" class="form-control"
 						name="endereco" value="${endereco}" />
@@ -95,7 +100,7 @@
 					<label for="inpCep">  <c:if
 							test="${not empty errors.from('cep')}">
 							<i class="fa fa-times-circle-o"></i>
-						</c:if><fmt:message
+						</c:if><i class="fa fa-circle-o required" ></i><fmt:message
 							key="usuario.formulario.label.cep" />
 					</label> <input id="inpCep" type="text" class="form-control" name="cep"
 						value="${cep}" />
@@ -134,14 +139,30 @@
 
 				<div
 					class="form-group ${empty errors.from('cpf') and empty errors.from('cnpj') ? '' : 'has-error'}">
-					<label for="inpCpfCnpj"><c:if
+					<label id="lblCpfCnpj" for="inpCpfCnpj"><c:if
 							test="${not empty errors.from('cpf') or not empty errors.from('cnpj')}">
 							<i class="fa fa-times-circle-o"></i>
-						</c:if> <fmt:message
-							key="usuario.formulario.label.cpfCnpj" />
+						</c:if><div id="txtCpfCnpj"><i class="fa fa-circle-o required" ></i><fmt:message
+							key="usuario.formulario.label.cpfCnpj" /></div>
 					</label> <input id="inpCpfCnpj" type="text" class="form-control"
 						name="cpfCnpj" value="${cpfCnpj}" />
 				</div>
+<script>
+$( ".target" )
+  .change(function () {
+    var str = "";
+    $( "select option:selected" ).each(function() {
+      str = $( this ).val();
+    });
+    //alert( str );
+    if(str == "AGENCIA"){
+    	$( "#txtCpfCnpj" ).html( "<i class='fa fa-circle-o required' ></i>"+"<fmt:message key='usuario.formulario.label.cnpj' />" );
+    }else{
+    	$( "#txtCpfCnpj" ).html( "<i class='fa fa-circle-o required' ></i>"+"<fmt:message key='usuario.formulario.label.cpf' />" );
+    }
+  })
+  .change();
+</script>
 
 				<c:choose>
 					<c:when test="${id != null}">
