@@ -11,7 +11,8 @@
 <!-- Default box -->
 <div class="box">
 	<div class="box-header with-border">
-		<h3 class="box-title">Inserir</h3>
+		<h3 class="box-title"><fmt:message key="usuario.formulario.box_title" /></h3>
+		<div><i class="fa fa-circle-o required"></i><b><fmt:message key="usuario.formulario.obrigatorio" />.</b></div>
 	</div>
 	<div class="box-body">
 		<div class="box-body">
