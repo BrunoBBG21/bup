@@ -1,20 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<style>
+.required {
+    color: red;
+    padding-right: 5px;
+}
+.unik {
+    color: #F39C12;
+    padding-right: 5px;
+}
+</style>
 <!-- Default box -->
 <div class="box">
 	<div class="box-header with-border">
 		<h3 class="box-title">
 			<fmt:message key="espaco_propaganda.formulario.box_header" />
 		</h3>
+		<div><i class="fa fa-circle-o required"></i><b><fmt:message key="usuario.formulario.obrigatorio" />.</b></div>
+		<div><i class="fa fa-bell-o unik"></i><b><fmt:message key="usuario.formulario.exclusivo" />.</b></div>
 	</div>
 	<div class="box-body">
 		<div class="box-body">
 			<form method="post" role="form">
 				<div class="form-group ${empty errors.from('url') ? '' : 'has-error'}">
 					<label for="inpUrl">
-						<fmt:message key="espaco_propaganda.formulario.url" />
+						<c:if
+							test="${not empty errors.from('url')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <i class="fa fa-circle-o required" > </i><i class="fa fa-bell-o unik"></i><fmt:message key="espaco_propaganda.formulario.url" />
 					</label>
 					<input id="inpUrl" type="url" class="form-control" name="espacoPropaganda.url" value="${espacoPropaganda.url}"
 						placeholder="http://exemplo" required />
@@ -22,7 +36,10 @@
 
 				<div class="form-group ${empty errors.from('posicaoTela') ? '' : 'has-error'}">
 					<label for="inpPosicaoTela">
-						<fmt:message key="espaco_propaganda.formulario.posicaoTela" />
+						<c:if
+							test="${not empty errors.from('posicaoTela')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <i class="fa fa-circle-o required" > </i><i class="fa fa-bell-o unik"></i><fmt:message key="espaco_propaganda.formulario.posicaoTela" />
 					</label>
 					<input id="inpPosicaoTela" type="text" class="form-control" name="espacoPropaganda.posicaoTela"
 						value="${espacoPropaganda.posicaoTela}" required />
@@ -40,7 +57,10 @@
 
 				<div class="form-group ${empty errors.from('largura') ? '' : 'has-error'}">
 					<label for="inpLargura">
-						<fmt:message key="espaco_propaganda.formulario.largura" />
+						<c:if
+							test="${not empty errors.from('largura')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <i class="fa fa-circle-o required" > </i><i class="fa fa-bell-o unik"></i><fmt:message key="espaco_propaganda.formulario.largura" />
 					</label>
 					<input id="inpLargura" type="text" class="form-control" name="espacoPropaganda.largura" value="${espacoPropaganda.largura}" required/>
 					<span class="error">${errors.from('espacoPropaganda.largura').join(' - ')}</span>
@@ -48,7 +68,10 @@
 
 				<div class="form-group ${empty errors.from('altura') ? '' : 'has-error'}">
 					<label for="inpAltura">
-						<fmt:message key="espaco_propaganda.formulario.altura" />
+						<c:if
+							test="${not empty errors.from('altura')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <i class="fa fa-circle-o required" > </i><i class="fa fa-bell-o unik"></i><fmt:message key="espaco_propaganda.formulario.altura" />
 					</label>
 					<input id="inpAltura" type="text" class="form-control" name="espacoPropaganda.altura" value="${espacoPropaganda.altura}" required/>
 					<span class="error">${errors.from('espacoPropaganda.altura').join(' - ')}</span>
@@ -56,7 +79,10 @@
 
 				<div class="form-group ${empty errors.from('periodo') ? '' : 'has-error'}">
 					<label for="inpPeriodo">
-						<fmt:message key="espaco_propaganda.formulario.periodo" />
+						<c:if
+							test="${not empty errors.from('periodo')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <i class="fa fa-circle-o required" > </i><fmt:message key="espaco_propaganda.formulario.periodo" />
 					</label>
 					<input id="inpPeriodo" type="text" class="form-control" name="espacoPropaganda.periodo" value="${espacoPropaganda.periodo}" required/>
 					<span class="error">${errors.from('espacoPropaganda.periodo').join(' - ')}</span>
@@ -82,7 +108,10 @@
 
 				<div class="form-group ${empty errors.from('midia.id') ? '' : 'has-error'}">
 					<label for="inpMidiaId">
-						<fmt:message key="espaco_propaganda.formulario.midia" />
+						<c:if
+							test="${not empty errors.from('midia.id')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <i class="fa fa-circle-o required" > </i><i class="fa fa-bell-o unik"></i><fmt:message key="espaco_propaganda.formulario.midia" />
 					</label>
 					<select id="inpMidiaId" class="form-control" name="espacoPropaganda.midia.id" required>
 						<option value="">

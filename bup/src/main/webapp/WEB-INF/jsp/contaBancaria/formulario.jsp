@@ -1,27 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<style>
+.required {
+    color: red;
+    padding-right: 5px;
+}
+.unik {
+    color: #F39C12;
+    padding-right: 5px;
+}
+</style>
 <!-- Default box -->
 <div class="box">
 	<div class="box-header with-border">
 		<h3 class="box-title">
 			<fmt:message key="conta_bancaria.formulario.box_header" />
 		</h3>
+		<div><i class="fa fa-circle-o required"></i><b><fmt:message key="usuario.formulario.obrigatorio" />.</b></div>
+		<div><i class="fa fa-bell-o unik"></i><b><fmt:message key="usuario.formulario.exclusivo" />.</b></div>
 	</div>
 	<div class="box-body">
 		<div class="box-body">
 			<form action="<c:url value='/contaBancaria/criar'/>" method="post" role="form">
 				<div class="form-group ${empty errors.from('agencia') ? '' : 'has-error'}">
 					<label for="inpTipo">
-						<fmt:message key="conta_bancaria.formulario.label.agencia" />
+						<c:if
+							test="${not empty errors.from('agencia')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <i class="fa fa-circle-o required" > </i><i class="fa fa-bell-o unik"></i><fmt:message key="conta_bancaria.formulario.label.agencia" />
 					</label>
 					<input id="inpTipo" type="text" class="form-control" name="contaBancaria.agencia" value="${contaBancaria.agencia}" required />
 				</div>
 
 				<div class="form-group ${empty errors.from('conta') ? '' : 'has-error'}">
 					<label for="inpValorMinParcela">
-						<fmt:message key="conta_bancaria.formulario.label.conta" />
+						<c:if
+							test="${not empty errors.from('conta')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <i class="fa fa-circle-o required" > </i><i class="fa fa-bell-o unik"></i><fmt:message key="conta_bancaria.formulario.label.conta" />
 					</label>
 					<input id="inpValorMinParcela" type="text" class="form-control" name="contaBancaria.conta" value="${contaBancaria.conta}"
 						required />
@@ -30,7 +47,10 @@
 
 				<div class="form-group ${empty errors.from('banco') ? '' : 'has-error'}">
 					<label for="inpMaxParcela">
-						<fmt:message key="conta_bancaria.formulario.label.banco" />
+						<c:if
+							test="${not empty errors.from('banco')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if> <i class="fa fa-circle-o required" > </i><i class="fa fa-bell-o unik"></i><fmt:message key="conta_bancaria.formulario.label.banco" />
 					</label>
 					<input id="inpMaxParcela" type="text" class="form-control" name="contaBancaria.banco" value="${contaBancaria.banco}" required />
 				</div>

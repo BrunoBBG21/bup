@@ -1,13 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<style>
+.required {
+    color: red;
+    padding-right: 5px;
+}
+.unik {
+    color: #F39C12;
+    padding-right: 5px;
+}
+</style>
 <!-- Default box -->
 <div class="box">
 	<div class="box-header with-border">
 		<h3 class="box-title">
 			<fmt:message key="transacao.bancaria.formulario.box_header" />
 		</h3>
+		<div><i class="fa fa-circle-o required"></i><b><fmt:message key="usuario.formulario.obrigatorio" />.</b></div>
 	</div>
 	<div class="box-body">
 		<div class="box-body">
@@ -24,7 +34,10 @@
 
 				<div class="form-group ${empty errors.from('conta.id') ? '' : 'has-error'}">
 					<label for="inpMidia">
-						<fmt:message key="transacao.bancaria.formulario.label.conta" />
+						<c:if
+							test="${not empty errors.from('conta.id')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if>  <i class="fa fa-circle-o required" ></i> <fmt:message key="transacao.bancaria.formulario.label.conta" />
 					</label>
 					<select id="inpMidia" class="form-control" name="transacaoBancaria.conta.id" required>
 						<option value="">
@@ -42,7 +55,10 @@
 				
 				<div class="form-group ${empty errors.from('saldo') ? '' : 'has-error'}">
 					<label for="inpValorMinParcela">
-						<fmt:message key="transacao.bancaria.formulario.label.saldo" />
+						<c:if
+							test="${not empty errors.from('saldo')}">
+							<i class="fa fa-times-circle-o"></i>
+						</c:if>  <i class="fa fa-circle-o required" ></i><fmt:message key="transacao.bancaria.formulario.label.saldo" />
 					</label>
 					<input id="inpValorMinParcela" type="text" class="form-control" name="transacaoBancaria.saldo"
 						value="${transacaoBancaria.saldo}" required />
