@@ -14,9 +14,12 @@
 		</div>
 	</div>
 	<div class="box-body">
-		WOLOLOOOOOOO
+		Bem vindos ao portal da Bolsa Única de Propaganda. Através desta ferramenta é possível efetuar leilões de espaços de propaganda de modo simples e rápido.
 		<br />
-		<img src="/bup/tema/wololo.jpg">
+		Cadastre-se gratuitamente e aproveite!
+		<br />
+		<br />
+		<img src="/bup/tema/LogoSiteBUP.jpg">
 	</div>
 
 	<div class="box-footer">Footer</div>

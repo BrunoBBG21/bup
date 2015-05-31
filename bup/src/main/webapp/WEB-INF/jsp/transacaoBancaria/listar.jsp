@@ -89,9 +89,9 @@
 										<fmt:message key="btn.apagar" />
 									</button>
 									<c:if test="${usuarioSession.isAdministrador() }">
-										<button type="submit" formaction='<c:url value="/transacaoBancaria/editar/${transacaoBancaria.id}"/>'>
-											<fmt:message key="btn.editar" />
-										</button>
+<%-- 										<button type="submit" formaction='<c:url value="/transacaoBancaria/editar/${transacaoBancaria.id}"/>'> --%>
+<%-- 											<fmt:message key="btn.editar" /> --%>
+<!-- 										</button> -->
 										<button type="submit" formaction='<c:url value="/transacaoBancaria/creditar/${transacaoBancaria.id}"/>'>
 											<fmt:message key="btn.creditar" />
 										</button>
