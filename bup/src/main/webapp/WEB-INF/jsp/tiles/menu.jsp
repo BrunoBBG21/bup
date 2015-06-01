@@ -31,6 +31,7 @@
 		<li class="header">MAIN NAVIGATION</li>
 
 		<!-- BOTOES VERMELHOS estao desativados -->
+		<c:if test="${usuarioSession.isLogado() }">
 		<li class="treeview">
 			<a href="#">
 				<span>
@@ -61,6 +62,7 @@
 				</li>
 			</ul>
 		</li>
+</c:if>
 
 		<li class="treeview">
 			<a href="#">
@@ -75,6 +77,7 @@
 						<fmt:message key="menu.usuario.cadastro" />
 					</a>
 				</li>
+				<c:if test="${usuarioSession.isLogado() }">
 				<li data-menu-map="/bup/usuario/listar">
 					<a href="<c:url value='/usuario/listar'/>">
 						<fmt:message key="menu.usuario.listar" />
@@ -100,9 +103,10 @@
 						<fmt:message key="menu.usuario.listar_anunciantes" />
 					</a>
 				</li>
+				</c:if>
 			</ul>
 		</li>
-
+<c:if test="${usuarioSession.isLogado() }">
 		<li class="treeview">
 			<a href="#">
 				<span>
@@ -144,8 +148,8 @@
 				</c:if>
 			</ul>
 		</li>
-
-
+</c:if>
+<c:if test="${usuarioSession.isLogado() }">
 		<li class="treeview">
 			<a href="#">
 				<span>
@@ -166,7 +170,8 @@
 				</li>
 			</ul>
 		</li>
-
+</c:if>
+<c:if test="${usuarioSession.isLogado() }">
 		<li class="treeview">
 			<a href="#">
 				<span>
@@ -197,6 +202,7 @@
 				</li>
 			</ul>
 		</li>
+		</c:if>
 		<c:if test="${usuarioSession.isAdministrador() }">
 			<li class="treeview">
 				<a href="#">
@@ -219,6 +225,7 @@
 				</ul>
 			</li>
 		</c:if>
+		<c:if test="${usuarioSession.isLogado() }">
 		<li class="treeview">
 			<a href="#">
 				<span>
@@ -234,5 +241,6 @@
 				</li>
 			</ul>
 		</li>
+		</c:if>
 	</ul>
 </section>
