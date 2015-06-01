@@ -134,6 +134,11 @@
 			<artifactId>jasperreports</artifactId>
 			<version>6.1.0</version>
 		</dependency>
+		<dependency>
+		    <groupId>br.com.prixma</groupId>
+		    <artifactId>vraptor-jasperreport</artifactId>
+		    <version>4.1.0</version>
+		</dependency>
 	</dependencies>
 
 	<properties>

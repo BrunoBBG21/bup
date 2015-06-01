@@ -23,6 +23,7 @@ import br.com.bup.domain.Leilao;
 import br.com.bup.domain.Midia;
 import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.domain.PublicoAlvo;
+import br.com.bup.domain.TransacaoBancaria;
 import br.com.bup.state.TipoEstadoLeilao;
 
 public class ProdutorEntityManager {
@@ -42,6 +43,7 @@ public class ProdutorEntityManager {
 		ContaBancariaDAO contaDAO = new ContaBancariaDAO(em);
 		EspacoPropagandaDAO epDAO = new EspacoPropagandaDAO(em);
 		ModalidadePagamentoDAO pDAO = new ModalidadePagamentoDAO(em);
+		TransacaoBancariaDAO tDAO = new TransacaoBancariaDAO(em);
 		
 		Agencia admin = new Agencia();
 		admin.setCep("0");
@@ -339,6 +341,12 @@ public class ProdutorEntityManager {
 		leilao3.setReserva(BigDecimal.ZERO);
 		
 		leilao3 = lDAO.salvar(leilao3);
+		TransacaoBancaria t = new TransacaoBancaria();
+		t.setConta(contaA);
+		t.setData(new Date());
+		t.setSaldo(BigDecimal.ONE);
+		t.setUsuario(admin);
+		tDAO.salvar(t);
 		
 		em.getTransaction().commit();
 		em.close();
