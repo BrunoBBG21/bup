@@ -1,6 +1,4 @@
 <div class="pull-right hidden-xs">
-	<b>Version</b> 2.0
+	Orientadora Tatiana Escovedo
 </div>
-<strong>Copyright &copy; 2014-2015 <a
-	href="http://almsaeedstudio.com">Almsaeed Studio</a>.
-</strong> All rights reserved.
+APS 141 - GRUPO: André Dionisio, Bruno Bastos, Bruno Bayma, Roberto Bianco, Amandha Cadorso 
