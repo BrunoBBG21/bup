@@ -4,7 +4,7 @@
 <a href="<c:url value='/'/>" class="logo">
 	<b>BUP</b>
 </a>
-
+<c:if test="${!usuarioSession.isLogado() }">
 <!-- Modal -->
 <div class="modal fade" id="modalLogar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -82,7 +82,7 @@
 		</div>
 	</div>
 </div>
-
+</c:if>
 <!-- Header Navbar: style can be found in header.less -->
 <nav class="navbar navbar-static-top" role="navigation">
 	<!-- Sidebar toggle button-->
