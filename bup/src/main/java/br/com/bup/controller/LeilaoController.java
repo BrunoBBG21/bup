@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -104,12 +103,8 @@ public class LeilaoController extends BaseWeb {
 	
 	@OpenTransaction
 	@ApenasAnunciante
-	public void criar( EspacoPropaganda espacoPropaganda,
-			ModalidadePagamento modalidadePagamento,
-			BigDecimal inscricao,
-			BigDecimal reserva,
-			Date dataInicio,
-			Date dataFim) {
+	public void criar(EspacoPropaganda espacoPropaganda, ModalidadePagamento modalidadePagamento, BigDecimal inscricao,
+			BigDecimal reserva, Date dataInicio, Date dataFim) {
 		Leilao leilao = new Leilao();
 		leilao.setModalidadePagamento(modalidadePagamento);
 		leilao.setEspacoPropaganda(espacoPropaganda);
@@ -118,11 +113,8 @@ public class LeilaoController extends BaseWeb {
 		leilao.setDataInicio(dataInicio);
 		leilao.setDataFim(dataFim);
 		
-		if (leilao == null) {
-			validator.onErrorRedirectTo(this).listarEspacos();
-		} else {
-			validator.onErrorRedirectTo(this).formulario(leilao.getEspacoPropaganda().getId());
-		}
+		validator.validate(leilao);
+		validator.onErrorRedirectTo(this).formulario(leilao.getEspacoPropaganda().getId());
 		
 		LOGGER.debug("criando Leilao: " + leilao);
 		
@@ -154,7 +146,8 @@ public class LeilaoController extends BaseWeb {
 	}
 	
 	/**
-	 * Verifica se o leilao pode ser apagado. S� pode apagar caso o estado do leilao seja ESPERANDO e n�o possua nenhum inscrito.
+	 * Verifica se o leilao pode ser apagado. S� pode apagar caso o estado do
+	 * leilao seja ESPERANDO e n�o possua nenhum inscrito.
 	 * 
 	 * @param id
 	 */
@@ -188,8 +181,8 @@ public class LeilaoController extends BaseWeb {
 	}
 	
 	/**
-	 * Valida se o usuario logado/gerenciado pode se inscrever no leilao. O leilao deve esta no estado ESPERANDO para aceitar
-	 * novos inscritos.
+	 * Valida se o usuario logado/gerenciado pode se inscrever no leilao. O
+	 * leilao deve esta no estado ESPERANDO para aceitar novos inscritos.
 	 * 
 	 * @param leilaoId
 	 *            id do leilao.
@@ -236,7 +229,7 @@ public class LeilaoController extends BaseWeb {
 			ultimoLance = new LanceLeilao();
 		}
 		result.use(Results.json()).withoutRoot().from(ultimoLance).include("anunciante").serialize();
-		//TODO: um dia... remover o password!!!
+		// TODO: um dia... remover o password!!!
 	}
 	
 	@OpenTransaction
@@ -271,8 +264,10 @@ public class LeilaoController extends BaseWeb {
 	}
 	
 	/**
-	 * Estorna o ultimo lance do leilao...
-	 * Deve atualizar o usuario no banco, atualizar o usuario caso logado e atualizar o usuario caso o agente dele esteja logado. 
+	 * Estorna o ultimo lance do leilao... Deve atualizar o usuario no banco,
+	 * atualizar o usuario caso logado e atualizar o usuario caso o agente dele
+	 * esteja logado.
+	 * 
 	 * @param leilao
 	 */
 	private void estornarUltimoLance(Leilao leilao) {
@@ -282,7 +277,7 @@ public class LeilaoController extends BaseWeb {
 			Long anuncianteId = ultimoLance.getAnunciante().getId();
 			UsuarioSession usuarioLogadoSession = usuarioApplication.getUsuarioPorId(anuncianteId);
 			Usuario usuario = null;
-			 
+			
 			if (usuarioLogadoSession == null) {
 				UsuarioSession agenciaSession = usuarioApplication.getAgenciaGerenciandoUsuarioId(anuncianteId);
 				usuario = agenciaSession == null ? null : agenciaSession.getUsuario();

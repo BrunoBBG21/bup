@@ -21,7 +21,8 @@
 			<!-- QUANDO DESLOGADO... -->
 			<c:if test="${!usuarioSession.isLogado() }">
 				<li>
-					<a href="<c:url value='/login/login'/>"> Logar </a>
+					<a  data-toggle="modal"
+								data-target="#modalLogar"> Logar </a>
 				</li>
 			</c:if>
 
