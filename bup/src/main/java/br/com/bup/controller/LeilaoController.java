@@ -1,6 +1,7 @@
 package br.com.bup.controller;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -24,6 +25,7 @@ import br.com.bup.domain.Anunciante;
 import br.com.bup.domain.EspacoPropaganda;
 import br.com.bup.domain.LanceLeilao;
 import br.com.bup.domain.Leilao;
+import br.com.bup.domain.ModalidadePagamento;
 import br.com.bup.domain.Usuario;
 import br.com.bup.util.BaseWeb;
 import br.com.bup.web.LeilaoApplication;
@@ -102,7 +104,20 @@ public class LeilaoController extends BaseWeb {
 	
 	@OpenTransaction
 	@ApenasAnunciante
-	public void criar(@Valid Leilao leilao) {
+	public void criar( EspacoPropaganda espacoPropaganda,
+			ModalidadePagamento modalidadePagamento,
+			BigDecimal inscricao,
+			BigDecimal reserva,
+			Date dataInicio,
+			Date dataFim) {
+		Leilao leilao = new Leilao();
+		leilao.setModalidadePagamento(modalidadePagamento);
+		leilao.setEspacoPropaganda(espacoPropaganda);
+		leilao.setInscricao(inscricao);
+		leilao.setReserva(reserva);
+		leilao.setDataInicio(dataInicio);
+		leilao.setDataFim(dataFim);
+		
 		if (leilao == null) {
 			validator.onErrorRedirectTo(this).listarEspacos();
 		} else {

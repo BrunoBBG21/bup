@@ -57,8 +57,8 @@
 
 	<div class="box-body">
 		<form method="post" role="form" style="width: 50%">
-			<input id="inpDataInicio" type="hidden" name="leilao.dataInicio" value="${leilao.dataInicio}" />
-			<input id="inpDataFim" type="hidden" name="leilao.dataFim" value="${leilao.dataFim}" />
+			<input id="inpDataInicio" type="hidden" name="dataInicio" value="${leilao.dataInicio}" />
+			<input id="inpDataFim" type="hidden" name="dataFim" value="${leilao.dataFim}" />
 
 			<div class="form-group ${empty errors.from('dataInicio') && empty errors.from('dataFim') ? '' : 'has-error'}">
 				<label for="inpData">
@@ -76,21 +76,21 @@
 				<label for="inpReserva">
 					<fmt:message key="leilao.formulario.reserva" />
 				</label>
-				<input id="inpReserva" type="text" class="form-control" name="leilao.reserva" value="${leilao.reserva}" />
+				<input id="inpReserva" type="text" class="form-control" name="reserva" value="${leilao.reserva}" />
 			</div>
 
 			<div class="form-group ${empty errors.from('inscricao') ? '' : 'has-error'}">
 				<label for="inpInscricao">
 					<fmt:message key="leilao.formulario.inscricao" />
 				</label>
-				<input id="inpInscricao" type="text" class="form-control" name="leilao.inscricao" value="${leilao.inscricao}" />
+				<input id="inpInscricao" type="text" class="form-control" name="inscricao" value="${leilao.inscricao}" />
 			</div>
 
 			<div class="form-group ${empty errors.from('modalidadePagamento.id') ? '' : 'has-error'}">
 				<label for="inpModalidadePagamentoId">
 					<fmt:message key="leilao.formulario.modalidadePagamento" />
 				</label>
-				<select id="inpModalidadePagamentoId" class="form-control" name="leilao.modalidadePagamento.id" required>
+				<select id="inpModalidadePagamentoId" class="form-control" name="modalidadePagamento.id" required>
 					<option value="">
 						<fmt:message key="combo.selecione" />
 					</option>
@@ -103,7 +103,7 @@
 				</select>
 			</div>
 
-			<input type="hidden" name="leilao.espacoPropaganda.id" value="${leilao.espacoPropaganda.id}" />
+			<input type="hidden" name="espacoPropaganda.id" value="${leilao.espacoPropaganda.id}" />
 
 			
 			<c:choose>

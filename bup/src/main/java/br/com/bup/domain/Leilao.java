@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
+import java.util.Vector;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -98,6 +99,7 @@ import br.com.bup.state.TipoEstadoLeilao;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "dataInicio", "dataFim", "modalidadePagamento_id",
 		"espacoPropaganda_id" }))
 public class Leilao extends Observable {
+	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -319,4 +321,5 @@ public class Leilao extends Observable {
 	public void setEstado(TipoEstadoLeilao estado) {
 		this.estado = estado;
 	}
+
 }
