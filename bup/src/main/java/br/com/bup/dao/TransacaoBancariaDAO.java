@@ -58,6 +58,30 @@ public class TransacaoBancariaDAO extends BaseDAO<TransacaoBancaria> {
 		
 		return value;
 	}
+	public List<TransacaoBancaria> buscarParaLiberar() {
+		List<TransacaoBancaria> value = new ArrayList<TransacaoBancaria>();
+		
+		Query query = manager.createNamedQuery("TransacaoBancaria.buscarParaLiberar");
+		
+		try {
+			value = query.getResultList();
+		} catch (NoResultException ex) {
+		}
+		
+		return value;
+	}
+	public List<TransacaoBancaria> buscarParaAprovar() {
+		List<TransacaoBancaria> value = new ArrayList<TransacaoBancaria>();
+		
+		Query query = manager.createNamedQuery("TransacaoBancaria.buscarParaAprovar");
+		
+		try {
+			value = query.getResultList();
+		} catch (NoResultException ex) {
+		}
+		
+		return value;
+	}
 	public List<TransacaoBancaria> buscarSemTransferenciaUsuario(Long id) {
 		List<TransacaoBancaria> value = new ArrayList<TransacaoBancaria>();
 		

@@ -47,11 +47,11 @@
 		<table class="table table-bordered table-striped table-hover">
 			<thead>
 				<tr>
-					<c:if test="${usuarioSession.isAdministrador() }">
+					
 						<th>
 							<fmt:message key="btn.acoes" />
 						</th>
-					</c:if>
+					
 					<th>
 						<fmt:message key="transacao.bancaria.formulario.label.data" />
 					</th>
@@ -92,9 +92,16 @@
 <%-- 										<button type="submit" formaction='<c:url value="/transacaoBancaria/editar/${transacaoBancaria.id}"/>'> --%>
 <%-- 											<fmt:message key="btn.editar" /> --%>
 <!-- 										</button> -->
-										<button type="submit" formaction='<c:url value="/transacaoBancaria/creditar/${transacaoBancaria.id}"/>'>
-											<fmt:message key="btn.creditar" />
-										</button>
+										<c:if test="${transacaoBancaria.saldo > 0 }">
+											<button type="submit" formaction='<c:url value="/transacaoBancaria/creditar/${transacaoBancaria.id}"/>'>
+												<fmt:message key="btn.creditar" />
+											</button>
+										</c:if>
+										<c:if test="${transacaoBancaria.saldo < 0 }">
+											<button type="submit" formaction='<c:url value="/transacaoBancaria/retirar/${transacaoBancaria.id}"/>'>
+												<fmt:message key="btn.retirar" />
+											</button>
+										</c:if>
 									</c:if>
 								</form>
 							</td>

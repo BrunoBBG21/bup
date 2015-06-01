@@ -118,8 +118,8 @@
 						</a>
 					</li>
 				
-				<li>
-					<a href="#" style="color: red;">
+				<li data-menu-map="/bup/transacaoBancaria/formularioRetirar">
+					<a href="<c:url value='/transacaoBancaria/formularioRetirar'/>" >
 						<fmt:message key="menu.transferencia.retirar" />
 					</a>
 				</li>
@@ -132,6 +132,13 @@
 					<li data-menu-map="/bup/transacaoBancaria/listarAdmin">
 						<a href="<c:url value='/transacaoBancaria/listarAdmin'/>" >
 							<fmt:message key="menu.transferencia.aprovar" />
+						</a>
+					</li>
+				</c:if>
+				<c:if test="${usuarioSession.isAdministrador() }">
+					<li data-menu-map="/bup/transacaoBancaria/listarLiberar">
+						<a href="<c:url value='/transacaoBancaria/listarLiberar'/>" >
+							<fmt:message key="menu.transferencia.liberar" />
 						</a>
 					</li>
 				</c:if>

@@ -23,6 +23,16 @@ import javax.validation.constraints.NotNull;
 						+ "from TransacaoBancaria t "
 						+ "where t.usuario is null "),
 		@NamedQuery(
+				name = "TransacaoBancaria.buscarParaAprovar",
+				query="select t "
+						+ "from TransacaoBancaria t "
+						+ "where t.usuario is null and t.saldo > 0"),
+		@NamedQuery(
+				name = "TransacaoBancaria.buscarParaLiberar",
+				query="select t "
+						+ "from TransacaoBancaria t "
+						+ "where t.usuario is null and t.saldo < 0"),
+		@NamedQuery(
 				name = "TransacaoBancaria.buscarSemTransferenciaUsuarioPorId",
 				query="select t "
 						+ "from TransacaoBancaria t "

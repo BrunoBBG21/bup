@@ -3,7 +3,7 @@
 <!-- Default box -->
 <div class="box">
 	<div class="box-header with-border">
-		<h3 class="box-title">Title</h3>
+		<h3 class="box-title">Tela Inicial</h3>
 		<div class="box-tools pull-right">
 			<button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
 				<i class="fa fa-minus"></i>
@@ -22,5 +22,5 @@
 		<img src="/bup/tema/LogoSiteBUP.jpg">
 	</div>
 
-	<div class="box-footer">Footer</div>
+	<div class="box-footer">APS 141 <br/>GRUPO <br/>André Dionisio, <br/>Bruno Bastos, <br/>Bruno Bayma, <br/>Roberto Bianco, <br/>Amandha Cadorso <br/>Orientadora <br/>Tatiana Escovedo</div>
 </div>

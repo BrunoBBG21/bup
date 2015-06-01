@@ -66,6 +66,7 @@ public class TransacaoBancariaController extends BaseWeb{
 		LOGGER.debug("carregando formulario de retirar");
 		// simples formulario... futuramente receendo id para editar... ou
 		// nao...
+		result.include("listaContas", contaDAO.buscarPorUsuarioId(usuarioSession.getUsuario().getId()));
 	}
 	@OpenTransaction
 	public void criarCreditar(@NotNull TransacaoBancaria transacaoBancaria) {
@@ -83,6 +84,24 @@ public class TransacaoBancariaController extends BaseWeb{
 		transacaoBancaria = transacaoBancariaDAO.salvar(transacaoBancaria);
 		
 		addSuccessMsg("msg.success.transacao.bancaria.creditar.criar");
+		result.redirectTo(this).listar();
+	}
+	@OpenTransaction
+	public void criarRetirar(@NotNull TransacaoBancaria transacaoBancaria) {
+		validator.onErrorRedirectTo(this).formularioCreditar(); // caso seja null...
+		LOGGER.debug("criando credito: " + transacaoBancaria);
+		if(transacaoBancaria!=null&&transacaoBancaria.getSaldo()!=null&&1==transacaoBancaria.getSaldo().signum()){
+			transacaoBancaria.setSaldo(transacaoBancaria.getSaldo().negate());
+		}
+		transacaoBancaria.setData(new Date());
+		// validacoes...
+		validarRetirar(transacaoBancaria);
+		validator.onErrorRedirectTo(this).formularioRetirar();
+		
+		// salva
+		transacaoBancaria = transacaoBancariaDAO.salvar(transacaoBancaria);
+		
+		addSuccessMsg("msg.success.transacao.bancaria.retirar.criar");
 		result.redirectTo(this).listar();
 	}
 	@OpenTransaction
@@ -109,15 +128,35 @@ public class TransacaoBancariaController extends BaseWeb{
 		addSuccessMsg("msg.success.transacao.bancaria.creditar");
 		result.redirectTo(this).listar();
 	}
-	
+	@OpenTransaction
+	@Path("/transacaoBancaria/retirar/{id}")
+	@ApenasAdministrador
+	public void retirar(Long id){
+		LOGGER.debug("carregando formulario de Transacao Bancaria com id: " + id);
+		TransacaoBancaria transacaoBancaria = transacaoBancariaDAO.buscarPorId(id);
+		validator.onErrorRedirectTo(this).listar(); // caso seja null...
+		
+		LOGGER.debug("atualizando Transacao Bancaria: " + transacaoBancaria);
+		
+		// validacoes...
+		//usuario que fez a operação
+		transacaoBancaria.setUsuario(usuarioSession.getUsuario());
+		validarCreditar(transacaoBancaria);
+		validator.onErrorRedirectTo(this).listar();
+		
+		// recupera os dados q nao estao no formulario
+		//usuario solicitante é o da conta
+		transacaoBancaria.getConta().getUsuario().setSaldo(transacaoBancaria.getConta().getUsuario().getSaldo().add(transacaoBancaria.getSaldo()));
+		// atualiza
+		transacaoBancaria = transacaoBancariaDAO.salvar(transacaoBancaria);
+		addSuccessMsg("msg.success.transacao.bancaria.retirar");
+		result.redirectTo(this).listar();
+	}
 	private void validarCreditar(TransacaoBancaria transacaoBancaria) {
 		validator.validate(transacaoBancaria);
 	}
 	private void validarRetirar(TransacaoBancaria transacaoBancaria) {
 		validator.validate(transacaoBancaria);
-		if(transacaoBancaria!=null&&transacaoBancaria.getSaldo()!=null&&1==transacaoBancaria.getSaldo().signum()){
-			transacaoBancaria.setSaldo(transacaoBancaria.getSaldo().negate());
-		}
 	}
 	@OpenTransaction
 	
@@ -130,6 +169,12 @@ public class TransacaoBancariaController extends BaseWeb{
 	public List<TransacaoBancaria> listarAdmin() {
 		LOGGER.debug("Listando os creditos ");
 		
-		return transacaoBancariaDAO.buscarSemTransferenciaUsuario();
+		return transacaoBancariaDAO.buscarParaAprovar();
+	}
+	@OpenTransaction
+	public List<TransacaoBancaria> listarLiberar() {
+		LOGGER.debug("Listando os debitos ");
+		
+		return transacaoBancariaDAO.buscarParaLiberar();
 	}
 }
