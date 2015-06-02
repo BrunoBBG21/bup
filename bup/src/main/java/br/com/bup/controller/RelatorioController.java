@@ -1,6 +1,5 @@
 package br.com.bup.controller;
 
-
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -24,13 +23,14 @@ import br.com.caelum.vraptor.jasperreports.download.ReportDownload;
 import br.com.caelum.vraptor.jasperreports.formats.Pdf;
 import br.com.caelum.vraptor.observer.download.Download;
 import br.com.caelum.vraptor.validator.Validator;
+
 @Controller
 @Named("relatorio")
-public class RelatorioController extends BaseWeb{
-private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.class);
+public class RelatorioController extends BaseWeb {
+	private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.class);
 	
 	private final UsuarioDAO usuarioDAO;
-	private final  TransacaoBancariaDAO transacaoBancariaDAO;
+	private final TransacaoBancariaDAO transacaoBancariaDAO;
 	
 	/**
 	 * @deprecated CDI eyes only
@@ -47,13 +47,24 @@ private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.c
 		this.transacaoBancariaDAO = transacaoBancariaDAO;
 		
 	}
+	
 	@OpenTransaction
 	public Download teste() {
 		List<TransacaoBancaria> dataList = transacaoBancariaDAO.buscarTodos();
-		  Report report = new ReportBuilder().withTemplate("report1.jasper").withData(dataList).build();
-		        return new ReportDownload(report, new Pdf());
-		 }
+		Report report = new ReportBuilder().withTemplate("report1.jasper").withData(dataList).build();
+		return new ReportDownload(report, new Pdf(), false); //boolean indica que deve ou nao baixar direto... por exemplo... caso false o chrome tenta abrir o arquivo no proprio navegador
+	}
 }
+//JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(dataList);
+//Map parameters = new HashMap();
+//parameters.put("INFO", "Hello");
+//parameters.put("REPORT_DATA_SOURCE", beanColDataSource);
+//
+//JasperReport report = (JasperReport) JRLoader.loadObject("src/test/ireport/ShowPerson.jasper");
+//JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());
+
+
+
 //   @OpenTransaction
 //   public  void relatorio() {
 //	   

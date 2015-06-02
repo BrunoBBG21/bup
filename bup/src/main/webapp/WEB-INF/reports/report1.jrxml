@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-06-01T23:12:36 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="032b97ec-ca85-463c-9603-afb4490dc6f1">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
-	<field name="saldo" class="java.lang.String"/>
+	<property name="ireport.y" value="5"/>
+	<field name="saldo" class="java.math.BigDecimal"/>
+	<field name="data" class="java.util.Date"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -16,16 +19,25 @@
 	<columnHeader>
 		<band height="61" splitType="Stretch">
 			<staticText>
-				<reportElement x="77" y="2" width="100" height="20" uuid="29f8398f-d405-4854-a49c-445cdb90d7a4"/>
+				<reportElement x="0" y="41" width="100" height="20" uuid="29f8398f-d405-4854-a49c-445cdb90d7a4"/>
 				<text><![CDATA[saldo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="41" width="100" height="20" uuid="5084d42d-b909-4b4d-87ca-08d6b88bb18b"/>
+				<text><![CDATA[data]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="125" splitType="Stretch">
-			<textField>
-				<reportElement x="30" y="43" width="100" height="20" uuid="2e55cd40-9d21-49b8-beb7-03708aaaf76f"/>
-				<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="100" height="20" uuid="2e55cd40-9d21-49b8-beb7-03708aaaf76f"/>
+				<textFieldExpression><![CDATA[$F{saldo}.toString()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="100" height="20" uuid="9b675e66-51a5-455a-8a36-a5445eb8841d"/>
+				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{data}.toString()]]></patternExpression>
 			</textField>
 		</band>
 	</detail>

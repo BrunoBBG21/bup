@@ -111,7 +111,82 @@ public abstract class Usuario implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
+	/*
+	<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>jasperreports-maven-plugin</artifactId>
+    <configuration>
+    <outputDirectory>target/${project.artifactId}/WEB-INF/reports</outputDirectory>
+</configuration>
+
+    <executions>
+        <execution>
+            <phase>prepare-package</phase>
+            <inherited>false</inherited>
+            <goals>
+                <goal>compile-reports</goal>
+            </goals>
+        </execution>
+    </executions>
+    
+    <dependencies>
+<dependency>
+    <groupId>net.sf.jasperreports</groupId>
+    <artifactId>jasperreports</artifactId>
+    <version>3.7.6</version> 
+</dependency>
+<dependency>
+    <groupId>log4j</groupId>
+    <artifactId>log4j</artifactId>
+    <version>1.2.16</version>
+    <type>jar</type>
+</dependency>
+</dependencies>
 	
+	
+	
+	
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>jasperreports-maven-plugin</artifactId>
+    <version>1.0-beta-2</version>
+    <configuration>
+      <outputDirectory>${project.build.outputDirectory}/reports</outputDirectory>
+    </configuration>
+    
+    <executions>
+      <!-- We need to wait until after the java classes have been compiled to compile the reports -->
+      <execution>
+          <phase>compile</phase>
+          <goals>
+            <goal>compile-reports</goal>
+          </goals>
+      </execution>
+    </executions>
+    
+    <dependencies>
+      <dependency>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>jasperreports-maven-plugin</artifactId>
+          <version>1.0-beta-2</version>
+          <exclusions>
+            <exclusion>
+              <groupId>jasperreports</groupId>
+              <artifactId>jasperreports</artifactId>
+            </exclusion>
+          </exclusions>
+      </dependency>
+      <dependency>
+          <groupId>net.sf.jasperreports</groupId>
+          <artifactId>jasperreports</artifactId>
+          <version>${jasperreports.version}</version>
+          <exclusions>
+            <exclusion>
+              <groupId>commons-logging</groupId>
+              <artifactId>commons-logging</artifactId>
+            </exclusion>
+          </exclusions>
+      </dependency>
+      */
 	@Column(unique = true, nullable = false)
 	@NotNull
 	private String email;
