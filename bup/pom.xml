@@ -147,23 +147,49 @@
 
 	<build>
 		<plugins>
-	        <plugin>
-	        	<groupId>org.codehaus.mojo</groupId>
-			    <artifactId>jasperreports-maven-plugin</artifactId>
-			    <version>1.0-beta-2</version>
-			    <configuration>
-			    	<outputDirectory>target/${project.artifactId}/WEB-INF/reports</outputDirectory>
-				</configuration>
-				<executions>
-			        <execution>
-			            <phase>prepare-package</phase>
-			            <inherited>false</inherited>
-			            <goals>
-			                <goal>compile-reports</goal>
-			            </goals>
-			        </execution>
-		    	</executions>
-			</plugin>
+		<plugin>
+            <groupId>com.alexnederlof</groupId>
+            <artifactId>jasperreports-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+                <execution>
+<!--                     <phase>process-sources</phase> -->
+					<phase>prepare-package</phase>
+                    <goals>
+                            <goal>jasper</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <!-- These are the default configurations: -->
+                <compiler>net.sf.jasperreports.engine.design.JRJdtCompiler</compiler>
+<!--                 <sourceDirectory>src/main/jasperreports</sourceDirectory> -->
+<!--                 <outputDirectory>${project.build.directory}/jasper</outputDirectory> -->
+                <outputDirectory>target/${project.artifactId}-${project.version}/WEB-INF/reports</outputDirectory>
+                
+                <outputFileExt>.jasper</outputFileExt>
+                <xmlValidation>true</xmlValidation>
+                <verbose>false</verbose>
+                <numberOfThreads>4</numberOfThreads>
+            </configuration>
+        </plugin>
+<!-- 	        <plugin> -->
+<!-- 	        	<groupId>org.codehaus.mojo</groupId> -->
+<!-- 			    <artifactId>jasperreports-maven-plugin</artifactId> -->
+<!-- 			    <version>1.0-beta-2</version> -->
+<!-- 			    <configuration> -->
+<!-- 			    	<outputDirectory>target/${project.artifactId}/WEB-INF/reports</outputDirectory> -->
+<!-- 				</configuration> -->
+<!-- 				<executions> -->
+<!-- 			        <execution> -->
+<!-- 			            <phase>prepare-package</phase> -->
+<!-- 			            <inherited>false</inherited> -->
+<!-- 			            <goals> -->
+<!-- 			                <goal>compile-reports</goal> -->
+<!-- 			            </goals> -->
+<!-- 			        </execution> -->
+<!-- 		    	</executions> -->
+<!-- 			</plugin> -->
 			
 			<plugin>
 	            <groupId>org.apache.maven.plugins</groupId>
