@@ -235,7 +235,7 @@
 			</a>
 			<ul class="treeview-menu">
 				<li>
-					<a href="<c:url value='/relatorio/operacional'/>" >
+					<a href="<c:url value='/relatorio/operacional'/>" target="_blank" >
 						<fmt:message key="menu.relatorio.operacional" />
 					</a>
 				</li>
