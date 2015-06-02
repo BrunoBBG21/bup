@@ -163,7 +163,8 @@
             <configuration>
                 <!-- These are the default configurations: -->
                 <compiler>net.sf.jasperreports.engine.design.JRJdtCompiler</compiler>
-<!--                 <sourceDirectory>src/main/jasperreports</sourceDirectory> -->
+                 <sourceDirectory>src/main/jasperreports</sourceDirectory>
+<!--                  <sourceDirectory>src/main/webapp/WEB-INF/reports</sourceDirectory> -->
 <!--                 <outputDirectory>${project.build.directory}/jasper</outputDirectory> -->
                 <outputDirectory>target/${project.artifactId}-${project.version}/WEB-INF/reports</outputDirectory>
                 
