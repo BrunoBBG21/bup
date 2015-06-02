@@ -27,7 +27,7 @@ import br.com.caelum.vraptor.validator.Validator;
 @Controller
 @Named("relatorio")
 public class RelatorioController extends BaseWeb {
-	private final static Logger LOGGER = LoggerFactory.getLogger(AgenciaController.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(RelatorioController.class);
 	
 	private final UsuarioDAO usuarioDAO;
 	private final TransacaoBancariaDAO transacaoBancariaDAO;
@@ -49,7 +49,7 @@ public class RelatorioController extends BaseWeb {
 	}
 	
 	@OpenTransaction
-	public Download teste() {
+	public Download operacional() {
 		List<TransacaoBancaria> dataList = transacaoBancariaDAO.buscarTodos();
 		Report report = new ReportBuilder().withTemplate("report1.jasper").withData(dataList).build();
 		return new ReportDownload(report, new Pdf(), false); //boolean indica que deve ou nao baixar direto... por exemplo... caso false o chrome tenta abrir o arquivo no proprio navegador
