@@ -1,5 +1,6 @@
 package br.com.bup.web;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
-public class UsuarioApplication {
+public class UsuarioApplication implements Serializable {
 	private final static Logger LOGGER = LoggerFactory.getLogger(UsuarioApplication.class);
 	private final static Set<UsuarioSession> USUARIOS_LOGADOS = new HashSet<UsuarioSession>();
 	public final static Long TEMPO_OCIOSO_MIN = 30L;

@@ -1,5 +1,6 @@
 package br.com.bup.web;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import br.com.bup.domain.Leilao;
  * Componente que mantem os leiloes em amdamento em memoria afim de facilitar o acesso.
  */
 @ApplicationScoped
-public class LeilaoApplication {
+public class LeilaoApplication implements Serializable{
 	private final static Logger LOGGER = LoggerFactory.getLogger(LeilaoApplication.class);
 	private final static List<Leilao> LEILOES_EM_ANDAMENTO = new ArrayList<Leilao>();
 	
