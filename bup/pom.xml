@@ -147,33 +147,32 @@
 
 	<build>
 		<plugins>
-		<plugin>
-            <groupId>com.alexnederlof</groupId>
-            <artifactId>jasperreports-plugin</artifactId>
-            <version>1.6</version>
-            <executions>
-                <execution>
-<!--                     <phase>process-sources</phase> -->
-					<phase>prepare-package</phase>
-                    <goals>
-                            <goal>jasper</goal>
-                    </goals>
-                </execution>
-            </executions>
-            <configuration>
-                <!-- These are the default configurations: -->
-                <compiler>net.sf.jasperreports.engine.design.JRJdtCompiler</compiler>
-                 <sourceDirectory>src/main/jasperreports</sourceDirectory>
-<!--                  <sourceDirectory>src/main/webapp/WEB-INF/reports</sourceDirectory> -->
-<!--                 <outputDirectory>${project.build.directory}/jasper</outputDirectory> -->
-                <outputDirectory>target/${project.artifactId}-${project.version}/WEB-INF/reports</outputDirectory>
+<!-- 		<plugin> -->
+<!--             <groupId>com.alexnederlof</groupId> -->
+<!--             <artifactId>jasperreports-plugin</artifactId> -->
+<!--             <version>1.6</version> -->
+<!--             <executions> -->
+<!--                 <execution> -->
+<!-- 					<phase>prepare-package</phase> -->
+<!--                     <goals> -->
+<!--                             <goal>jasper</goal> -->
+<!--                     </goals> -->
+<!--                 </execution> -->
+<!--             </executions> -->
+<!--             <configuration> -->
+<!--                 <compiler>net.sf.jasperreports.engine.design.JRJdtCompiler</compiler> -->
+<!--                  <sourceDirectory>src/main/jasperreports</sourceDirectory> -->
+<!--                 <outputDirectory>target/${project.artifactId}-${project.version}/WEB-INF/reports</outputDirectory> -->
+<!--                 <outputDirectory>src/main/jasperreports</outputDirectory> -->
+<!--                 <outputDirectory>src/main/webapp/WEB-INF/reports</outputDirectory> -->
                 
-                <outputFileExt>.jasper</outputFileExt>
-                <xmlValidation>true</xmlValidation>
-                <verbose>false</verbose>
-                <numberOfThreads>4</numberOfThreads>
-            </configuration>
-        </plugin>
+<!--                 <outputFileExt>.jasper</outputFileExt> -->
+<!--                 <xmlValidation>true</xmlValidation> -->
+<!--                 <verbose>false</verbose> -->
+<!--                 <numberOfThreads>4</numberOfThreads> -->
+<!--             </configuration> -->
+<!--         </plugin> -->
+
 <!-- 	        <plugin> -->
 <!-- 	        	<groupId>org.codehaus.mojo</groupId> -->
 <!-- 			    <artifactId>jasperreports-maven-plugin</artifactId> -->
