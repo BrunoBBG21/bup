@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
-import java.util.Vector;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -106,12 +105,12 @@ public class Leilao extends Observable {
 	
 	@Column(nullable = false)
 	@NotNull
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataInicio;
 	
 	@Column(nullable = false)
 	@NotNull
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataFim;
 	
 	private BigDecimal reserva;
