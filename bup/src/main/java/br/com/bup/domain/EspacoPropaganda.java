@@ -116,9 +116,6 @@ public class EspacoPropaganda {
 	@OneToMany(mappedBy = "espacoPropaganda")
 	private List<Leilao> leiloes = new ArrayList<Leilao>();
 	
-	@OneToMany(mappedBy = "espacoPropaganda")
-	private List<HistoricoAluguelEspaco> historicoAluguel = new ArrayList<HistoricoAluguelEspaco>();
-	
 	@ManyToMany
 	private List<PublicoAlvo> publicosAlvos = new ArrayList<PublicoAlvo>();
 	
@@ -210,14 +207,6 @@ public class EspacoPropaganda {
 	
 	public void setLeiloes(List<Leilao> leiloes) {
 		this.leiloes = leiloes;
-	}
-	
-	public List<HistoricoAluguelEspaco> getHistoricoAluguel() {
-		return historicoAluguel;
-	}
-	
-	public void setHistoricoAluguel(List<HistoricoAluguelEspaco> historicoAluguel) {
-		this.historicoAluguel = historicoAluguel;
 	}
 	
 	public List<PublicoAlvo> getPublicosAlvos() {

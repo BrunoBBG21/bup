@@ -93,11 +93,7 @@ import javax.validation.constraints.NotNull;
 								
 								+ "		u.id not in (select e.alugador.id "
 								+ "					from EspacoPropaganda e "
-								+ "					where e.alugador.id = :id) or "
-								
-								+ "		u.id not in (select h.anunciante.id "
-								+ "					from HistoricoAluguelEspaco h "
-								+ "					where h.anunciante.id = :id)  "
+								+ "					where e.alugador.id = :id) "
 								
 								/*+ "	and u.id <> :id"*/)	
 })
@@ -111,7 +107,7 @@ public abstract class Usuario implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
-
+	
 	@Column(unique = true, nullable = false)
 	@NotNull
 	private String email;

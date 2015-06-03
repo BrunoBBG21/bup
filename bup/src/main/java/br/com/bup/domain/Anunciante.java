@@ -39,9 +39,6 @@ public class Anunciante extends Usuario implements Serializable {
 	@OneToMany(mappedBy = "alugador")
 	private List<EspacoPropaganda> espacosAlugados = new ArrayList<EspacoPropaganda>();
 	
-	@OneToMany(mappedBy = "anunciante")
-	private List<HistoricoAluguelEspaco> historicosAlugueis = new ArrayList<HistoricoAluguelEspaco>();
-	
 	//get-set-gerados-------------------------------------------------------
 	
 	public String getCpf() {
@@ -82,14 +79,6 @@ public class Anunciante extends Usuario implements Serializable {
 	
 	public void setEspacosAlugados(List<EspacoPropaganda> espacosAlugados) {
 		this.espacosAlugados = espacosAlugados;
-	}
-	
-	public List<HistoricoAluguelEspaco> getHistoricosAlugueis() {
-		return historicosAlugueis;
-	}
-	
-	public void setHistoricosAlugueis(List<HistoricoAluguelEspaco> historicosAlugueis) {
-		this.historicosAlugueis = historicosAlugueis;
 	}
 	
 	public List<LanceLeilao> getLances() {
