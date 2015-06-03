@@ -61,7 +61,7 @@
 		    <![endif]-->
 </head>
 
-<body class="skin-blue">
+<body class="skin-yellow">
 	<!-- Site wrapper -->
 	<div class="wrapper">
 		<header class="main-header">
