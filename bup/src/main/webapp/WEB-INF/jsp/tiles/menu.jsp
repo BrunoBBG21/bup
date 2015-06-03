@@ -83,14 +83,14 @@
 						<fmt:message key="menu.usuario.listar" />
 					</a>
 				</li>
-				<li data-menu-map="/bup/contaBancaria/listar">
-					<a href="<c:url value='/contaBancaria/listar'/>">
-						<fmt:message key="menu.conta_bancaria.listar" />
-					</a>
-				</li>
 				<li data-menu-map="/bup/contaBancaria/formulario">
 					<a href="<c:url value='/contaBancaria/formulario'/>">
 						<fmt:message key="menu.conta_bancaria.cadastro" />
+					</a>
+				</li>
+				<li data-menu-map="/bup/contaBancaria/listar">
+					<a href="<c:url value='/contaBancaria/listar'/>">
+						<fmt:message key="menu.conta_bancaria.listar" />
 					</a>
 				</li>
 				<li data-menu-map="/bup/agencia/listar">
