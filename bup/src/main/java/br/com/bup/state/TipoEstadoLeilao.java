@@ -1,7 +1,7 @@
 package br.com.bup.state;
 
 /**
- * Fazes do leilao.
+ * Fases do leilao.
  * 
  * <pre>
  * ESPERANDO- estado inicial para o tempo de inscri��o - pode ir para CANCELADO ou EM_ANDAMENTO 
